@@ -19,7 +19,7 @@ from django.urls import path,include
 
 urlpatterns = [
     # leads to person application and specifically to hello/urls.py
-    path('', include('faceLogin.urls')),
+    path('', include('BookingSystem.urls')),
     # leads to admin application which is created by django
     path('admin/', admin.site.urls),
 ]
