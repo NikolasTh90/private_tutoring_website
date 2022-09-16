@@ -8,5 +8,8 @@ urlpatterns = [
     # What will be displayed is handle by views.index()
     # Name is useful for finding this particural url pattern
     path('', views.index, name='index'),
+    path('index/', views.index, name='index'),
+    path('about/', views.about, name='about'),
+    path('contact/', views.contacts, name='contacts'),
 
 ]
