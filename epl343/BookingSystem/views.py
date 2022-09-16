@@ -14,3 +14,13 @@ def about(request):
 def contacts(request):
     template = loader.get_template('contacts.html')
     return HttpResponse(template.render({}, request))
+
+
+
+def booking(request):
+    template = loader.get_template('index.html')
+    return HttpResponse(template.render({}, request))
+
+def login(request):
+    template = loader.get_template('index.html')
+    return HttpResponse(template.render({}, request))
