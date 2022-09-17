@@ -1,3 +1,4 @@
+from urllib import request
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template import loader
@@ -26,3 +27,7 @@ def booking(request):
 def login(request):
     template = loader.get_template('index.html')
     return HttpResponse(template.render({'site' : 'Login'}, request))
+
+def tc(request):
+    template = loader.get_template('index.html')
+    return HttpResponse(template.render({'site' : 'tc'}, request))

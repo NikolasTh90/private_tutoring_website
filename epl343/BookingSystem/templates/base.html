@@ -136,11 +136,11 @@
             <div class="col-lg-2 col-sm-4 wow fadeInUp" data-wow-delay=".3s">
               <P class="footer-classic-title">Quick Links</P>
               <ul class="footer-classic-nav-list">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About us</a></li>
-                <li><a href="#">Services</a></li>
-                <li><a href="#">Blog</a></li>
-                <li><a href="contacts.html">Contacts</a></li>
+                <li><a href="{% url 'bs:index' %}">Home</a></li>
+                <li><a href="{% url 'bs:booking' %}">Booking</a></li>
+                <li><a href="{% url 'bs:about' %}">About Me</a></li>
+                <li><a href="{% url 'bs:contacts' %}">Contact Me</a></li>
+                <li><a href="{% url 'bs:tc' %}">Terms & Conditions</a></li>
               </ul>
             </div>
           </div>
