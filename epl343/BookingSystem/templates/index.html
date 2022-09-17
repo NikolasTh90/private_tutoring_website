@@ -7,6 +7,11 @@
 
 {% block content %}
 
+  <!-- Add Stars icon library 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style> .checked { color: orange; }</style>
+  -->
+  
 
   <body>
     <div class="page">
@@ -198,22 +203,50 @@
               <div class="section-name wow fadeInRight text-center" data-wow-delay=".2s">testimonials</div>
               <h3 class="wow fadeInLeft text-capitalize text-center" data-wow-delay=".3s">What People Say<span class="text-primary"> About Us</span></h3>
               <div class="owl-carousel review-carousel" data-items="1" data-sm-items="1" data-md-items="1" data-lg-items="1" data-xl-items="1" data-xxl-items="1" data-dots="true" data-nav="false" data-stage-padding="0" data-loop="false" data-margin="0" data-mouse-drag="true" data-autoplay="false">
+                
                 <div class="item">
-                  <div class="item-preview wow fadeInDown" data-wow-delay=".2s"><img src="{% static 'images/user-1-216x216.jpg' %}" alt="" width="216" height="108"/>
+                  <div class="item-preview wow fadeInDown" data-wow-delay=".2s"><a target="_blank" href="https://www.facebook.com/mixalis.papakyriakou.7"><img src="{% static 'images/michalis.jpeg' %}" alt="" width="216" height="108" /></a>
                   </div>
                   <div class="item-description wow fadeInUp" data-wow-delay=".3s">
-                    <p>I was impressed by the quality of what your specialists did. They quickly found out what was the main problem of my company and helped me form a correct strategy, which worked perfectly and set my business on the right path.</p>
-                    <div class="item-subsection"><span class="item-subsection-title devider-left">Heather Perry</span><span>Regular Client</span></div>
+                    <!--<p> Rating: </p>
+                    <span class="fa fa-star checked">
+                      <span class="fa fa-star checked">
+                      <span class="fa fa-star checked">
+                      <span class="fa fa-star">
+                        <span class="fa fa-star">
+
+                      </span></span></span></span></span> -->
+                    <p>From day 1, Dr. Stelios was by my side. What impressed me was not only his tremendous knowledge about the subjects as he was tutoring throughout the years but also the genuine interest that he had to put all his effort to help me at any moment, at any time, and also, he was passionate for what he was doing. What I loved is that he was not doing it only for me, but that he loved what he was doing. He is an excellent person and I 100% recommend him for tutoring. He put me into a schedule of how to study and what I need in order to pass.</p>
+                    
+                    <div class="item-subsection">
+                       <span class="item-subsection-title devider-left" ><a target="_blank" href="https://www.facebook.com/mixalis.papakyriakou.7" onMouseOver="this.style.color='blue'"
+                      onMouseOut="this.style.color='gray'">  Michalis Papakyriakou </a> </span><span>First Faculty of Medicine Student, 3rd Year General Medicine</span></div>
                   </div>
                 </div>
+
                 <div class="item">
-                  <div class="item-preview wow fadeInDown" data-wow-delay=".2s"><img src="{% static 'images/user-2-216x216.jpg' %}" alt="" width="216" height="108"/>
+                  <div class="item-preview wow fadeInDown" data-wow-delay=".2s"><a target="_blank" href="https://www.facebook.com/philippa.filippa.9"><img src="{% static 'images/filippa.jpeg' %}" alt="" width="216" height="108" /></a>
                   </div>
                   <div class="item-description wow fadeInUp" data-wow-delay=".3s">
-                    <p>I appreciate what you’ve done to help my small company develop and thrive in that market niche that we specialize in. Your business consulting experts are the best in the whole industry and I’m going to recommend you to my partners!</p>
-                    <div class="item-subsection"><span class="item-subsection-title devider-left">Donald Hughes</span><span>Regular Client</span></div>
+                    <p>Dr Stelios Theodorou is a very passionate and helpful teacher. He explains each concept in many different ways in order for his students to comprehend in an efficient manner so they have a sound ground to later on build upon it. He is familiar with all the concepts of physiology and he keeps expanding his knowledge continuously. What is more, as a former student of LF1 he focuses a lot on the details taught during the seminars. I would definitely recommend him.</p>
+                    <div class="item-subsection">
+                       <span class="item-subsection-title devider-left" ><a target="_blank" href="https://www.facebook.com/philippa.filippa.9" onMouseOver="this.style.color='blue'"
+                      onMouseOut="this.style.color='gray'">  Filippa Filippa </a> </span><span>First Faculty of Medicine Student, 6th Year General Medicine</span></div>
                   </div>
                 </div>
+
+                <div class="item">
+                  <div class="item-preview wow fadeInDown" data-wow-delay=".2s"><a target="_blank" href="https://www.facebook.com/philippa.filippa.9"><img src="{% static 'images/filippa.jpeg' %}" alt="" width="216" height="108" /></a>
+                  </div>
+                  <div class="item-description wow fadeInUp" data-wow-delay=".3s">
+                    <p>Dr Stelios Theodorou is a very passionate and helpful teacher. He explains each concept in many different ways in order for his students to comprehend in an efficient manner so they have a sound ground to later on build upon it. He is familiar with all the concepts of physiology and he keeps expanding his knowledge continuously. What is more, as a former student of LF1 he focuses a lot on the details taught during the seminars. I would definitely recommend him.</p>
+                    <div class="item-subsection">
+                       <span class="item-subsection-title devider-left" ><a target="_blank" href="https://www.facebook.com/philippa.filippa.9" onMouseOver="this.style.color='blue'"
+                      onMouseOut="this.style.color='gray'">  Filippa Filippa </a> </span><span>First Faculty of Medicine Student, 6th Year General Medicine</span></div>
+                  </div>
+                </div>
+                
+
                 <div class="item">
                   <div class="item-preview wow fadeInDown" data-wow-delay=".2s"><img src="{% static 'images/user-3-216x216.jpg' %}" alt="" width="216" height="108"/>
                   </div>
