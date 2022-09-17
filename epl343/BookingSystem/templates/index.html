@@ -18,15 +18,17 @@
       <!--Main section-->
       <section class="section main-section parallax-scene-js" style="background:url('{% static 'images/close-up-doctor-front-bright-background_53419-4416.png' %}') no-repeat center center; background-size:cover;">
         <div class="container">
-          <div class="row justify-content-center">
+          <div class="row justify-content-left">
             <div class="col-xl-8 col-12">
-              <div class="main-decorated-box text-center text-xl-left">
-                <h1 class="text-white text-xl-center wow slideInRight" data-wow-delay=".3s"><span class="align-top offset-top-30 d-inline-block font-weight-light prefix-text">the</span><span class="big font-weight-bold d-inline-flex offset-right-170">best</span><span class="biggest d-block d-xl-flex font-weight-bold">Solutions.</span></h1>
-                <div class="decorated-subtitle text-italic text-white wow slideInLeft">Fresh Ideas for Your Business</div>
-              </div>
+              <div class="wow fadeInDown text-center text-xl-center"><img src="{% static 'images/SteliosProfile.jpeg' %}" alt="" width="300" height="150" /></div>
+                <h1 class="text-black offset-top-10 offset-bottom-10 text-md-center wow slideInRight" data-wow-delay=".3s"><img src="{% static 'images/charles.png' %}" class="offset-right-50" alt="Charles University" width="90" height="90" /><span class="align-left offset-left-50 font-weight-light prefix-text">  Charles University</span> 
+                
+                <h1 class="text-black offset-top-10 offset-bottom-10 text-md-center wow slideInRight" data-wow-delay=".3s"><img src="{% static 'images/ffm.png' %}" class="offset-right-50" alt="First Faculty of Medicine" width="90" height="90" /><span class="align-left offset-left-50 font-weight-light prefix-text">  First Faculty of Medicine</span> 
+
+                <div class="decorated-subtitle text-italic text-black wow slideInLeft">Doctor of Medicine</div>
             </div>
-            <div class="col-12 text-center offset-top-75" data-wow-delay=".2s"><a class="button-way-point d-inline-block text-center d-inline-flex flex-column justify-content-center" href="#" data-custom-scroll-to="about"><span class="fa-chevron-down"></span></a></div>
-          </div>
+          <div class="col-12 text-center offset-top-75" data-wow-delay=".2s"><a class="button-way-point d-inline-block text-center d-inline-flex flex-column justify-content-center" href="#" data-custom-scroll-to="about"><span class="fa-chevron-down"></span></a></div>
+        </div>
         </div>
         <div class="decorate-layer">
           <div class="layer-1">
@@ -60,15 +62,14 @@
         <div class="container">
           <div class="row row-30">
             <div class="col-lg-6">
-              <div class="block-decorate-img wow fadeInLeft" data-wow-delay=".2s"><img src="{% static 'images/home-1-570x703.jpg' %}" alt="" width="570" height="351"/>
+              <div class="block-decorate-img wow fadeInLeft" data-wow-delay=".2s"><img src="{% static 'images/dr.stelios.theodorou_profile01.jpg' %}" alt="" width="570" height="351"/>
               </div>
             </div>
             <div class="col-lg-6 col-12">
               <div class="block-sm offset-top-45">
-                <div class="section-name wow fadeInRight" data-wow-delay=".2s">About us</div>
-                <h3 class="wow fadeInLeft text-capitalize devider-bottom" data-wow-delay=".3s">What We<span class="text-primary"> Do</span></h3>
-                <p class="offset-xl-40 wow fadeInUp" data-wow-delay=".4s">Small or big, your business will love our financial help and business consultations! We are happy when our clients are too... Actually, this is quite simple to achieve - because each time we help them in sorting out different accounting intricacies or save the day before filing the taxes, they are happy indeed! And so are we!</p>
-                <p class="default-letter-spacing font-weight-bold text-gray-dark wow fadeInUp" data-wow-delay=".4s">We have over fifteen years of successful experience in financial sphere in the US business market.</p><a class="button-width-190 button-primary button-circle button-lg button offset-top-30" href="#">read more</a>
+                <div class="section-name wow fadeInRight" data-wow-delay=".2s">About</div>
+                <h3 class="wow fadeInLeft text-capitalize devider-bottom" data-wow-delay=".3s">Who Is<span class="text-primary"> Stelios Theodorou</span></h3>
+                <p class="default-letter-spacing font-weight-bold text-gray-dark wow fadeInUp" data-wow-delay=".4s">MUDr. Stelios Theodorou obtained his General Medicine degree from the First Faculty of Medicine, Charles University Prague in 2022, where he excelled. Throughout his years he demonstrated special interest in Endocrinology Specialty and Medical Student Education and Well Being. He observed Endocrinology in NHS Plymouth University Hospitals and Endocrinology Outpatient clinics in the Faculty Polyclinic of the General University Hospital in Prague. He served as a teaching assistant for Anatomy and Physiology in his University as well as actively participated in the Student Association of his Medical Faculty as a Student Guide and Vice President of Activities and Media.</p><a class="button-width-190 button-primary button-circle button-lg button offset-top-30" href="{% url 'bs:about' %}">read more</a>
               </div>
             </div>
           </div>
