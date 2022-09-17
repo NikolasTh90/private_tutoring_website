@@ -7,7 +7,7 @@ from django.template import loader
 
 def index(request):
     template = loader.get_template('index.html')
-    return HttpResponse(template.render({'site' 2: 'Home'}, request))
+    return HttpResponse(template.render({'site' : 'Home'}, request))
 
 def about(request):
     template = loader.get_template('about.html')

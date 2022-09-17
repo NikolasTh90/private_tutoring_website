@@ -68,16 +68,42 @@
                 <div class="rd-navbar-main-element">
                   <div class="rd-navbar-nav-wrap">
                     <ul class="rd-navbar-nav">
-                      <li class="rd-nav-item active"><a class="rd-nav-link" href="{% url 'bs:index' %}">Home</a>
-                      </li>
-                      <li class="rd-nav-item"><a class="rd-nav-link" href="{% url 'bs:booking' %}">Booking</a>
-                      </li>
-                      <li class="rd-nav-item"><a class="rd-nav-link" href="{% url 'bs:about' %}">About Me</a>
-                      </li>            
-                      <li class="rd-nav-item"><a class="rd-nav-link" href="{% url 'bs:contacts' %}">Contact Me</a>
-                      </li>
-						          <li class="rd-nav-item"><a class="rd-nav-link" href="{% url 'bs:login' %}">Sign In | Sign Up</a>
-                      </li>
+                      {% if site == "Home" %}
+                        <li class="rd-nav-item active"><a class="rd-nav-link" href="{% url 'bs:index' %}">Home</a>
+                        </li>
+                      {% else %}
+                        <li class="rd-nav-item"><a class="rd-nav-link" href="{% url 'bs:index' %}">Home</a>
+                        </li>
+                      {% endif %}
+                      {% if site == "Booking" %}
+                        <li class="rd-nav-item active"><a class="rd-nav-link" href="{% url 'bs:booking' %}">Booking</a>
+                        </li>
+                      {% else %}
+                        <li class="rd-nav-item"><a class="rd-nav-link" href="{% url 'bs:booking' %}">Booking</a>
+                        </li>
+                      {% endif %}
+                      {% if site == "About" %}
+                        <li class="rd-nav-item active"><a class="rd-nav-link" href="{% url 'bs:about' %}">About Me</a>
+                        </li>            
+                      {% else %}
+                        <li class="rd-nav-item"><a class="rd-nav-link" href="{% url 'bs:about' %}">About Me</a>
+                        </li>  
+                      {% endif %}
+                      {% if site == "Contacts" %}
+                        <li class="rd-nav-item active"><a class="rd-nav-link" href="{% url 'bs:contacts' %}">Contact Me</a>
+                        </li>
+                      {% else %}
+                        <li class="rd-nav-item"><a class="rd-nav-link" href="{% url 'bs:contacts' %}">Contact Me</a>
+                        </li>
+                      {% endif %}
+                      
+                      {% if site == "Login" %}
+                        <li class="rd-nav-item active"><a class="rd-nav-link" href="{% url 'bs:login' %}">Sign In | Sign Up</a>
+                        </li>
+                      {% else %}
+                        <li class="rd-nav-item"><a class="rd-nav-link" href="{% url 'bs:login' %}">Sign In | Sign Up</a>
+                        </li>
+                      {% endif %}
                     </ul>
                   </div>
                 </div>
@@ -116,19 +142,6 @@
                 <li><a href="#">Blog</a></li>
                 <li><a href="contacts.html">Contacts</a></li>
               </ul>
-            </div>
-            <div class="col-lg-4 wow fadeInLeft" data-wow-delay=".2s">
-              <P class="footer-classic-title">newsletter</P>
-              <form class="rd-mailform text-left footer-classic-subscribe-form" data-form-output="form-output-global" data-form-type="contact" method="post" action="bat/rd-mailform.php">
-                <div class="form-wrap">
-                  <label class="form-label" for="subscribe-email">Your Email Address</label>
-                  <input class="form-input" id="subscribe-email" type="email" name="email" data-constraints="@Email @Required">
-                </div>
-                <div class="form-button group-sm text-center text-lg-left">
-                  <button class="button button-primary button-circle" type="submit">sign up</button>
-                </div>
-              </form>
-              <p>Be the first to find out about our latest news, updates, and special offers.</p>
             </div>
           </div>
         </div>
