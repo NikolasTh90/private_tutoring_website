@@ -29,5 +29,5 @@ def login(request):
     return HttpResponse(template.render({'site' : 'Login'}, request))
 
 def tc(request):
-    template = loader.get_template('index.html')
+    template = loader.get_template('terms.html')
     return HttpResponse(template.render({'site' : 'tc'}, request))
