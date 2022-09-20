@@ -1,80 +1,90 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %}   
+
+{% load static %}terms-h1
 
 {% block content %}
 
-<body>
-    <style>
-        .terms-page-container {
-            background-color: #343a40;
-            padding-top: 25vh;
-            padding-bottom: 15vh;
-            display: flex;
-            flex-direction: column;
-            text-align: center;
-        }
-        .terms-h1{
-            color: white;
-        }
-        .terms-h2{
-            padding-top: 2.5vh;
-            color: white;
-            text-decoration: underline;
-            font-size: 1.5rem;
-        }
-        .terms-p1 {
-            padding-left: 25vw;
-            padding-right: 25vw;
-            text-align: justify;
-        }
-        .terms-li-1 {
-            padding-left:25vw;
-            padding-right:25vw;
-            display: list-item;
-        }
-        .terms-li-2 {
-            list-style-type: circle;
-            display: list-item;
-            padding-left: 5rem;
-        }
+<body>  
+  <style>
+      .terms-page-container {
+          padding-top: 10vh;
+          padding-bottom: 15vh;
+          display: flex;
+          flex-direction: column;
+          text-align: center;
+          font-size: 1rem;
+      } 
+      .terms-h3{
+          padding-top: 2.5vh;
+          color: black;
+          font-size: 1.5rem;
+          text-decoration: underline;
+      }
+      .terms-p1 {
+          padding-left: 15vw;
+          padding-right: 15vw;
+          text-align: justify;
+      }
+      .terms-li-1 {
+          padding-left:15vw;
+          padding-right:15vw;
+          display: list-item;
+          text-align: justify;
+      }
 
-        .span-red {
-            color: red;
-        }
-    </style>
-
+      .span-red {
+          color: red;
+      }
+  </style>
     <div class="page">
-        <div class=terms-page-container>
-            <h1 class="terms-h1">Terms and Conditions</h1>
-            <p class="terms-p1">
-            For any changes to our predefined arrangements, the general idea is to communicate with me <span class="span-red">AS SOON AS POSSIBLE</span> as to not waste each other’s time. Long term students can benefit from special prices and scheduling facilitations, after communicating with me. For special requests also communicate with me as soon as possible.
-            </p>
-            <h2 class="terms-h2">BOOKING:</h2>
-            <p class="terms-p1">
-            To be able to provide the highest quality of teaching, it is required to book an <span class="span-red">APPOINTMENT AT LEAST 3 DAYS EARLIER</span> so I will have time to properly prepare the lesson. Please provide as much information as possible for what questions/topics you would like to be discussed. In case of booking an appointment less than 3 days, it is possible, but a special express price might be billed, or not, depending on the questions/topic to be discussed and my current schedule of availability.
-            </p>
-            <h2 class="terms-h2">REBOOKING:</h2>
-            <p class="terms-p1">
-            Rescheduling for the same questions/topics for another date/time is possible. Please inform for any changes <span class="span-red">AS SOON AS POSSIBLE</span> and ideally at least 2 hours before our appointment.</p>
-            <!-- FIX THE LIST LAYOUT AND STYLING -->
-            <ul class="terms-li-1">
-                <li>- In case of change in only date/time no fee is billed. Please inform me as soon as possible and ideally at least 2 hours before our appointment.</li>
-                <li>- In case of change of what questions/topics will be discussed,</li>
-            </ul>
-            <ul class="terms-li-2">
-                <li> at least 3 days from the day of the change will be required for me to prepare for our lesson.</li>
-                <li> no fee is billed if rescheduling is at least 3 days earlier.</li>
-            </ul>
-            <!-- -->
-            <p class="terms-h2">CANCELLATIONS:</p>
-            <p class="terms-p1">
-            Due to the time I have spent preparing for our lesson, it is fair to be compensated half the price of the lesson if you decide to indefinitely <span class="span-red">CANCEL THE APPOINTMENT LESS THAN 2 DAYS</span> from the scheduled date.
-            If cancelled 3 days or earlier, no fee is billed.<br><br> Please let me know as soon as possible if you know that you cannot make it to the lesson as to not waste my time travelling to our meeting location and prevent a “no show”. “No show” to our lesson is considered a cancellation and half the price of the lesson is billed. Rescheduling for the same questions/topics after a “no show” might be possible if the reason for the “no show” is reasonable but the final decision is up to me. Special price might be discussed. </p>           
-            <h2 class="terms-h2">SPECIAL CASES:</h2>
-            <p class="terms-p1">
-            For any other scenarios and unforeseen events, we can communicate together to find a common solution. Please communicate with me <span class="span-red">AS SOON AS POSSIBLE </span>to reschedule/discuss any problems and come to a common understanding.
-Long term students can benefit from special prices and scheduling facilitations, after communicating with me.
-            </p>
+      <section class="section section-intro context-dark">
+        <div class="intro-bg" style="background: url({% static 'images/intro-bg-1.jpg' %}) no-repeat;background-size:cover;background-position: top center;"></div>
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-xl-8 text-center">
+              <h1 class="font-weight-bold wow fadeInLeft">Terms and conditions</h1>
+            </div>
+          </div>
         </div>
+      </section>
+      <section>
+        <div class=terms-page-container>
+          <p class="terms-p1" style="font-weight: bold;">
+          For any changes to our predefined arrangements, the general idea is to communicate with me <span class="span-red">AS SOON AS POSSIBLE</span> as to not waste each other’s time. Long term students can benefit from special prices and scheduling facilitations, after communicating with me. For special requests also communicate with me as soon as possible.
+          </p>
+          <h3 class="terms-h3">BOOKING:</h3>
+          <p class="terms-p1">
+          To be able to provide the highest quality of teaching, it is required to book an <span class="span-red">APPOINTMENT AT LEAST 3 DAYS EARLIER</span> so I will have time to properly prepare the lesson. Please provide as much information as possible for what questions/topics you would like to be discussed. In case of booking an appointment less than 3 days, it is possible, but a special express price might be billed, or not, depending on the questions/topic to be discussed and my current schedule of availability.
+          </p>
+          <h3 class="terms-h3">REBOOKING:</h3>
+          <p class="terms-p1">
+          Rescheduling for the same questions/topics for another date/time is possible. Please inform for any changes <span class="span-red">AS SOON AS POSSIBLE</span> and ideally at least 2 hours before our appointment.</p>
+          <!-- FIX THE LIST LAYOUT AND STYLING -->
+          <ul class="terms-li-1">
+              <li>- In case of change in only date/time no fee is billed. Please inform me as soon as possible and ideally at least 2 hours before our appointment.</li>
+              <li>- In case of change of what questions/topics will be discussed:</li>
+              <div style="margin-left: 2.5rem;">
+                <ul class="list-marked">
+                  <li> at least 3 days from the day of the change will be required for me to prepare for our lesson.</li>
+                  <li> no fee is billed if rescheduling is at least 3 days earlier.</li>
+                </ul>
+              </div>
+          </ul>
+
+          <h3 class="terms-h3">CANCELLATIONS:</h3>
+          <p class="terms-p1">    
+          Due to the time I have spent preparing for our lesson, it is fair to be compensated half the price of the lesson if you decide to indefinitely <span class="span-red">CANCEL THE APPOINTMENT LESS THAN 2 DAYS</span> from the scheduled date.
+          If cancelled 3 days or earlier, no fee is billed.<hr>
+          </p>
+          <p class="terms-p1">Please let me know as soon as possible if you know that you cannot make it to the lesson as to not waste my time travelling to our meeting location and prevent a “no show”. “No show” to our lesson is considered a cancellation and half the price of the lesson is billed. Rescheduling for the same questions/topics after a “no show” might be possible if the reason for the “no show” is reasonable but the final decision is up to me. Special price might be discussed. 
+          </p>           
+          <h3 class="terms-h3">SPECIAL CASES:</h3>
+          <p class="terms-p1">
+          For any other scenarios and unforeseen events, we can communicate together to find a common solution. Please communicate with me <span class="span-red">AS SOON AS POSSIBLE </span>to reschedule/discuss any problems and come to a common understanding.
+Long term students can benefit from special prices and scheduling facilitations, after communicating with me.
+          </p>
+      </div>
+      </section>
     </div>
 </body>
 
