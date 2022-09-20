@@ -15,8 +15,7 @@
         <div class="container">
           <div class="row justify-content-center">
             <div class="col-xl-8 text-center">
-              <h1 class="font-weight-bold wow fadeInLeft">About Us</h1>
-              <p class="intro-description wow fadeInRight">Feel free to learn more about our team and company on this page. We are always happy to help you!</p>
+              <h1 class="font-weight-bold wow fadeInLeft">About Me</h1>
             </div>
           </div>
         </div>
@@ -27,44 +26,25 @@
           <div class="row row-40 justify-content-center">
             <div class="col-lg-6 col-12">
               <div class="offset-top-45 offset-lg-right-45">
-                <div class="section-name wow fadeInRight" data-wow-delay=".2s">About us</div>
-                <h3 class="wow fadeInLeft text-capitalize" data-wow-delay=".3s">A Few Words<span class="text-primary"> about us</span></h3>
-                <p class="font-weight-bold text-gray-dark wow fadeInUp" data-wow-delay=".4s">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum nulla ac tincidunt malesuada. Sed volutpat semper elit quis pharetra. Etiam sodales a sem vitae fermentum.</p>
-                <p class="wow fadeInUp" data-wow-delay=".4s">Sapien eget mi proin sed libero enim sed faucibus turpis. Placerat in egestas erat imperdiet sed euismod nisi. Vulputate eu scelerisque felis imperdiet. Lorem donec massa sapien faucibus. Volutpat diam.</p>
-                <p class="wow fadeInUp" data-wow-delay=".4s">Adipiscing enim eu turpis egestas pretium aenean pharetra magna. Nullam non nisi est sit amet facilisis magna etiam. Nec feugiat in fermentum posuere urna nec.</p>
-                <div class="offset-top-20">
-                  <!--Linear progress bar-->
-                  <article class="progress-linear">
-                    <div class="progress-header progress-header-simple">
-                      <p>Management</p><span class="progress-value">85</span>
-                    </div>
-                    <div class="progress-bar-linear-wrap">
-                      <div class="progress-bar-linear"></div>
-                    </div>
-                  </article>
-                  <!--Linear progress bar-->
-                  <article class="progress-linear">
-                    <div class="progress-header progress-header-simple">
-                      <p>Marketing</p><span class="progress-value">45</span>
-                    </div>
-                    <div class="progress-bar-linear-wrap">
-                      <div class="progress-bar-linear"></div>
-                    </div>
-                  </article>
-                  <!--Linear progress bar-->
-                  <article class="progress-linear">
-                    <div class="progress-header progress-header-simple">
-                      <p>Analysis</p><span class="progress-value">90</span>
-                    </div>
-                    <div class="progress-bar-linear-wrap">
-                      <div class="progress-bar-linear"></div>
-                    </div>
-                  </article>
+                <div class="section-name wow fadeInRight" data-wow-delay=".2s">About me</div>
+                <h3 class="wow fadeInLeft text-capitalize" data-wow-delay=".3s">A Few Words<span class="text-primary"> about me</span></h3>
+                <div class="read-more-container" style="display: flex; flex-direction: column; gap: 1rem;">
+                  <div class="container" style="padding: 2rem; border-radius: 2px; line-height: 1.4rem; ">
+                    <p class="font-weight-bold text-gray-dark wow fadeInUp" data-wow-delay=".4s">
+                      MUDr. Stelios Theodorou obtained his General Medicine degree from the First Faculty of Medicine, Charles University Prague in 2022, where he excelled. Throughout his years he demonstrated special interest in Endocrinology Specialty and Medical Student Education and Well Being. He observed Endocrinology in NHS Plymouth University Hospitals and Endocrinology Outpatient clinics in the Faculty Polyclinic of the General University Hospital in Prague. He served as a teaching assistant for Anatomy and Physiology in his University as well as actively participated in the Student Association of his Medical Faculty as a Student Guide and Vice President of Activities and Media.     
+                      <p class="font-weight-bold text-gray-dark wow fadeInUp" data-wow-delay=".4s">www.linkedin.com/in/dr-stelios-theodorou</p>
+                      
+                      <span class="read-more-text font-weight-bold text-gray-dark" style="white-space: pre-line;">
+                        Prior to that, he graduated from American Academy Larnaca in 2013. There he followed the GCSE and GCE curriculum for subjects like Biology, Chemistry, Physics, Mathematics and more. After high school, he graduated from Artillery Officer University in 2013 in Greece and served as a ranking officer between 2013 and 2015 in Cyprus National Guard. For his medical experience he attended various extracurricular internships, attended various medical seminars and published various research papers.
+                      </span>
+                    </p>
+                    <span class="read-more-btn font-weight-bold wow fadeIn" data-wow-delay=".7s" style="color: #0984e3">Read More...</span>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="col-lg-6 col-sm-10 col-12">
-              <div class="block-decorate-img wow fadeInLeft" data-wow-delay=".2s"><img src="{% static 'images/about-1-570x703.jpg' %}" alt="" width="570" height="351"/>
+              <div class="block-decorate-img wow fadeInLeft" data-wow-delay=".2s"><img src="{% static 'images/dr.stelios.theodorou_profile01.jpg' %}" alt="" width="570" height="700"/>
               </div>
             </div>
           </div>
@@ -171,5 +151,7 @@
     <div class="snackbars" id="form-output-global"></div>
     <script src="{% static 'js/core.min.js' %}"></script>
     <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/read_more.js' %}"></script>
+
   </body>
 {% endblock content %}

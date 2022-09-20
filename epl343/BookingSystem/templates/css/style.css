@@ -4469,7 +4469,7 @@ html.boxed body {
 }
 
 .font-weight-bold {
-	font-weight: 700;
+	font-weight: 800;
 }
 
 .font-weight-ubold {
@@ -4490,6 +4490,10 @@ html.boxed body {
 
 .text-accent-gray {
 	color: #aab2b9;
+}
+
+.read-more-text--show {
+	display: inline;
 }
 
 .decor-text {
