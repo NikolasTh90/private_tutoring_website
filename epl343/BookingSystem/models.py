@@ -4,6 +4,36 @@ from django.contrib.auth.models import (
 )
 from django.db import models
 
+
+class locations(models.TextChoices):
+        from django.utils.translation import gettext_lazy as _
+        ONLINE = 'ON', _('Online')
+        PUBLIC = 'PU', _('Public/Cafe')
+        PRIVATE = 'PI', _('Private/Home')
+        OTHER = 'OT', _('Unknown')
+        TEACHER = 'NA', _('Not Available')
+
+class years(models.TextChoices):
+    from django.utils.translation import gettext_lazy as _
+    one = 'one', _('1')
+    two = 'two', _('2')
+    three = 'three', _('3')
+    four = 'four', _('4')
+    five = 'five', _('5')
+    six = 'six', _('6')
+    six_plus = 'six_p', _('6+')
+    other = 'OT', _('Other')
+    TEACHER = 'NA', _('Not Available')
+
+
+class payments(models.TextChoices):
+    from django.utils.translation import gettext_lazy as _
+    cash = 'c', _('Cash')
+    Paypal = 'paypal', _('Paypal')
+    card = 'card', _('Card')
+    revolut = 'rev', _('Revolut')
+    TEACHER = 'NA', _('Not Available')
+
     
 class MyUserManager(BaseUserManager):
     def create_user(self, email, first_name, last_name, password=None):
@@ -43,7 +73,8 @@ class MyUserManager(BaseUserManager):
         """
         user = self.create_user(
             email,
-
+            first_name,
+            last_name,
             password=password,
         )
         user.staff = True
@@ -64,36 +95,15 @@ class MyUser(AbstractBaseUser):
     admin = models.BooleanField(default=False)  # a superuser
     date_joined = models.DateTimeField(verbose_name='date joined', auto_now_add=True)
     last_login = models.DateField(verbose_name='last login', auto_now=True)
-    class locations(models.TextChoices):
-        from django.utils.translation import gettext_lazy as _
-        ONLINE = 'ON', _('Online')
-        PUBLIC = 'PU', _('Public/Cafe')
-        PRIVATE = 'PI', _('Private/Home')
-        OTHER = 'OT', _('Unknown')
+    
 
-    class years(models.TextChoices):
-        from django.utils.translation import gettext_lazy as _
-        one = 'one', _('1')
-        two = 'two', _('2')
-        three = 'three', _('3')
-        four = 'four', _('4')
-        five = 'five', _('5')
-        six = 'six', _('6')
-        six_plus = 'six_p', _('6+')
-        other = 'OT', _('Other')
-
-    class payments(models.TextChoices):
-        from django.utils.translation import gettext_lazy as _
-        cash = 'c', _('Cash')
-        Paypal = 'paypal', _('Paypal')
-        card = 'card', _('Card')
-        revolut = 'rev', _('Revolut')
     
     first_name = models.CharField(verbose_name='first_name', max_length=255, default='Please add first name')
     last_name = models.CharField(verbose_name='last_name', max_length=255, default='Please add last name')
     preferred_loc = models.CharField(verbose_name='preferred_loc', max_length=255, choices=locations.choices, default=locations.PRIVATE)
     year = models.CharField(verbose_name='year', max_length=255, choices=years.choices, default=years.one)
     pay = models.CharField(verbose_name='pay', max_length=255, choices=payments.choices, default=payments.cash)
+    is_student = models.BooleanField(verbose_name='is_student', default = False)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']  # Username & Password are required by default.
 
