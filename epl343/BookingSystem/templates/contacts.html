@@ -4,16 +4,14 @@
 
 {% block content %}
 <body>
-
   <div class="page">
 
-    <section class="section section-intro context-dark">
-      <div class="intro-bg" style="background: url('{% static 'images/intro-bg-1.jpg' %}') no-repeat;background-size:cover;background-position: top center;"></div>
+    <section class="section section-intro context-dark" style="background-color: #464d57;">
+      <div class="intro-bg" style="background:url('{% static 'images/background-doctor-phone.jpg' %}') no-repeat center center; background-size:cover;"></div>
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-xl-8 text-center">
             <h1 class="font-weight-bold wow fadeInLeft">Contacts</h1>
-            <p class="intro-description wow fadeInRight">Ut enim ad minim laboris nisi ut aliquip ex ea commodo consequat.</p>
           </div>
         </div>
       </div>
@@ -53,18 +51,48 @@
         </div>
       </div>
     </section>
-    <!--Google Map-->
+    <!--Contact information-->
     <section class="section">
-      <!--Please, add the data attribute data-key="YOUR_API_KEY" in order to insert your own API key for the Google map.-->
-      <!--Please note that YOUR_API_KEY should replaced with your key.-->
-      <!--Example: <div class="google-map-container" data-key="YOUR_API_KEY">-->
-      <div class="google-map-container contacts-map" data-center="9870 St Vincent Place, Glasgow, DC 45 Fr 45." data-zoom="5" data-icon="{% static 'images/gmap_marker.png' %}" data-icon-active="{% static 'images/gmap_marker_active.png'%}" data-styles="[{&quot;featureType&quot;:&quot;landscape&quot;,&quot;stylers&quot;:[{&quot;saturation&quot;:-100},{&quot;lightness&quot;:60}]},{&quot;featureType&quot;:&quot;road.local&quot;,&quot;stylers&quot;:[{&quot;saturation&quot;:-100},{&quot;lightness&quot;:40},{&quot;visibility&quot;:&quot;on&quot;}]},{&quot;featureType&quot;:&quot;transit&quot;,&quot;stylers&quot;:[{&quot;saturation&quot;:-100},{&quot;visibility&quot;:&quot;simplified&quot;}]},{&quot;featureType&quot;:&quot;administrative.province&quot;,&quot;stylers&quot;:[{&quot;visibility&quot;:&quot;off&quot;}]},{&quot;featureType&quot;:&quot;water&quot;,&quot;stylers&quot;:[{&quot;visibility&quot;:&quot;on&quot;},{&quot;lightness&quot;:30}]},{&quot;featureType&quot;:&quot;road.highway&quot;,&quot;elementType&quot;:&quot;geometry.fill&quot;,&quot;stylers&quot;:[{&quot;color&quot;:&quot;#ef8c25&quot;},{&quot;lightness&quot;:40}]},{&quot;featureType&quot;:&quot;road.highway&quot;,&quot;elementType&quot;:&quot;geometry.stroke&quot;,&quot;stylers&quot;:[{&quot;visibility&quot;:&quot;off&quot;}]},{&quot;featureType&quot;:&quot;poi.park&quot;,&quot;elementType&quot;:&quot;geometry.fill&quot;,&quot;stylers&quot;:[{&quot;color&quot;:&quot;#b6c54c&quot;},{&quot;lightness&quot;:40},{&quot;saturation&quot;:-40}]},{}]">
-        <div class="google-map"></div>
-        <ul class="google-map-markers">
-          <li data-location="9870 St Vincent Place, Glasgow, DC 45 Fr 45." data-description="9870 St Vincent Place, Glasgow"></li>
-        </ul>
+      <div class="social-media">
+        <p style="text-align: center; color: black; font-size: 1.5rem;">Find me on social media</p>
+<<<<<<< Updated upstream
+        <div class="menu" style="display: flex; flex-wrap: wrap; padding-left: 30%; padding-right: 30%;">
+=======
+        <div class="menu" style="display: -webkit-box; padding-left: 30%; padding-right: 30%;">
+>>>>>>> Stashed changes
+          <div class="insta" style="width: 150px; height: 150px; background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%); border-radius: 35px; display: grid; place-items: center;">
+            <div class="innerbox" style="width: 120px; height: 120px; border: 10px solid #fff; border-radius: 32px; display: grid; place-items: center; position: relative;">
+              <div class="top-right-circle" style="content: ''; 
+              width: 10px; 
+              height: 10px; 
+              border: 2px solid #fff; 
+              border-radius: 50%; 
+              background: #fff; 
+              position: absolute; 
+              top: 8px; 
+              right: 10px;">
+              </div>
+              <div class="center-circle" style="content: '';
+              width: 65px; 
+              height: 65px; 
+              border: 10px solid #fff; 
+              border-radius: 50%; 
+              background: transparent; 
+              position: absolute;">
+              </div>
+            </div>  
+          </div>
+<<<<<<< Updated upstream
+          <a href=https://www.instagram.com/dr.stelios.theodorou target="_blank" style="margin-left: 5rem; margin-top: 2rem; font-size: 2rem; color: black;">Stelios.theodorou</a> 
+=======
+          <a href=https://www.instagram.com/dr.stelios.theodorou target="_blank" style="margin-left: 5rem; margin-top: 5rem; font-size: 2rem; color: black;">Stelios.theodorou</a> 
+>>>>>>> Stashed changes
+        </div>
+          
+        <!-- <a href=facebook target="_blank" style="margin-left: 10rem"> <logo facebook> Facebook: dr.stelios.theodorou</a>  -->
+          <!-- whatsapp, email, linked in  add phone +357 99137282  etc. (Ta logos megala me color, oxi icons -->
       </div>
-    </section><a class="section section-banner" href="https://www.templatemonster.com/intense-multipurpose-html-template.html" target="_blank" style="background-image: url('{% static 'images/background-01-1920x310.jpg' %}); background-image: -webkit-image-set( url('{% static 'images/background-01-1920x310.jpg'%}') 1x, url('{% static 'images/background-01-3840x620.jpg'%}') 2x )"><img src="{% static 'images/foreground-01-1600x310.png'%}" srcset="{% static 'images/foreground-01-1600x310.png'%}" 1x, "{% static 'images/foreground-01-3200x620.png'%}" 2x" alt="" width="1600" height="310"></a>
+    </section>
 
   <div class="snackbars" id="form-output-global"></div>
 
