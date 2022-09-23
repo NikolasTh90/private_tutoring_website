@@ -14,12 +14,12 @@
     <style>.ie-panel{display: none;background: #212121;padding: 10px 0;box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3);clear: both;text-align:center;position: relative;z-index: 1;} html.ie-10 .ie-panel, html.lt-ie-10 .ie-panel {display: block;}</style>
   </head>
   <body>
-
     <!-- Messenger Chat plugin Code -->
     <div id="fb-root"></div>
 
     <!-- Your Chat plugin code -->
-    <div id="fb-customer-chat" class="fb-customerchat"></div>
+    <div id="fb-customer-chat" class="fb-customerchat">
+    </div>
 
     <script>
       var chatbox = document.getElementById('fb-customer-chat');
@@ -40,7 +40,7 @@
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) return;
         js = d.createElement(s); js.id = id;
-        js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js#xfbml=1&version=v2.12&autoLogAppEvents=1';        
+        js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
         fjs.parentNode.insertBefore(js, fjs);
       }(document, 'script', 'facebook-jssdk'));
     </script>
@@ -181,7 +181,7 @@
               <li><a class="fa fa fa-youtube-play" href="https://www.youtube.com/channel/UCJc9eQKF3PQW0C9gL-YueeQ" target="_blank"></a></li>
               <li><a class="fa fa-facebook" href="https://www.facebook.com/dr.stelios.theodorou" target="_blank"></a></li>
               <li><a class="fa fa-instagram" href="https://www.instagram.com/dr.stelios.theodorou/" target="_blank"></a></li>
-              <li><a class="fa fa-whatsapp" href="#" target="_blank"></a></li>
+              <li><a class="fa fa-whatsapp" href="https://wa.me/+35799138899" target="_blank"></a></li>
             </ul>
           </div>
         </div>
