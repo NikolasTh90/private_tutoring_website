@@ -6142,7 +6142,7 @@ html.tablet .ui-to-top {
 	display: inline-block;
 	padding-bottom: 10px;
 	color: #ffffff;
-	font-size: 12px;
+	font-size: 1em;
 	line-height: 1.2;
 	transition: .25s;
 	text-transform: uppercase;
@@ -7341,6 +7341,7 @@ html.rd-navbar-fixed-linked .page {
 .rd-navbar-classic.rd-navbar-static .rd-navbar-main {
 	position: relative;
 	display: flex;
+	flex-direction: column;
 	align-items: center;
 	justify-content: space-between;
 	padding: 21px 0;
