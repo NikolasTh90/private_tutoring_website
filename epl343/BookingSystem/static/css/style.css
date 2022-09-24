@@ -1309,6 +1309,30 @@ p + .list-marked {
 	transition: all ease .35s;
 }
 
+a.fa.fa-envelope:hover {
+	color: yellow;
+}
+
+a.fa.fa-facebook:hover {
+	color: blue;
+}
+
+a.fa.fa-linkedin:hover {
+	color: lightblue;
+}
+
+a.fa.fa-youtube-play:hover {
+	color: red;
+}
+
+a.fa.fa-instagram:hover {
+	color: purple;
+}
+
+a.fa.fa-whatsapp:hover {
+    color: lightgreen;
+}
+
 .check-list > li {
 	font-family: "Poppins", sans-serif;
 	z-index: 2;
@@ -5730,7 +5754,7 @@ html:not(.lt-ie10) .not-animated {
 */
 .ui-to-top {
 	position: fixed;
-	right: 15px;
+	left: 15px;
 	bottom: 15px;
 	z-index: 100;
 	width: 50px;
@@ -5767,7 +5791,7 @@ html.tablet .ui-to-top {
 
 @media (min-width: 576px) {
 	.ui-to-top {
-		right: 40px;
+		left: 40px;
 		bottom: 40px;
 	}
 }
