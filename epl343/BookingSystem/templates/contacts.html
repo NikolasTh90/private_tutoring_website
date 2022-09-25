@@ -3,6 +3,11 @@
 {% load static %}
 
 {% block content %}
+
+<head>
+  <link rel="stylesheet" href="{% static 'css/logo.css' %}">
+</head>
+
 <body>
   <div class="page">
 
@@ -56,85 +61,53 @@
       <div class="social-media" style="height: 50rem">
         <p style="text-align: center; color: black; font-size: 1.5rem;">Find me on social media</p>
         <div class="instagram" style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; margin-top: 1rem;">
-          <div class="insta-logo" style="width: 150px; height: 150px; background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%); border-radius: 35px; display: grid; place-items: center;">
-            <div class="innerbox" style="width: 120px; height: 120px; border: 10px solid #fff; border-radius: 32px; display: grid; place-items: center; position: relative;">
-              <div class="top-right-circle" style="content: ''; 
-                width: 10px; 
-                height: 10px; 
-                border: 2px solid #fff; 
-                border-radius: 50%; 
-                background: #fff; 
-                position: absolute; 
-                top: 8px; 
-                right: 10px;">
-              </div>
-              <div class="center-circle" style="content: '';
-                width: 65px; 
-                height: 65px; 
-                border: 10px solid #fff; 
-                border-radius: 50%; 
-                background: transparent; 
-                position: absolute;">
-              </div>
+          <div class="insta-logo">
+            <div class="insta_innerbox">
+              <div class="insta-top-right-circle"></div>
+              <div class="insta-center-circle"></div>
             </div>  
           </div>
           <a href=https://www.instagram.com/dr.stelios.theodorou target="_blank" style="margin-left: 1rem; font-size: 1.5rem; color: black;">dr.stelios.theodorou</a>
         </div>
           
         <div class="facebook" style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center;">
-          <div class="facebook-logo-outer" style="white-space: pre-wrap">
-            <div class="facebook-logo" style="background: #4661b0; width: 150px; height: 150px; border-radius: 20px; position: relative; overflow: hidden; border: 15px solid #4661b0; border-bottom: 0;">
-              <div class="before" style="content:'';
-                position: absolute;
-                background: #4661b0;
-                width: 80px;
-                height: 150px;
-                bottom: -25px;
-                right: -30px;
-                border: 20px solid #fff;
-                border-radius: 30px;">
-              </div>
-              <div class="after" style="content: '';
-                position: absolute;
-                background: #fff;
-                width: 60px;
-                height: 20px;
-                top: 55px;
-                right: 9px;">
+          <div class="facebook-logo-outer" style="white-space: pre-wrap; margin-left: -10px;">
+            <div class="facebook-logo">
+              <div class="facebook-before"></div>
+              <div class="facebook-after">
               </div>
             </div>
           </div>
-          <a href=https://www.facebook.com/theodorou.stelios target="_blank" style="margin-left: 1rem; font-size: 1.5rem; color: black;">Stelios Theodorou</a>
+          <a href=https://www.facebook.com/theodorou.stelios target="_blank" style="margin-left: 30px; font-size: 1.5rem; color: black;">Stelios Theodorou</a>
         </div>
         
         <div class="whatsapp" style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center;">
-          <div class="white" style="width: 80px; height: 80px; border-radius: 40px; background-color: #fff; box-shadow: 2px 2px 3px 2px rgba(0,0,0,.3);">
-            <div class="inner" style="width: 70px; height: 70px; border-radius: 35px; background: #3AC371; position: relative; left: 50%; top: 50%; transform: translate(-50%,-50%);">
-              <div class="before" style="content: '';
-                top: 62px;
-                left: -12px;
-                border-width: 20px;
-                border-style: solid;
-                border-color: transparent #fff transparent transparent;
-                position: absolute;
-                transform: rotate(-60deg) rotateX(-55deg);">
-              </div>
-              <div class="after" style="content: '';
-                top: 62px;
-                left: -4px;
-                border-width: 15px;
-                border-style: solid;
-                border-color: transparent #3AC371 transparent transparent;
-                position: absolute;
-                transform: rotate(-60deg) rotateX(-55deg);">
-              </div>
-              <i class="fas fa-phone" style="left: 15px; top: -12px; position: absolute; font-size: 45px; color: #fff; transform: rotate(-10deg);;"></i>
+          <div class="whatsapp-white">
+            <div class="whatsapp-inner">
+              <div class="whatsapp-before"></div>
+              <div class="whatsapp-after"></div>
+              <i class="fas fa-phone" style="left: 15px; top: -12px; position: absolute; font-size: 45px; color: #fff; transform: rotate(-10deg);"></i>
             </div>
           </div>
-          <a href=https://www.facebook.com/theodorou.stelios target="_blank" style="margin-left: 1rem; font-size: 1.5rem; color: black;">Stelios theodorou</a> 
+          <a href=https://wa.me/+35799138899 target="_blank" style="margin-left: 40px; font-size: 1.5rem; color: black;">Stelios theodorou</a> 
         </div>
        
+        <div class="youtube">
+          <div class="youtube-logo">
+            <div class="youtube-inner">
+              <span class="youtube-arrow"></span>
+            </div>
+          </div>
+          <a href=https://www.youtube.com/channel/UCJc9eQKF3PQW0C9gL-YueeQ target="_blank" style="margin-left: 18px; font-size: 1.5rem; color: black;"> Dr Stelios Theodorou</a> 
+        </div>
+
+        <div class="email" style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center;">
+
+        </div>
           
+        <div class="linkedin" style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center;">
+
+        </div>
           <!--email, linked in  add phone +357 99137282  etc. (Ta logos megala me color, oxi icons -->
       </div>
     </section>
