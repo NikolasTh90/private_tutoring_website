@@ -6072,6 +6072,10 @@ html.tablet .ui-to-top {
 	letter-spacing: 2.2px;
 }
 
+.rd-nav-link:hover {
+	text-decoration: none;
+}
+
 .rd-navbar-static .rd-nav-item.focus .rd-nav-link, .rd-navbar-static .rd-nav-item.opened .rd-nav-link {
 	background: transparent;
 }
