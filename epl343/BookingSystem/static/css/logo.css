@@ -248,7 +248,7 @@ a.facebook-link:hover {
 }
 
 a.linkedin-link:hover {
-	color: lightblue;
+	color: blue;
 }
 
 a.youtube-link:hover {
@@ -256,7 +256,7 @@ a.youtube-link:hover {
 }
 
 a.instagram-link:hover {
-	color: purple;
+	color: #ca00ca;
 }
 
 a.whatsapp-link:hover {
