@@ -8,52 +8,12 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 from django import forms
 
-from .forms import NewUserForm
+from .forms import NewUserForm,UserChangeForm
 
 from .models import years, payments, locations
 
 User = get_user_model()
 
-class UserChangeForm(forms.ModelForm):
-    """A form for updating users. Includes all the fields on
-    the user, but replaces the password field with admin's
-    disabled password hash display field.
-    """
-    password = forms.CharField()
-    is_student = forms.BooleanField(required=False)
-    preferred_loc = forms.ChoiceField(choices=locations.choices)
-    year = forms.ChoiceField(choices=years.choices)
-    pay = forms.ChoiceField(choices=payments.choices)
-
-   
-    def is_valid(self):
-        from django.core.exceptions import ValidationError
-        valid = super(UserChangeForm, self).is_valid()
-        loc = self.cleaned_data['preferred_loc']
-        year = self.cleaned_data['year']    
-        pay = self.cleaned_data['pay']
-        student = self.cleaned_data['is_student']
-        if student == False:
-            if year==loc==pay=='NA':
-                return True
-            else:
-                if year!='NA':
-                    self.add_error('year', ValidationError('This user is not a student'))
-                if loc!='NA':
-                    self.add_error('preferred_loc', ValidationError('This user is not a student'))
-                if pay!='NA':
-                    self.add_error('pay', ValidationError('This user is not a student'))
-                return False
-        else:
-            if year=='NA' or loc=='NA' or pay=='NA':
-                if year=='NA':
-                    self.add_error('year', ValidationError('This user is a student'))
-                if loc=='NA':
-                    self.add_error('preferred_loc', ValidationError('This user is a student'))
-                if pay=='NA':
-                    self.add_error('pay', ValidationError('This user is a student'))
-                return False
-        return True
 
 # Remove Group Model from admin. We're not using it.
 admin.site.unregister(Group)
