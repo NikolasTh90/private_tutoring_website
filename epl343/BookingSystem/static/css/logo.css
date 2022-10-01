@@ -238,6 +238,41 @@
     left: 12px;
 }
 
+.gmail-logo {
+    margin-top: 40px; 
+    margin-left: 11px; 
+    background: #E41F1A; 
+    width: 90px; 
+    height: 80px; 
+    border-radius: 15px; 
+    position: relative; 
+    box-shadow: 0 0 10px 0px black;
+}
+
+.gmail-logo-before {
+    content:''; 
+    position: absolute; 
+    left: 15px; 
+    top: 0px; 
+    border-top: 30px solid #E8E6D6; 
+    border-left: 30px solid transparent; 
+    border-right: 30px solid transparent; 
+    width: 60px;
+}
+
+.gmail-logo-after {
+    content:''; 
+    position: absolute;
+    left: 15px; 
+    top: 20px; 
+    border-bottom: 30px solid #E8E6D6; 
+    border-left: 30px solid #E8E6D6; 
+    border-right: 30px solid #9B9C91; 
+    border-top: 30px solid transparent; 
+    width: 60px;
+    height: 50px;
+}
+
 a { 
     color: black; 
     text-decoration: none;
@@ -261,4 +296,8 @@ a.instagram-link:hover {
 
 a.whatsapp-link:hover {
     color: green;
+}
+
+a.gmail-link:hover {
+    color: red;
 }
