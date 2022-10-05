@@ -6,12 +6,13 @@ from django.db import models
 
 
 class locations(models.TextChoices):
-        from django.utils.translation import gettext_lazy as _
-        ONLINE = 'ON', _('Online')
-        PUBLIC = 'PU', _('Public/Cafe')
-        PRIVATE = 'PI', _('Private/Home')
-        OTHER = 'OT', _('Unknown')
-        TEACHER = 'NA', _('Not Available')
+    from django.utils.translation import gettext_lazy as _
+    ONLINE = 'ON', _('Online')
+    PUBLIC = 'PU', _('Public/Cafe')
+    PRIVATE = 'PI', _('Private/Home')
+    OTHER = 'OT', _('Unknown')
+    TEACHER = 'NA', _('Not Available')
+
 
 class years(models.TextChoices):
     from django.utils.translation import gettext_lazy as _
@@ -34,7 +35,7 @@ class payments(models.TextChoices):
     revolut = 'rev', _('Revolut')
     TEACHER = 'NA', _('Not Available')
 
-    
+
 class MyUserManager(BaseUserManager):
     def create_user(self, email, first_name, last_name, password=None):
         """
@@ -62,7 +63,7 @@ class MyUserManager(BaseUserManager):
             last_name,
             password=password,
         )
-        
+
         user.staff = True
         user.save(using=self._db)
         return user
@@ -84,7 +85,8 @@ class MyUserManager(BaseUserManager):
 
 
 class MyUser(AbstractBaseUser):
-    username = models.CharField(verbose_name='username', max_length=100, default='TestUser', unique=True)
+    username = models.CharField(
+        verbose_name='username', max_length=100, default='TestUser', unique=True)
     email = models.EmailField(
         verbose_name='email',
         max_length=255,
@@ -93,16 +95,23 @@ class MyUser(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     staff = models.BooleanField(default=False)  # a admin user; non super-user
     admin = models.BooleanField(default=False)  # a superuser
-    date_joined = models.DateTimeField(verbose_name='date joined', auto_now_add=True)
-    last_login = models.DateField(verbose_name='last login', auto_now=True)    
-    first_name = models.CharField(verbose_name='first_name', max_length=255, default='Please add first name')
-    last_name = models.CharField(verbose_name='last_name', max_length=255, default='Please add last name')
-    preferred_loc = models.CharField(verbose_name='preferred_loc', max_length=255, choices=locations.choices, default=locations.PRIVATE)
-    year = models.CharField(verbose_name='year', max_length=255, choices=years.choices, default=years.one)
-    pay = models.CharField(verbose_name='pay', max_length=255, choices=payments.choices, default=payments.cash)
-    is_student = models.BooleanField(verbose_name='is_student', default = False)
+    date_joined = models.DateTimeField(
+        verbose_name='date joined', auto_now_add=True)
+    last_login = models.DateField(verbose_name='last login', auto_now=True)
+    first_name = models.CharField(
+        verbose_name='first_name', max_length=255, default='Please add first name')
+    last_name = models.CharField(
+        verbose_name='last_name', max_length=255, default='Please add last name')
+    preferred_loc = models.CharField(
+        verbose_name='preferred_loc', max_length=255, choices=locations.choices, default=locations.PRIVATE)
+    year = models.CharField(
+        verbose_name='year', max_length=255, choices=years.choices, default=years.one)
+    pay = models.CharField(verbose_name='pay', max_length=255,
+                           choices=payments.choices, default=payments.cash)
+    is_student = models.BooleanField(verbose_name='is_student', default=False)
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name']  # Username & Password are required by default.
+    # Username & Password are required by default.
+    REQUIRED_FIELDS = ['first_name', 'last_name']
 
     objects = MyUserManager()
 
@@ -136,3 +145,45 @@ class MyUser(AbstractBaseUser):
     def is_admin(self):
         "Is the user a admin member?"
         return self.admin
+
+
+class Appointment(models.Model):
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    request = models.TextField(blank=True)
+    for_date = models.DateTimeField()
+    sent_date = models.DateTimeField(auto_now_add=True)
+    accepted = models.BooleanField(default=False)
+    accepted_date = models.DateField(auto_now_add=False, null=True, blank=True)
+    Duration = models.DurationField()
+
+
+class MonthException(models.Model):
+    # YearException = models.TextField()
+    MonthException = models.TextField()
+
+
+class DayMonthException(models.Model):
+    MonthException = models.TextField()
+    DayException = models.TextField()  # monos arithmos mpenei 0 mprosta panta
+
+
+class DayException(models.Model):
+    DayException = models.TextField()
+
+
+# class ForDaysException(models.Model):
+#     MonthException = models.TextField()
+#     StartingTime = models.TimeField()
+#     EndingTime = models.TimeField()
+
+
+class TimeException(models.Model):  # na valw je mina
+    Day = models.IntegerField()
+    Opening = models.TimeField()  # : format :
+    Closing = models.TimeField()  # : format
+
+
+class Schedule(models.Model):  # subjects
+    Day = models.IntegerField()  # 0-7
+    Opening = models.TimeField()  # : format :
+    Closing = models.TimeField()  # : format
