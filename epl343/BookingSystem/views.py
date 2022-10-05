@@ -44,9 +44,9 @@ def login1(request):
             user = authenticate(request, username=email, password=password)
 
             if user is not None:
+
                 login(request, user)
-                template = loader.get_template('afterlogin.html')
-                return HttpResponse(template.render({}, request))
+                return HttpResponseRedirect(reverse('bs:dashboard'))
             else:
                 messages.error(request, 'Invalid Person! You cannot login ')
                 return HttpResponseRedirect(reverse('bs:signin'))
