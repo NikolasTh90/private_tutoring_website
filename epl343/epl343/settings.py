@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-efhe#kee0-j-%8p82n!nus9zft4fn^0*hls%@r84wmf62w^yfp
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["a78d-3-82-124-127.ngrok.io"]
+ALLOWED_HOSTS = ["a78d-3-82-124-127.ngrok.io", "127.0.0.1"]
 
 AUTH_USER_MODEL = 'BookingSystem.MyUser'
 AUTH_PROFILE_MODULE = 'BookingSystem.Profile'
