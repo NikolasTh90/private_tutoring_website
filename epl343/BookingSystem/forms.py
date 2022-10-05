@@ -112,3 +112,26 @@ class UserChangeForm(forms.ModelForm):
 					self.add_error('pay', ValidationError('This user is a student'))
 				return False
 		return True
+
+from . import models
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+import datetime
+from django.forms.widgets import SelectDateWidget
+from django.utils import timezone
+from .models import MyUser 
+# Customer update form
+class CustomerUpdateForm(forms.ModelForm):  # update customer details
+    first_name = forms.CharField()
+    last_name = forms.CharField()
+    dob = forms.DateField(widget=SelectDateWidget(years=range(1960, 2022)))
+    company_name = forms.CharField()
+    company_address = forms.CharField()
+    city = forms.CharField()
+    country = forms.CharField()
+    postcode = forms.IntegerField()
+    image = forms.ImageField(widget=forms.FileInput)
+
+    class Meta:
+        model = MyUser
+        fields = ['first_name', 'last_name', 'dob', 'company_name', 'company_address', 'city', 'country', 'postcode',
+                  'image']

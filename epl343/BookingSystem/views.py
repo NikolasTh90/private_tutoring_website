@@ -9,6 +9,9 @@ from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
+from .models import MyUser
+
 User = get_user_model()
 
 def index(request):
@@ -31,8 +34,8 @@ def booking(request):
 
 def login1(request):
     if request.user.is_authenticated:
-        template = loader.get_template('afterlogin.html')
-        return HttpResponse(template.render({}, request))
+        return HttpResponseRedirect(reverse('bs:dashboard'))
+
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
@@ -78,3 +81,16 @@ def signup(request):
         context = {"signupform": NewUserForm()}
         return HttpResponse(template.render(context, request))
 
+from .forms import CustomerUpdateForm
+
+@login_required(login_url='bs:login')
+def dashboard(request):
+    client = MyUser.objects.filter(email=request.user.email).first()
+    customer_update_form = CustomerUpdateForm(instance=client)
+    template =loader.get_template('customer/profile_cust.html')
+    context = {
+            'customer_update_form': customer_update_form,
+            'cust': client,
+            'age': 15
+        }
+    return HttpResponse(template.render(context,request))

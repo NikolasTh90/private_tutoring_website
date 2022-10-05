@@ -1,4 +1,9 @@
-/* centering the insta logo */  
+ /* * {  
+   margin: 0;  
+   padding: 0;  
+   box-sizing: border-box;  
+ }  
+ /* centering the insta logo */  
  body {  
    display: flex;  
    justify-content: center;  
