@@ -25,12 +25,14 @@ SECRET_KEY = 'django-insecure-efhe#kee0-j-%8p82n!nus9zft4fn^0*hls%@r84wmf62w^yfp
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["a78d-3-82-124-127.ngrok.io"]
 
 AUTH_USER_MODEL = 'BookingSystem.MyUser'
 AUTH_PROFILE_MODULE = 'BookingSystem.Profile'
 
 # Application definition
+
+CSRF_TRUSTED_ORIGINS = ["https://a78d-3-82-124-127.ngrok.io", "http://a78d-3-82-124-127.ngrok.io"]
 
 INSTALLED_APPS = [
     'BookingSystem.apps.BookingsystemConfig',
@@ -52,9 +54,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-CSRF_TRUSTED_ORIGINS = ['https://*', 'https://*'] # change this, vanurable to attacks
-
 
 ROOT_URLCONF = 'epl343.urls'
 
@@ -128,5 +127,3 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
