@@ -7,7 +7,7 @@
 <body style="background-color: black">
     <div class="page">
         <section class="section section-intro context-dark" style="background-color: #464d57;">
-                <form method="POST">
+                <form method="POST" style="margin-left: 10px;">
                         {% csrf_token %}
                         {{ signupform }}
                         <button class="btn btn-primary" type="submit">Login</button>
