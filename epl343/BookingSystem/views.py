@@ -149,9 +149,9 @@ def booking(request, findNextBest=True, target_date=None):
 		             requested_date, 60, request)
 
 
-    else:
-        form = AppointmentForm()
-        return render(request, 'applicationForReg/book.html', {'form': form})
+    # else:
+    #     form = AppointmentForm()
+    #     return render(request, 'applicationForReg/book.html', {'form': form})
 
 
 
