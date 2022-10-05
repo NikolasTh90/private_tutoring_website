@@ -53,6 +53,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CSRF_TRUSTED_ORIGINS = ['https://*', 'https://*'] # change this, vanurable to attacks
+
+
 ROOT_URLCONF = 'epl343.urls'
 
 TEMPLATES = [
