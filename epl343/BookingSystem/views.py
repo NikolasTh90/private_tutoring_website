@@ -136,7 +136,7 @@ def booking(request, findNextBest=True, target_date=None):
             messages.error(request, _('kleinume pio grigora aftin tin imera.'))
         if (not orarioHmeras(requested_date, request)):
             if not findNextBest:
-            return False
+                return False
         messages.error(request, _(
 			    'simfona me to orario mas aftin tin imera imaste klistoi.'))
 
