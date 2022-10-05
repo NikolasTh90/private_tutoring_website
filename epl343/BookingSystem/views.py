@@ -8,6 +8,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 def index(request):
     template = loader.get_template('index.html')

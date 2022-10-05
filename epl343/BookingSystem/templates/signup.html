@@ -6,9 +6,12 @@
 
 <body style="background-color: black">
     <div class="page">
-            <section class="section section-intro context-dark" style="background-color: #464d57;">
-    {{ signupform }}
-            </section>
+        <section class="section section-intro context-dark" style="background-color: #464d57;">
+                <form method="POST">
+                        {% csrf_token %}
+                        {{ signupform }}
+                        <button class="btn btn-primary" type="submit">Login</button>
+                      </form>
     </div>
 <a href="{%  url 'bs:login' %}">AlewGDAHJSAGDK....Login</a>
 </body>
