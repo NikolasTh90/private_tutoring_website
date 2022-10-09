@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+<body>
+    <div class="page">
+      <section class="section section-intro context-dark" style="background-color: #464d57;">
+
+        <div class="intro-bg" style="background:url({% static 'images/background-doctor-phone.jpg' %}) no-repeat center center; background-size:cover;"></div>
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-xl-8 text-center">
+              <h1 class="font-weight-bold wow fadeInLeft">Book a private lesson appointment</h1>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <p> The booking system is currently under construction. Please <a class="strong" href="./contact">contact me</a> to arrange an appointment.</p>
+
+{% endblock content %}

@@ -34,6 +34,10 @@ def contacts(request):
     template = loader.get_template('contacts.html')
     return HttpResponse(template.render({'site': 'Contacts'}, request))
 
+def booking(request):
+    template = loader.get_template('booking.html')
+    return HttpResponse(template.render({'site': 'Booking'}, request))    
+
 
 def login1(request):
     if request.user.is_authenticated:
