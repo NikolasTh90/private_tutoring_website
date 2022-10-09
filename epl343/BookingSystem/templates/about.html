@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% load static %}
 
@@ -87,11 +87,8 @@
 
     </div>
     <div class="snackbars" id="form-output-global"></div>
-    <script src="{% static 'js/core.min.js' %}"></script>
-    <script src="{% static 'js/script.js' %}"></script>
     <script src="{% static 'js/read_more.js' %}"></script>
-    <script src="https://platform.linkedin.com/badges/js/profile.js" async defer type="text/javascript"></script>
-
+    <script src="{% static 'js/profile.js' %}"></script>
 
   </body>
 {% endblock content %}
