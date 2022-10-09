@@ -16,11 +16,11 @@
   <body>
     <div class="page">
       <!--Main section-->
-      <section class="section main-section parallax-scene-js" style="background:url('{% static 'images/close-up-doctor-front-bright-background_53419-4416.png' %}') no-repeat center center; background-size:cover;">
+      <section class="section main-section parallax-scene-js" style="background:url('{% static 'images/close-up-doctor-front-bright-background_53419-4416.png' %}') no-repeat center center; background-size:cover; filter: brightness(80%);">
         <div class="container">
           <div class="row justify-content-left">
             <div class="col-xl-8 col-12">
-              <div class="wow fadeInDown text-center text-xl-center"><img src="{% static 'images/SteliosProfile.jpeg' %}" alt="" width="300" height="150" /></div>
+              <div class="wow fadeInDown text-center text-xl-center"><img src="{% static 'images/SteliosProfile.jpeg' %}" alt="" width="300" height="150" style= "filter: brightness(110%)" /></div>
                 <h1 class="text-black offset-top-10 offset-bottom-10 text-md-center wow slideInRight" data-wow-delay=".3s"><img src="{% static 'images/charles.png' %}" class="offset-right-50" alt="Charles University" width="90" height="90" /><span class="align-left offset-left-50 font-weight-light prefix-text">  Charles University</span> 
                 
                 <h1 class="text-black offset-top-10 offset-bottom-10 text-md-center wow slideInRight" data-wow-delay=".3s"><img src="{% static 'images/ffm.png' %}" class="offset-right-50" alt="First Faculty of Medicine" width="90" height="90" /><span class="align-left offset-left-50 font-weight-light prefix-text">  First Faculty of Medicine</span> 
@@ -118,7 +118,7 @@
         </div>
         <div class="decor-text decor-text-2 wow fadeInUp" data-wow-delay=".3s">teaching</div>
       </section>
-      <!--Counters-->
+      {% comment %} <!--Counters-->
       <section class="section bg-image-2">
         <div class="container section-md">
           <div class="row row-30 text-center">
@@ -196,7 +196,7 @@
             </div>
           </div>
         </div>
-      </section>
+      </section> {% endcomment %}
       <!--Owl Carousel-->
       <section class="section section-md bg-gray-lighten">
         <div class="container">
@@ -240,33 +240,6 @@
                   </div>
                 </div>
 
-                <div class="item">
-                  <div class="item-preview wow fadeInDown" data-wow-delay=".2s"><a target="_blank" href="https://www.facebook.com/philippa.filippa.9"><img src="{% static 'images/filippa.jpeg' %}" alt="" width="216" height="108" /></a>
-                  </div>
-                  <div class="item-description wow fadeInUp" data-wow-delay=".3s">
-                    <p>Dr Stelios Theodorou is a very passionate and helpful teacher. He explains each concept in many different ways in order for his students to comprehend in an efficient manner so they have a sound ground to later on build upon it. He is familiar with all the concepts of physiology and he keeps expanding his knowledge continuously. What is more, as a former student of LF1 he focuses a lot on the details taught during the seminars. I would definitely recommend him.</p>
-                    <div class="item-subsection">
-                       <span class="item-subsection-title devider-left" ><a target="_blank" href="https://www.facebook.com/philippa.filippa.9" onMouseOver="this.style.color='blue'"
-                      onMouseOut="this.style.color='gray'">  Filippa Filippa </a> </span><span>First Faculty of Medicine Student, 6th Year General Medicine</span></div>
-                  </div>
-                </div>
-                
-
-                <div class="item">
-                  <div class="item-preview wow fadeInDown" data-wow-delay=".2s"><img src="{% static 'images/user-3-216x216.jpg' %}" alt="" width="216" height="108"/>
-                  </div>
-                  <div class="item-description wow fadeInUp" data-wow-delay=".3s">
-                    <p>My cooperation with your team helped me understand that you really care about your clients – it was proved by a lot of positive reviews already – and that's why I chose you. Thank you for a great job, you are true professionals!</p>
-                    <div class="item-subsection"><span class="item-subsection-title devider-left">Anthony Parker</span><span>Regular Client</span></div>
-                  </div>
-                </div>
-                <div class="item">
-                  <div class="item-preview wow fadeInDown" data-wow-delay=".2s"><img src="{% static 'images/user-4-216x216.jpg' %}" alt="" width="216" height="108"/>
-                  </div>
-                  <div class="item-description wow fadeInUp" data-wow-delay=".3s">
-                    <p>Two years after СonsultBiz’s involvement, we are remarkably successful and the leader in served markets. This brought industry knowledge, best practices, and real-world solutions to the intricate challenges we faced.</p>
-                    <div class="item-subsection"><span class="item-subsection-title devider-left">Jennifer Coleman</span><span>Regular Client</span></div>
-                  </div>
                 </div>
               </div>
             </div>
