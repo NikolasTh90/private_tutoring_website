@@ -39,8 +39,9 @@ def booking(request):
     return HttpResponse(template.render({'site': 'Booking'}, request))    
 
 def teaching(request):
-    template = loader.get_template('teaching_experience.html')
-    return HttpResponse(template.render({'site': 'TeachingExperience'}, request))
+    # template = loader.get_template('teaching_experience.html')
+    experiences = Teaching_experience.objects.all().order_by('-start_date').values()
+    return render(request, "teaching_experience.html", {'site': 'TeachingExperience', 'experiences': experiences} )
 
 
 def login1(request):
