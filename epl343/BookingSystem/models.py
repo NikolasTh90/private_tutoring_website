@@ -3,8 +3,48 @@ from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
 from django.db import models
+from django.core.exceptions import ValidationError
 
 
+# Testimonial models #################################################################
+class Testimonial(models.Model):
+    def validate_image(fieldfile_obj):
+        filesize = fieldfile_obj.file.size
+        megabyte_limit = 20.0
+        if filesize > megabyte_limit*1024*1024:
+            raise ValidationError("Max file size is %sMB" % str(megabyte_limit))
+
+    author = models.CharField(max_length=60)
+    author_school_and_year = models.CharField(max_length=255, null=True, blank=True)
+    author_profile_pic = models.ImageField(null=True, blank=True, upload_to="images/")
+    author_profile_link = models.CharField(max_length=255, null=True, blank=True)
+    description = models.TextField()
+    show = models.BooleanField(default=True)
+
+
+
+
+# Teaching Experience models #################################################################
+class Teaching_experience(models.Model):
+    def validate_image(fieldfile_obj):
+        filesize = fieldfile_obj.file.size
+        megabyte_limit = 20.0
+        if filesize > megabyte_limit*1024*1024:
+            raise ValidationError("Max file size is %sMB" % str(megabyte_limit))
+
+    title = models.CharField(max_length=255)
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
+    associated_with = models.CharField(max_length=255, null=True, blank=True)
+    association_pic = models.ImageField(null=True, blank=True, upload_to="images/") # this can lead to duplicate uploads
+    description = models.TextField(null=True, blank=True)
+    show = models.BooleanField(default=True)
+
+
+
+
+
+# My User models #################################################################
 class locations(models.TextChoices):
     from django.utils.translation import gettext_lazy as _
     ONLINE = 'ON', _('Online')
@@ -147,6 +187,8 @@ class MyUser(AbstractBaseUser):
         return self.admin
 
 
+
+# Booking System models #################################################################
 class Appointment(models.Model):
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     request = models.TextField(blank=True)
