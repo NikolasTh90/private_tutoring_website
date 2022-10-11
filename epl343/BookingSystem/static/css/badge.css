@@ -21,7 +21,6 @@
     background-color: #fff;
     border-radius: 8px;
     overflow: hidden;
-    /* -webkit-box-shadow: 0px -1px 1px rgba(0,0,0,0.08),1px 0px 1px rgba(0,0,0,0.08),-1px 0px 1px rgba(0,0,0,0.08),0px 1px 1px rgba(0,0,0,0.08); */
     box-shadow: 0px -1px 1px rgba(0,0,0,0.08),1px 0px 1px rgba(0,0,0,0.08),-1px 0px 1px rgba(0,0,0,0.08),0px 1px 1px rgba(0,0,0,0.08);
     padding: 0;
 }
@@ -96,7 +95,7 @@ h3, .large-text {
     color: rgba(0,0,0,0.9);
 }
 
-.profile-badge__content-profile-name-link--light:visited, .profile-badge__content-profile-name-link--light:visited:active, .profile-badge__content-profile-name-link--light:visited:focus, .profile-badge__content-profile-name-link--light:visited:hover {
+.profile-badge__content-profile-name-link--light{
     color: #000;
 }
 
