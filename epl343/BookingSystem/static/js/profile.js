@@ -1,4 +1,3 @@
-/*Auto generated, hash = 2xnr98u0iux66h5q9lkxquv5q */
 (function(c) {
     c.LIRenderAll = function() {
         function t(a) {

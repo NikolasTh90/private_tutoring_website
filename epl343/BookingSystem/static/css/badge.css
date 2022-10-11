@@ -1,0 +1,212 @@
+
+.badge-base__link:hover{
+    text-decoration: underline;
+}
+
+.profile-badge {
+    margin-left: 1px;
+}
+
+.profile-badge--light {
+    background-color: #fff;
+    color: #000;
+}
+
+.profile-badge--width-330 {
+    width: 330px;
+}
+
+
+.profile-badge {
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    /* -webkit-box-shadow: 0px -1px 1px rgba(0,0,0,0.08),1px 0px 1px rgba(0,0,0,0.08),-1px 0px 1px rgba(0,0,0,0.08),0px 1px 1px rgba(0,0,0,0.08); */
+    box-shadow: 0px -1px 1px rgba(0,0,0,0.08),1px 0px 1px rgba(0,0,0,0.08),-1px 0px 1px rgba(0,0,0,0.08),0px 1px 1px rgba(0,0,0,0.08);
+    padding: 0;
+}
+
+.profile-badge__header--light {
+    background-color: #e9e5df;
+}
+
+.profile-badge__header {
+    padding: 12px 16px;
+}
+
+.sr-only {
+    border: 0 !important;
+    clip: rect(1px, 1px, 1px, 1px);
+    height: 1px !important;
+    overflow: hidden;
+    padding: 0 !important;
+    position: absolute !important;
+    white-space: nowrap !important;
+    width: 1px !important;
+}
+
+.profile-badge__header-logo-icon--light {
+    color: #0a66c2;
+}
+
+.profile-badge__header-logo-icon {
+    width: 84px;
+    height: 21px;
+    display: inline-block;
+}
+
+svg {
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+.profile-badge__content {
+    padding: 0 16px;
+}
+
+.profile-badge__content-profile-image {
+    margin: 12px 0 8px;
+}
+
+.artdeco-entity-image--circle-4 {
+    width: 56px;
+    height: 56px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    background-clip: content-box;
+    border: 2px solid rgba(0,0,0,0);
+    border-radius: 49.9%;
+}
+
+.artdeco-entity-image {
+    display: inline-block;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+}
+
+.profile-badge__content-profile-name {
+    padding: 0 0 4px;
+    color: inherit;
+}
+
+h3, .large-text {
+    font-weight: 400;
+    font-size: 2.4rem;
+    line-height: 1.33333;
+    color: rgba(0,0,0,0.9);
+}
+
+.profile-badge__content-profile-name-link--light:visited, .profile-badge__content-profile-name-link--light:visited:active, .profile-badge__content-profile-name-link--light:visited:focus, .profile-badge__content-profile-name-link--light:visited:hover {
+    color: #000;
+}
+
+a:hover {
+    color: #8344cc;
+}
+
+.profile-badge__content-profile-name-link {
+    font-size: 1.6rem;
+    line-height: 1.5;
+    font-weight: 600;
+    color: rgba(0,0,0,0.9);
+    color: inherit;
+}
+
+.profile-badge__content-profile-headline {
+    padding: 0 0 4px;
+    font-size: 1.4rem;
+    line-height: 1.4;
+    font-weight: 400;
+    color: rgba(0,0,0,0.9);
+    color: inherit;
+}
+
+h4, .medium-text {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 2rem;
+    line-height: 1.4;
+    color: rgba(0,0,0,0.9);
+}
+
+.profile-badge__content-profile-company-school-info {
+    padding: 0 0 4px;
+    font-size: 1.2rem;
+    line-height: 0.8;
+    font-weight: 400;
+    color: rgba(0,0,0,0.6);
+    color: inherit;
+}
+
+h4, .medium-text {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 2rem;
+    line-height: 1.4;
+    color: rgba(0,0,0,0.9);
+}
+
+.profile-badge__content-profile-company-school-info-link {
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: rgba(0,0,0,0.6);
+    color: inherit;
+}
+
+a {
+    text-decoration: none;
+    font-weight: 600;
+    background-color: transparent;
+    border: 0;
+    color: #0073b1;
+    text-decoration: none;
+}
+
+
+.profile-badge__cta-btn--light:hover {
+    background-color: rgba(112,181,249,0.15);
+    box-shadow: inset 0 0 0 2px #0a66c2;
+}
+
+.profile-badge__cta-btn--light {
+    background-color: rgba(0,0,0,0);
+    border: 0;
+    border-radius: 2px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #0073b1;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1.6rem;
+    font-weight: 600;
+    font-family: inherit;
+    height: 32px;
+    line-height: 32px;
+    overflow: hidden;
+    outline-width: 2px;
+    padding: 0 16px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    -webkit-transition-duration: 167ms;
+    transition-duration: 167ms;
+    -webkit-transition-property: background-color,color,-webkit-box-shadow;
+    transition-property: background-color,color,-webkit-box-shadow;
+    transition-property: background-color,box-shadow,color;
+    transition-property: background-color,box-shadow,color,-webkit-box-shadow;
+    -webkit-transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    vertical-align: middle;
+    z-index: 0;
+    -webkit-box-shadow: inset 0 0 0 1px #0073b1,inset 0 0 0 2px rgba(0,0,0,0),inset 0 0 0 1px rgba(0,0,0,0);
+    box-shadow: inset 0 0 0 1px #0073b1,inset 0 0 0 2px rgba(0,0,0,0),inset 0 0 0 1px rgba(0,0,0,0);
+    border-radius: 24px;
+    -webkit-box-shadow: inset 0 0 0 1px #0a66c2;
+    box-shadow: inset 0 0 0 1px #0a66c2;
+    color: #0a66c2;
+}
+
+.profile-badge__cta-btn {
+    margin: 4px 16px 12px;
+    color: inherit;
+}
