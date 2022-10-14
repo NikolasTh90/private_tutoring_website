@@ -6,16 +6,16 @@
     --Light-grayish-blue: hsl(210, 46%, 95%);
 }
 
-* {
+/* * {
     font-family: 'Barlow Semi Condensed', sans-serif;
-}
+} */
 
-body {
+/* body {
     min-width: 100%;
     min-height: 100%;
     font-size: 1.3rem;
     background-color: #404040;
-}
+} */
 
 main {
     height: 100vh;
@@ -75,6 +75,7 @@ div.profile {
     image-rendering: crisp-edges;
     object-fit: contain;
     outline: 2px solid rgba(255,255,255,0.3); 
+    max-width: 70%;
 }
 
 .profile span {
