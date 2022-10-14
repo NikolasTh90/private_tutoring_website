@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
 ]
 
+
 MIDDLEWARE = [
     # "kolo.middleware.KoloMiddleware",
     'django.middleware.security.SecurityMiddleware',
