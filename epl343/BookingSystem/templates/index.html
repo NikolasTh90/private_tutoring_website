@@ -203,7 +203,7 @@
           <div class="row justify-content-center">
             <div class="col-xl-10">
               <div class="section-name wow fadeInRight text-center" data-wow-delay=".2s">testimonials</div>
-              <h3 class="wow fadeInLeft text-capitalize text-center" data-wow-delay=".3s">What People Say<span class="text-primary"> About Us</span></h3>
+              <h3 class="wow fadeInLeft text-capitalize text-center" data-wow-delay=".3s">What People Say<span class="text-primary"> About Stelios</span></h3>
               <div class="owl-carousel review-carousel" data-items="1" data-sm-items="1" data-md-items="1" data-lg-items="1" data-xl-items="1" data-xxl-items="1" data-dots="true" data-nav="false" data-stage-padding="0" data-loop="false" data-margin="0" data-mouse-drag="true" data-owl-loop="true"
               data-owl-autoplay="true"
               data-owl-autoplay-timeout="2000"
@@ -218,30 +218,22 @@
                       </span></span></span></span></span> -->
 
 
-                
+                  {% for testimonial in testimonials %}
+                  {% if testimonial.featured %}
                 <div class="item">
-                  <div class="item-preview wow fadeInDown" data-wow-delay=".2s"><a target="_blank" href="https://www.facebook.com/mixalis.papakyriakou.7"><img src="{% static 'images/michalis.jpeg' %}" alt="" width="216" height="108" /></a>
+                  <div class="item-preview wow fadeInDown" data-wow-delay=".2s"><a target="_blank" href="{{ testimonial.author_profile_link }}"><img src="../../media/{{ testimonial.author_profile_pic }}"" alt="" width="216" height="108" /></a>
                   </div>
                   <div class="item-description wow fadeInUp" data-wow-delay=".3s">
                    
-                    <p>From day 1, Dr. Stelios was by my side. What impressed me was not only his tremendous knowledge about the subjects as he was tutoring throughout the years but also the genuine interest that he had to put all his effort to help me at any moment, at any time, and also, he was passionate for what he was doing. What I loved is that he was not doing it only for me, but that he loved what he was doing. He is an excellent person and I 100% recommend him for tutoring. He put me into a schedule of how to study and what I need in order to pass.</p>
+                    <p>{{ testimonial.description }}</p>
                     
                     <div class="item-subsection">
                        <span class="item-subsection-title devider-left" ><a target="_blank" href="https://www.facebook.com/mixalis.papakyriakou.7" onMouseOver="this.style.color='blue'"
-                      onMouseOut="this.style.color='gray'">  Michalis Papakyriakou </a> </span><span>First Faculty of Medicine Student, 3rd Year General Medicine</span></div>
+                      onMouseOut="this.style.color='gray'">  {{ testimonial.author }} </a> </span><span>{{testimonial.author_school_and_year}}</span></div>
                   </div>
                 </div>
-
-                <div class="item">
-                  <div class="item-preview wow fadeInDown" data-wow-delay=".2s"><a target="_blank" href="https://www.facebook.com/philippa.filippa.9"><img src="{% static 'images/filippa.jpeg' %}" alt="" width="216" height="108" /></a>
-                  </div>
-                  <div class="item-description wow fadeInUp" data-wow-delay=".3s">
-                    <p>Dr Stelios Theodorou is a very passionate and helpful teacher. He explains each concept in many different ways in order for his students to comprehend in an efficient manner so they have a sound ground to later on build upon it. He is familiar with all the concepts of physiology and he keeps expanding his knowledge continuously. What is more, as a former student of LF1 he focuses a lot on the details taught during the seminars. I would definitely recommend him.</p>
-                    <div class="item-subsection">
-                       <span class="item-subsection-title devider-left" ><a target="_blank" href="https://www.facebook.com/philippa.filippa.9" onMouseOver="this.style.color='blue'"
-                      onMouseOut="this.style.color='gray'">  Filippa Filippa </a> </span><span>First Faculty of Medicine Student, 6th Year General Medicine</span></div>
-                  </div>
-                </div>
+                {% endif %}
+                {% endfor %}
 
                 </div>
               </div>

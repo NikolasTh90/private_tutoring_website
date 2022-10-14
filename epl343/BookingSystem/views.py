@@ -22,7 +22,9 @@ User = get_user_model()
 
 def index(request):
     template = loader.get_template('index.html')
-    return HttpResponse(template.render({'site': 'Home'}, request))
+    testimonials = Testimonial.objects.all().values()
+
+    return HttpResponse(template.render({'site': 'Home', 'testimonials': testimonials}, request))
 
 
 def about(request):

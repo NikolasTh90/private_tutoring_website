@@ -20,6 +20,7 @@ class Testimonial(models.Model):
     author_profile_link = models.CharField(max_length=255, null=True, blank=True)
     description = models.TextField()
     show = models.BooleanField(default=True)
+    featured = models.BooleanField(default=True)
 
 
 
