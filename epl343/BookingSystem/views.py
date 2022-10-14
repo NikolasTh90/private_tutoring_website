@@ -44,6 +44,13 @@ def teaching(request):
     return render(request, "teaching_experience.html", {'site': 'TeachingExperience', 'experiences': experiences} )
 
 
+
+def testimonials(request):
+    # template = loader.get_template('teaching_experience.html')
+    testimonials = Testimonial.objects.all().values()
+    return render(request, "testimonials.html", {'site': 'Testimonials', 'testimonials': testimonials} )
+
+
 def login1(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse('bs:dashboard'))
