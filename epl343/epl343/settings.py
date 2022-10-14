@@ -33,7 +33,7 @@ AUTH_PROFILE_MODULE = 'BookingSystem.Profile'
 
 # Application definition
 
-CSRF_TRUSTED_ORIGINS = ["https://a78d-3-82-124-127.ngrok.io", "http://a78d-3-82-124-127.ngrok.io"]
+CSRF_TRUSTED_ORIGINS = ["http://3.82.124.127/"]
 
 INSTALLED_APPS = [
     'BookingSystem.apps.BookingsystemConfig',
@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'widget_tweaks',
 ]
-
 
 MIDDLEWARE = [
     # "kolo.middleware.KoloMiddleware",
