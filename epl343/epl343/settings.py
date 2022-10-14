@@ -33,7 +33,7 @@ AUTH_PROFILE_MODULE = 'BookingSystem.Profile'
 
 # Application definition
 
-CSRF_TRUSTED_ORIGINS = ["http://3.82.124.127/"]
+CSRF_TRUSTED_ORIGINS = ["3.82.124.127"]
 
 INSTALLED_APPS = [
     'BookingSystem.apps.BookingsystemConfig',
