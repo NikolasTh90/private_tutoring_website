@@ -32,8 +32,9 @@ html,body{
     margin: auto;
     margin-bottom: 25px;
     padding: 25px 38px;
-    max-width: 500px;
+    max-width: 90%;
     box-shadow:  9px 9px 70px #ccd0d5;
+    box-sizing: content-box;
 }
 .violet{
     background: var(--Moderate-violet);
@@ -44,6 +45,11 @@ html,body{
 .grayish{
     background: var(--Very-dark-grayish-blue);
 }
+
+.bluish{
+    background-color: blue;
+}
+
 .text-white{
     color: var(--Light-grayish-blue);
 }
@@ -56,12 +62,12 @@ html,body{
 }
 .card__header img{
     border-radius: 100%;
-    height: 40px;
+    height: 9rem;
 }
 .ocupation{
     opacity: 0.5;
 }
-    /*
+/*     
 .card__header p{
     margin: 0 0 0 15px;
     font-size: 13px;
