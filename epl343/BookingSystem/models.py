@@ -4,8 +4,16 @@ from django.contrib.auth.models import (
 )
 from django.db import models
 from django.core.exceptions import ValidationError
-
-
+#############################################################
+#Galery code
+class PhotoSection(models.Model):#subjects
+    SectionName = models.CharField(max_length=30,unique=True)
+    def __str__(self):
+        return self.SectionName
+class Photo(models.Model):
+    image = models.ImageField(upload_to='images/')
+    belongs = models.ForeignKey(PhotoSection, on_delete=models.CASCADE)
+###############################################################
 # Testimonial models #################################################################
 class Testimonial(models.Model):
     def validate_image(fieldfile_obj):
@@ -20,6 +28,7 @@ class Testimonial(models.Model):
     author_profile_link = models.CharField(max_length=255, null=True, blank=True)
     description = models.TextField()
     show = models.BooleanField(default=True)
+    featured = models.BooleanField(default=True)
 
 
 

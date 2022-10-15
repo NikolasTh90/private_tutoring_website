@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <!-- displays site properly based on user's device -->
+
+  <!-- <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png"> -->
+  
+  <title>Frontend Mentor | [Challenge Name Here]</title>
+
+  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style_testimonials.css' %}">
+  <!-- <link rel="stylesheet" href="{% static 'css/desktop1024_testimonials.css' %}" media="screen and (min-width: 1024px)"> -->
+</head>
+
+<body>
+    <div class="page">
+      <section class="section section-intro context-dark" style="background-color: #464d57;">
+
+        <div class="intro-bg" style="background:url({% static 'images/background-doctor-phone.jpg' %}) no-repeat center center; background-size:cover;"></div>
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-xl-8 text-center">
+              <h1 class="font-weight-bold wow fadeInLeft">What People Say About Stelios</h1>
+            </div>
+          </div>
+        </div>
+      </section>
+<!-- <body> -->
+  <!-- <div> -->
+    <section class="container-cards">
+
+        {% for testimonial in testimonials %}
+        {% if testimonial.show %}
+        <div class="card {% cycle 'violet text-white' 'grayish text-white' 'bluish text-white' 'white' %}">
+        <div class="card__header">
+          <img src="../../media/{{ testimonial.author_profile_pic }}"  alt="">
+          <div class="header-card__name-container">
+            <h4 class="name {% cycle 'text-white' 'text-white' 'text-white' '' %}">{{ testimonial.author }}</h4>
+            <h4 class="ocupation {% cycle 'text-white' 'text-white' 'text-white' '' %}">{{ testimonial.author_school_and_year }}</h4>
+          </div>
+        </div>
+          <p>
+           {{ testimonial.description }}
+          </p>
+        </div>
+      {% endif %}
+      {% endfor %}
+
+    </section>
+
+{% endblock content %}

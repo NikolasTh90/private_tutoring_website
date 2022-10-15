@@ -22,7 +22,9 @@ User = get_user_model()
 
 def index(request):
     template = loader.get_template('index.html')
-    return HttpResponse(template.render({'site': 'Home'}, request))
+    testimonials = Testimonial.objects.all().values()
+
+    return HttpResponse(template.render({'site': 'Home', 'testimonials': testimonials}, request))
 
 
 def about(request):
@@ -42,6 +44,14 @@ def teaching(request):
     # template = loader.get_template('teaching_experience.html')
     experiences = Teaching_experience.objects.all().order_by('-start_date').values()
     return render(request, "teaching_experience.html", {'site': 'TeachingExperience', 'experiences': experiences} )
+
+def feedback(request):
+    return render(request, "feedback.html", {'site': 'Feedback'})
+
+def testimonials(request):
+    # template = loader.get_template('teaching_experience.html')
+    testimonials = Testimonial.objects.all().values()
+    return render(request, "testimonials.html", {'site': 'Testimonials', 'testimonials': testimonials} )
 
 
 def login1(request):
@@ -108,7 +118,44 @@ def dashboard(request):
         }
     return HttpResponse(template.render(context, request))
 
-
+##########################################################################################################################
+######################################################################################
+#Galery code
+# def viewPhotoSections(request):
+# 	sections=PhotoSection.objects.all()
+# 	context = {'sections': sections}
+# 	return render(request, 'applicationForReg/ticket_system.html', context)
+# def viewPhotoBasedOnSection(request,section):
+# 	photos=Photo.objects.all().filter(belongs=section)
+# 	context = {'photos': photos}
+# 	return render(request, 'applicationForReg/ticket_system.html', context)
+# def uploadPhoto(request):
+# 	if request.user.is_superuser:
+# 		if  request.method == 'POST':
+# 			form=GaleryPhotoForm(request.POST)#
+# 			if(form.is_valid()):
+# 				messages.success(request, _('Your photo was posted!'))
+# 				form.save()
+# 			else:
+# 				messages.error(request, _('kati pai X.'))#
+# 		else:
+# 			form=GaleryPhotoForm()
+# 			context = {'form': form}
+# 			return form
+# def addSection(request):
+# 	if request.user.is_superuser:
+# 		if  request.method == 'POST':
+# 			form=PhotoSectionForm(request.POST)
+# 			if(form.is_valid()):
+# 				messages.success(request, _('Your Section was posted!'))
+# 				form.save()
+# 			else:
+# 				messages.error(request, _('kati pai X.'))#
+# 		else:
+# 				form=PhotoSectionForm()
+# 				context = {'form': form}
+# 				return form
+######################################################################################
 # def booking(request, findNextBest=True, target_date=None):
 #     template = loader.get_template('index.html')
 #     if request.method == 'POST':

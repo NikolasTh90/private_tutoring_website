@@ -4,9 +4,18 @@ from django.contrib.auth.models import User
 # from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth import get_user_model
 
-from .models import years, payments, locations
+from .models import years, payments, locations,Photo,PhotoSection
+#Galery code###########################################
+class GaleryPhotoForm(forms.ModelForm):
 
-
+	class Meta:
+		model = Photo
+		fields =("image","belongs")
+class PhotoSectionForm(forms.ModelForm):
+	class Meta:
+		model = PhotoSection
+		fields =("SectionName",)
+######################################################
 class NewUserForm(UserCreationForm):
 	email = forms.EmailField(required=True)
 	first_name = forms.CharField(max_length=255)
