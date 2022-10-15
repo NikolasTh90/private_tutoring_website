@@ -118,7 +118,44 @@ def dashboard(request):
         }
     return HttpResponse(template.render(context, request))
 
-
+##########################################################################################################################
+######################################################################################
+#Galery code
+# def viewPhotoSections(request):
+# 	sections=PhotoSection.objects.all()
+# 	context = {'sections': sections}
+# 	return render(request, 'applicationForReg/ticket_system.html', context)
+# def viewPhotoBasedOnSection(request,section):
+# 	photos=Photo.objects.all().filter(belongs=section)
+# 	context = {'photos': photos}
+# 	return render(request, 'applicationForReg/ticket_system.html', context)
+# def uploadPhoto(request):
+# 	if request.user.is_superuser:
+# 		if  request.method == 'POST':
+# 			form=GaleryPhotoForm(request.POST)#
+# 			if(form.is_valid()):
+# 				messages.success(request, _('Your photo was posted!'))
+# 				form.save()
+# 			else:
+# 				messages.error(request, _('kati pai X.'))#
+# 		else:
+# 			form=GaleryPhotoForm()
+# 			context = {'form': form}
+# 			return form
+# def addSection(request):
+# 	if request.user.is_superuser:
+# 		if  request.method == 'POST':
+# 			form=PhotoSectionForm(request.POST)
+# 			if(form.is_valid()):
+# 				messages.success(request, _('Your Section was posted!'))
+# 				form.save()
+# 			else:
+# 				messages.error(request, _('kati pai X.'))#
+# 		else:
+# 				form=PhotoSectionForm()
+# 				context = {'form': form}
+# 				return form
+######################################################################################
 # def booking(request, findNextBest=True, target_date=None):
 #     template = loader.get_template('index.html')
 #     if request.method == 'POST':

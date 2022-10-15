@@ -10,7 +10,7 @@ from django import forms
 
 from .forms import NewUserForm,UserChangeForm
 
-from .models import years, payments, locations, Testimonial, Teaching_experience
+from .models import years, payments, locations, Testimonial, Teaching_experience,Photo,PhotoSection
 
 User = get_user_model()
 
@@ -51,3 +51,5 @@ class UserAdmin(BaseUserAdmin):
 admin.site.register(User, UserAdmin)
 admin.site.register(Testimonial)
 admin.site.register(Teaching_experience)
+admin.site.register(PhotoSection)
+admin.site.register(Photo)
