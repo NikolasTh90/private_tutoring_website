@@ -11,8 +11,8 @@ import os, sys
 
 from django.core.wsgi import get_wsgi_application
 
-sys.path.append('/home/ubuntu/epl343.winter22.teamX/epl343')
-sys.path.append('/home/ubuntu/epl343.winter22.teamX/epl343/epl343')
+sys.path.append('/home/ubuntu/EPL343_PROJECT/epl343.winter22.teamX/epl343')
+sys.path.append('/home/ubuntu/EPL343_PROJECT/epl343.winter22.teamX/epl343/epl343')
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'epl343.settings')
 
