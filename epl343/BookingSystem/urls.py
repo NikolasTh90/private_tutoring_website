@@ -20,6 +20,7 @@ urlpatterns = [
     path('dashboard/',views.dashboard,name='dashboard'),
     path('teaching-experience/', views.teaching, name='teaching'),
     path('testimonials/', views.testimonials, name='testimonials'),
+    path('feedback/', views.feedback, name='feedback'),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

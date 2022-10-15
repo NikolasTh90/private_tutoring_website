@@ -45,7 +45,8 @@ def teaching(request):
     experiences = Teaching_experience.objects.all().order_by('-start_date').values()
     return render(request, "teaching_experience.html", {'site': 'TeachingExperience', 'experiences': experiences} )
 
-
+def feedback(request):
+    return render(request, "feedback.html", {'site': 'Feedback'})
 
 def testimonials(request):
     # template = loader.get_template('teaching_experience.html')

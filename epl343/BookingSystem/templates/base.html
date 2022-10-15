@@ -141,6 +141,9 @@
                         <li class="rd-nav-item"><a class="rd-nav-link" href="#" style="font-weight: 500;">Gallery</a></li>
                       {% endif %}
 
+                      <li class="rd-nav-item {% if site == 'Feedback' %} active {% endif %}"><a class="rd-nav-link" href="{% url 'bs:feedback' %}" style="font-weight: 500;">Feedback</a>
+                      </li>
+
                       {% if site == "Contacts" %}
                         <li class="rd-nav-item active"><a class="rd-nav-link" href="{% url 'bs:contacts' %}" style="font-weight: 500;">Contact Me</a>
                         </li>
