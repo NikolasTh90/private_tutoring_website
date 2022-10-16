@@ -1,3 +1,6 @@
+{% load static %}
+
+
 <!DOCTYPE html>
 
 <html lang="en" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:v="urn:schemas-microsoft-com:vml">
@@ -162,7 +165,7 @@
 <table border="0" cellpadding="0" cellspacing="0" class="image_block block-2" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;" width="100%">
 <tr>
 <td class="pad" style="width:100%;padding-right:0px;padding-left:0px;padding-top:20px;padding-bottom:20px;">
-<div align="center" class="alignment" style="line-height:10px"><img alt="your-logo" src="images/logo_4.png" style="display: block; height: auto; border: 0; width: 150px; max-width: 100%;" title="your-logo" width="150"/></div>
+<div align="center" class="alignment" style="line-height:10px"><img alt="your-logo" src="{% static 'images/logo_4.png' %}"  style="display: block; height: auto; border: 0; width: 150px; max-width: 100%;" title="your-logo" width="150"/></div>
 </td>
 </tr>
 </table>
@@ -185,7 +188,7 @@
 <table border="0" cellpadding="0" cellspacing="0" class="image_block block-1" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;" width="100%">
 <tr>
 <td class="pad" style="width:100%;padding-right:0px;padding-left:0px;">
-<div align="center" class="alignment" style="line-height:10px"><img alt="image-hotel-room" class="big" src="images/top.png" style="display: block; height: auto; border: 0; width: 600px; max-width: 100%;" title="image-hotel-room" width="600"/></div>
+<div align="center" class="alignment" style="line-height:10px"><img alt="image-hotel-room" class="big" src="{% static 'images/top.png' %}"  style="display: block; height: auto; border: 0; width: 600px; max-width: 100%;" title="image-hotel-room" width="600"/></div>
 </td>
 </tr>
 </table>
@@ -248,7 +251,7 @@
 <table border="0" cellpadding="5" cellspacing="0" class="image_block block-2" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;" width="100%">
 <tr>
 <td class="pad">
-<div align="center" class="alignment" style="line-height:10px"><img alt="breakfast-room" class="fullMobileWidth" src="images/1.jpg" style="display: block; height: auto; border: 0; width: 190px; max-width: 100%;" title="breakfast-room" width="190"/></div>
+<div align="center" class="alignment" style="line-height:10px"><img alt="breakfast-room" class="fullMobileWidth" src="{% static 'images/1.jpg' %}" style="display: block; height: auto; border: 0; width: 190px; max-width: 100%;" title="breakfast-room" width="190"/></div>
 </td>
 </tr>
 </table>
@@ -266,7 +269,7 @@
 <table border="0" cellpadding="5" cellspacing="0" class="image_block block-2" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;" width="100%">
 <tr>
 <td class="pad">
-<div align="center" class="alignment" style="line-height:10px"><img alt="hotel-bed" class="fullMobileWidth" src="images/2.jpg" style="display: block; height: auto; border: 0; width: 190px; max-width: 100%;" title="hotel-bed" width="190"/></div>
+<div align="center" class="alignment" style="line-height:10px"><img alt="hotel-bed" class="fullMobileWidth" src="{% static 'images/2.jpg' %}" style="display: block; height: auto; border: 0; width: 190px; max-width: 100%;" title="hotel-bed" width="190"/></div>
 </td>
 </tr>
 </table>
@@ -319,7 +322,7 @@
 <table border="0" cellpadding="0" cellspacing="0" class="image_block block-2" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;" width="100%">
 <tr>
 <td class="pad" style="width:100%;padding-right:0px;padding-left:0px;">
-<div align="center" class="alignment" style="line-height:10px"><img alt="your-logo" src="images/logo-blu.png" style="display: block; height: auto; border: 0; width: 120px; max-width: 100%;" title="your-logo" width="120"/></div>
+<div align="center" class="alignment" style="line-height:10px"><img alt="your-logo" src="{% static 'images/logo-blu.png' %}"  style="display: block; height: auto; border: 0; width: 120px; max-width: 100%;" title="your-logo" width="120"/></div>
 </td>
 </tr>
 </table>
@@ -336,10 +339,10 @@
 <div class="alignment" style="text-align:center;">
 <table border="0" cellpadding="0" cellspacing="0" class="social-table" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; display: inline-block;" width="168px">
 <tr>
-<td style="padding:0 5px 0 5px;"><a href="https://www.facebook.com/" target="_blank"><img alt="Facebook" height="32" src="images/facebook2x.png" style="display: block; height: auto; border: 0;" title="Facebook" width="32"/></a></td>
-<td style="padding:0 5px 0 5px;"><a href="https://twitter.com/" target="_blank"><img alt="Twitter" height="32" src="images/twitter2x.png" style="display: block; height: auto; border: 0;" title="Twitter" width="32"/></a></td>
-<td style="padding:0 5px 0 5px;"><a href="https://instagram.com/" target="_blank"><img alt="Instagram" height="32" src="images/instagram2x.png" style="display: block; height: auto; border: 0;" title="Instagram" width="32"/></a></td>
-<td style="padding:0 5px 0 5px;"><a href="https://www.youtube.com/" target="_blank"><img alt="YouTube" height="32" src="images/youtube2x.png" style="display: block; height: auto; border: 0;" title="YouTube" width="32"/></a></td>
+<td style="padding:0 5px 0 5px;"><a href="https://www.facebook.com/" target="_blank"><img alt="Facebook" height="32" src="{% static 'images/facebook2x.png' %}"  style="display: block; height: auto; border: 0;" title="Facebook" width="32"/></a></td>
+<td style="padding:0 5px 0 5px;"><a href="https://twitter.com/" target="_blank"><img alt="Twitter" height="32" src="{% static 'images/twitter2x.png' %}"  style="display: block; height: auto; border: 0;" title="Twitter" width="32"/></a></td>
+<td style="padding:0 5px 0 5px;"><a href="https://instagram.com/" target="_blank"><img alt="Instagram" height="32" src="{% static 'images/instagram2x.png' %}"  style="display: block; height: auto; border: 0;" title="Instagram" width="32"/></a></td>
+<td style="padding:0 5px 0 5px;"><a href="https://www.youtube.com/" target="_blank"><img alt="YouTube" height="32" src="{% static 'images/youtube2x.png' %}"  style="display: block; height: auto; border: 0;" title="YouTube" width="32"/></a></td>
 </tr>
 </table>
 </div>
@@ -413,7 +416,7 @@
 <table cellpadding="0" cellspacing="0" class="icons-inner" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; display: inline-block; margin-right: -4px; padding-left: 0px; padding-right: 0px;">
 <!--<![endif]-->
 <tr>
-<td style="vertical-align: middle; text-align: center; padding-top: 5px; padding-bottom: 5px; padding-left: 5px; padding-right: 6px;"><a href="https://www.designedwithbee.com/" style="text-decoration: none;" target="_blank"><img align="center" alt="Designed with BEE" class="icon" height="32" src="images/bee.png" style="display: block; height: auto; margin: 0 auto; border: 0;" width="34"/></a></td>
+<td style="vertical-align: middle; text-align: center; padding-top: 5px; padding-bottom: 5px; padding-left: 5px; padding-right: 6px;"><a href="https://www.designedwithbee.com/" style="text-decoration: none;" target="_blank"><img align="center" alt="Designed with BEE" class="icon" height="32" src="{% static 'images/bee.png' %}"  style="display: block; height: auto; margin: 0 auto; border: 0;" width="34"/></a></td>
 <td style="font-family: Arial, Helvetica Neue, Helvetica, sans-serif; font-size: 15px; color: #9d9d9d; vertical-align: middle; letter-spacing: undefined; text-align: center;"><a href="https://www.designedwithbee.com/" style="color: #9d9d9d; text-decoration: none;" target="_blank">Designed with BEE</a></td>
 </tr>
 </table>
