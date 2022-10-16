@@ -3,9 +3,66 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 # from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth import get_user_model
-
 from .models import years, payments, locations,Photo,PhotoSection
-#Galery code###########################################
+###################################################
+import pdb
+#Contact imports
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.conf import settings
+######################################################################
+#contact source code
+class ContactForm(forms.Form):
+
+    name = forms.CharField(max_length=120)
+    email = forms.EmailField()
+    inquiry = forms.CharField(max_length=120)
+    phone = forms.IntegerField()
+    message = forms.CharField(widget=forms.Textarea)
+
+    def get_info(self,contactAdmin=False):
+        """
+        Method that returns formatted information
+        :return: subject, msg
+        """
+        # Cleaned data
+        cl_data = super().clean()
+
+        name = cl_data.get('name').strip()
+        from_email = cl_data.get('email')
+        subject = cl_data.get('inquiry')
+        
+        msg = f'{name} with email {from_email} said:'
+        msg += f'\n"{subject}"\n\n'
+        msg += cl_data.get('message')
+        if not contactAdmin:
+            message = render_to_string("contact_template_user.html",{'name':name,'email':self.cleaned_data['email'],'inquiry':self.cleaned_data['inquiry'],'message':self.cleaned_data['message']})
+        else:
+            message = render_to_string("contact_template_admin.html",{'name':name,'email':self.cleaned_data['email'],'inquiry':self.cleaned_data['inquiry'],'message':self.cleaned_data['message']})            
+        return subject, message
+
+    def send(self):
+
+        subject, msg = self.get_info()
+        #ston user
+        send_mail(
+            subject=subject,
+            message=msg,
+            html_message=msg,
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[settings.RECIPIENT_ADDRESS]#na to ftiakso
+        )
+        #
+        subject, msg = self.get_info(contactAdmin=True)
+        send_mail(
+            subject=subject,
+            message=msg,
+            html_message=msg,
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[self.cleaned_data['email']]#na to ftiakso
+        )
+#########################################################################
+#Galery source###########################################
 class GaleryPhotoForm(forms.ModelForm):
 
 	class Meta:

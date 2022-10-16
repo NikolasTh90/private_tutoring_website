@@ -28,14 +28,10 @@
         <div class="row justify-content-center">
           <div class="col-xl-6 col-md-8 col-12">
             <form class="rd-mailform text-left" data-form-output="form-output-global" data-form-type="contact" method="post">
-			{% csrf_token %}
+        {% csrf_token %}
               <div class="form-wrap">
                 <label class="form-label" for="contact-name">Name<span class="req-symbol">*</span></label>
                 <input class="form-input" id="contact-name" type="text" name="name" data-constraints="@Required">
-              </div>
-              <div class="form-wrap">
-                <label class="form-label" for="contact-inquiry">Inquiry<span class="req-symbol">*</span></label>
-                <input class="form-input" id="contact-inquiry" type="text" name="inquiry" data-constraints="@Required">
               </div>
               <div class="form-wrap">
                 <label class="form-label" for="contact-phone">Phone<span class="req-symbol">*</span></label>

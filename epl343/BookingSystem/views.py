@@ -1,4 +1,4 @@
-from .forms import CustomerUpdateForm
+from .forms import CustomerUpdateForm,ContactForm
 from urllib import request
 from .forms import LoginForm
 from django.contrib.auth import authenticate, login
@@ -33,8 +33,15 @@ def about(request):
 
 
 def contacts(request):
-    template = loader.get_template('contacts.html')
-    return HttpResponse(template.render({'site': 'Contacts'}, request))
+	if request.method == 'POST':
+		form = ContactForm(request.POST)
+		if form.is_valid():
+			form.send()
+			messages.success(request, ('Your message was sent!'))
+		else:
+			messages.error(request, ('Please correct the error below.'))
+	template = loader.get_template('contacts.html')
+	return HttpResponse(template.render({'site': 'Contacts'}, request))
 
 def booking(request):
     template = loader.get_template('booking.html')
