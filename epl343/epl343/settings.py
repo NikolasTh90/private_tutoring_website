@@ -26,14 +26,14 @@ SECRET_KEY = 'django-insecure-efhe#kee0-j-%8p82n!nus9zft4fn^0*hls%@r84wmf62w^yfp
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["a78d-3-82-124-127.ngrok.io", "127.0.0.1", "3.82.124.127", "3.74.236.224" , 'drsteliostheodorou.com']
+ALLOWED_HOSTS = ["a78d-3-82-124-127.ngrok.io", "127.0.0.1", "3.82.124.127", "3.74.236.224" , 'drsteliostheodorou.com', 'www.drsteliostheodorou.com']
 
 AUTH_USER_MODEL = 'BookingSystem.MyUser'
 AUTH_PROFILE_MODULE = 'BookingSystem.Profile'
 
 # Application definition
 
-CSRF_TRUSTED_ORIGINS = ["https://a78d-3-82-124-127.ngrok.io", "http://a78d-3-82-124-127.ngrok.io", "http://3.82.124.127/", "http://3.74.236.224", 'drsteliostheodorou.com']
+CSRF_TRUSTED_ORIGINS = ["https://a78d-3-82-124-127.ngrok.io", "http://a78d-3-82-124-127.ngrok.io", "http://3.82.124.127/", "http://3.74.236.224", 'http://drsteliostheodorou.com', 'http://www.drsteliostheodorou.com']
 
 INSTALLED_APPS = [
     'BookingSystem.apps.BookingsystemConfig',
