@@ -33,7 +33,7 @@ AUTH_PROFILE_MODULE = 'BookingSystem.Profile'
 
 # Application definition
 
-CSRF_TRUSTED_ORIGINS = ["https://a78d-3-82-124-127.ngrok.io", "http://a78d-3-82-124-127.ngrok.io", "http://3.82.124.127/"]
+CSRF_TRUSTED_ORIGINS = ["https://a78d-3-82-124-127.ngrok.io", "http://a78d-3-82-124-127.ngrok.io", "http://3.82.124.127/", "http://3.74.236.224", "drsteliostheodorou.com", "www.drsteliostheodorou.com", "http://www.drsteliostheodorou.com", "http://drsteliostheodorou.com"]
 EMAIL_HOST_USER = 'nikolaswebservice2001@outlook.com'
 EMAIL_HOST_PASSWORD = 'nikolassalokin11'
 RECIPIENT_ADDRESS='nikolaswebservice2001@outlook.com'
