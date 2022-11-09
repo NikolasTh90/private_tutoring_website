@@ -1,6 +1,7 @@
 const parentContainer = document.querySelector('.read-more-btn')
 parentContainer.addEventListener('click', event => {
     const current = event.target
+    alert(5+6)
 
     const isReadMorebtn = current.className.includes('read-more-btn')
     if (!isReadMorebtn)
@@ -13,5 +14,4 @@ parentContainer.addEventListener('click', event => {
         currentText.style.display = 'none'
     else
         currentText.style.display = 'inherit'
-  
 })

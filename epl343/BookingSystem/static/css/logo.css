@@ -1,6 +1,6 @@
 .insta-logo {
-    width: 95px; 
-    height: 95px; 
+    width: 90px; 
+    height: 90px; 
     background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
     border-radius: 30px; 
     display: grid; 
@@ -8,8 +8,8 @@
 }
 
 .insta_innerbox {
-    width: 80px; 
-    height: 80px; 
+    width: 75px; 
+    height: 75px; 
     border: 7px solid #fff; 
     border-radius: 25px; 
     display: grid; 
@@ -41,12 +41,12 @@
 
 .facebook-logo {
     background: #4661b0; 
-    width: 95px; 
-    height: 95px; 
+    width: 90px; 
+    height: 92px; 
     border-radius: 20px; 
     position: relative; 
     overflow: hidden; 
-    border: 15px solid #4661b0; 
+    border: 16px solid #4661b0; 
     border-bottom: 0;
 }
 
@@ -55,7 +55,7 @@
     position: absolute;
     background: #4661b0;
     width: 70px;
-    height: 110px;
+    height: 106px;
     bottom: -31px;
     right: -35px;
     border: 15px solid #fff;
@@ -68,7 +68,7 @@
     background: #fff;
     width: 43px;
     height: 14px;
-    top: 37px;
+    top: 35px;
     right: 6px;
 }
 
@@ -172,15 +172,15 @@
 
 .linkedin-container {
     position: relative;
-    height: 95px;
-    width: 95px;
+    height: 90px;
+    width: 90px;
     margin-left: 2px;
 }
 
 .linkedin-icon-bg {
     background: #1565c0;
-    height: 95px;
-    width: 95px;
+    height: 90px;
+    width: 90px;
     border-radius: 20px;
     box-shadow: 0 0 30px rgba(0,0,0,0.3);
     position: relative;
@@ -189,8 +189,8 @@
       
 .linkedin-i {
     position: absolute;
-    height: 45px;
-    width: 12px;
+    height: 43px;
+    width: 11px;
     background: #fff;
     bottom: 14px;
     left: 14px;
@@ -203,17 +203,17 @@
     height: 15px;
     width: 15px;
     border-radius: 50%;
-    bottom: 55px;
+    bottom: 51px;
     left: -2px;
 }
       
 .linkedin-n {
     position: absolute;
-    height: 45px;
+    height: 43px;
     width: 12px;
     background: #fff;
     bottom: 14px;
-    left: 37px;
+    left: 36px;
 }        
 
 .linkedin-n::before {
@@ -221,10 +221,10 @@
     position: absolute;
     background: #fff;
     border-radius: 5000px 7000px 0 0;
-    height: 45px;
+    height: 43px;
     width: 35px;
     bottom: 0;
-    left: 11px;
+    left: 10px;
 }
         
 .linkedin-n::after {
@@ -232,7 +232,7 @@
     position: absolute;
     background: #1565c0;
     border-radius: 5000px 5000px 0 0;
-    height: 35px;
+    height: 31px;
     width: 22px;
     bottom: 0;
     left: 12px;
@@ -240,7 +240,6 @@
 
 .gmail-logo {
     margin-top: 40px; 
-    margin-left: 11px; 
     background: #E41F1A; 
     width: 90px; 
     height: 80px; 

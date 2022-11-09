@@ -54,23 +54,33 @@
         <div class="container" style="margin-top: -9rem; display: flex;">
           <div class="row row-40 justify-content-center">
             <div class="col-lg-6 clo-12" style="width: 400px; display: grid; justify-content: center; margin-left: -3px; padding-left: 0;">
-              <div class="European" style="display: flex; margin-left: 15px; margin-bottom: 30px;">
+              <div class="European" style="display: flex; margin-left: 20px; margin-bottom: 30px;">
                 <img src="{% static 'images/European-Society-of-Endocrinology.jpg' %}" style="height: 110px">
-                <p style="font-size: 18px; margin-top: 5px; font-weight: 600; text-align: center; line-height: 1.4;">European Society of Endocrinology</p>
+                <p style="font-size: 18px; margin-top: 5px; font-weight: 600; text-align: center; line-height: 1.4; margin-left: -10px;">European Society of Endocrinology</p>
               </div>
               <p style="font-size: 15px; font-weight: 400; margin-left: 115px; margin-top: -125px; text-align: center; line-height: 1.5;"> <br><br>Issued Feb 2020<br>Credential ID: 134085</p>
             </div>
             <div class="col-lg-6 col-12" style="width: 400px; display: grid; justify-content: center; margin-left: -3px; padding-left: 0;">
-              <div class="endocrinology-uk" style="display: flex; margin-left: 40px; margin-bottom: 30px; margin-top: 10px;">
+              <div class="endocrinology-uk" style="display: flex; margin-left: 5px; margin-bottom: 30px; margin-top: 10px;">
                 <img src="{% static 'images/Society-for-Endocrinology.jpg' %}" style="height: 100px">
-                <p style="font-size: 18px; margin-top: 0px; font-weight: 600; margin-left: 5px; text-align: center; line-height: 1.4;">Society for Endocrinology (UK)</p>
+                <p style="font-size: 18px; margin-top: 0px; font-weight: 600; margin-left: 5px; text-align: center; line-height: 1.4; width: 210px;">Society for Endocrinology (UK)</p>
               </div>
-              <p style="font-size: 15px; font-weight: 400; margin-left: 135px; margin-top: -120px; text-align: center; line-height: 1.5; margin-bottom: 16px;"> <br><br>Issued Oct 2019<br>Credential ID: 134085</p>
+              <p style="font-size: 15px; font-weight: 400; margin-left: 105px; margin-top: -120px; text-align: center; line-height: 1.5; margin-bottom: 16px;"> <br><br>Issued Oct 2019<br>Credential ID: 134085</p>
             </div>
             <div class="Linkedin-badge" style="width: 400px; display: flex; justify-content: center;">
               <div class="badge-base" data-locale="en_US" data-size="large" data-theme="light" data-type="HORIZONTAL" data-vanity="dr-stelios-theodorou" data-version="v1" style="text-align: center; line-height: 1.5;">
-                <a class="badge-base__link" href="https://cy.linkedin.com/in/dr-stelios-theodorou?trk=profile-badge" target="_blank" style="color: #8344cc; font-size: 16px;">MUDr. Stelios Theodorou (MD.)</a>
+                <script>
+                  const badge = document.querySelector('.badge-base')
+                  let window_width = window.innerWidth
+                  if (window_width <= 360)
+                    badge.style.marginLeft = '-40px'
+                  else if(window_width <= 380)
+                    badge.style.marginLeft = '-30px'
+                  else if (window_width <= 390)
+                    badge.style.marginLeft = '-20px'
+                </script>
                 
+                <a class="badge-base__link" href="https://cy.linkedin.com/in/dr-stelios-theodorou?trk=profile-badge" target="_blank" style="color: #8344cc; font-size: 16px;">MUDr. Stelios Theodorou (MD.)</a>
                 
                 
                 <div class="profile-badge profile-badge--width-330 profile-badge--light">
@@ -107,8 +117,7 @@
                   </div>
                   <a class="profile-badge__cta-btn profile-badge__cta-btn--light" href="https://cy.linkedin.com/in/dr-stelios-theodorou?trk=public-profile-badge-profile-badge-view-profile-cta" target="_blank" data-tracking-control-name="public-profile-badge-profile-badge-view-profile-cta" data-tracking-will-navigate="" style="font-size: 1rem; color: #0a66c2;">View profile</a>
                 </div>
-
-
+                
 
               </div> 
             </div>
