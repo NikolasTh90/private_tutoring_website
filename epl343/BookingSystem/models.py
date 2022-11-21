@@ -56,10 +56,11 @@ class Teaching_experience(models.Model):
 # My User models #################################################################
 class locations(models.TextChoices):
     from django.utils.translation import gettext_lazy as _
+    NOT_SPECIFIED = 'NS', _('Not Specified')
     ONLINE = 'ON', _('Online')
     PUBLIC = 'PU', _('Public/Cafe')
     PRIVATE = 'PI', _('Private/Home')
-    OTHER = 'OT', _('Unknown')
+    OTHER = 'OT', _('Other')
     TEACHER = 'NA', _('Not Available')
 
 
@@ -152,7 +153,7 @@ class MyUser(AbstractBaseUser):
     last_name = models.CharField(
         verbose_name='last_name', max_length=255, default='Please add last name')
     preferred_loc = models.CharField(
-        verbose_name='preferred_loc', max_length=255, choices=locations.choices, default=locations.PRIVATE)
+        verbose_name='preferred_loc', max_length=255, choices=locations.choices, default=locations.NOT_SPECIFIED)
     year = models.CharField(
         verbose_name='year', max_length=255, choices=years.choices, default=years.one)
     pay = models.CharField(verbose_name='pay', max_length=255,
@@ -199,42 +200,28 @@ class MyUser(AbstractBaseUser):
 
 # Booking System models #################################################################
 class Appointment(models.Model):
-    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
-    request = models.TextField(blank=True)
-    for_date = models.DateTimeField()
-    sent_date = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE, on_update = models.CASCADE)
+    description = models.TextField(blank=True)
+    issued_date = models.DateTimeField(auto_now_add=True)
     accepted = models.BooleanField(default=False)
-    accepted_date = models.DateField(auto_now_add=False, null=True, blank=True)
-    Duration = models.DurationField()
+    pending = models.BooleanField(default=True)
+    location = models.CharField(
+        verbose_name='preferred_loc', max_length=255, choices=locations.choices, default=locations.NOT_SPECIFIED)
+    duration = models.DurationField(blank=False)
+    start_dateTime = models.DateTimeField(primary_key= True)
+    end_dateTime = models.DateTimeField(blank=False)
+
+    # not sure if this is correct
+    def save(self, *args, **kwargs):
+        self.end_dateTime = self.start_dateTime + self.duration
+        super().save(*args, **kwargs)
 
 
-class MonthException(models.Model):
-    # YearException = models.TextField()
-    MonthException = models.TextField()
+class Schedule(models.Model):  # working hours
+    Day = models.IntegerField()  # 0-6
+    Opening = models.TimeField()  
+    Closing = models.TimeField() 
 
-
-class DayMonthException(models.Model):
-    MonthException = models.TextField()
-    DayException = models.TextField()  # monos arithmos mpenei 0 mprosta panta
-
-
-class DayException(models.Model):
-    DayException = models.TextField()
-
-
-# class ForDaysException(models.Model):
-#     MonthException = models.TextField()
-#     StartingTime = models.TimeField()
-#     EndingTime = models.TimeField()
-
-
-class TimeException(models.Model):  # na valw je mina
-    Day = models.IntegerField()
-    Opening = models.TimeField()  # : format :
-    Closing = models.TimeField()  # : format
-
-
-class Schedule(models.Model):  # subjects
-    Day = models.IntegerField()  # 0-7
-    Opening = models.TimeField()  # : format :
-    Closing = models.TimeField()  # : format
+class Offs (models.Model): # day offs interval
+    start_dateTime = models.DateTimeField(primary_key=True)
+    end_dateTime = models.DateTimeField(primary_key=True)
