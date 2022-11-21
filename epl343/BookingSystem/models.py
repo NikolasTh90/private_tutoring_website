@@ -134,8 +134,8 @@ class MyUserManager(BaseUserManager):
 
 
 class MyUser(AbstractBaseUser):
-    username = models.CharField(
-        verbose_name='username', max_length=100, default='TestUser', unique=True)
+    # username = models.CharField(
+    #     verbose_name='username', max_length=100, default='TestUser', unique=True)
     email = models.EmailField(
         verbose_name='email',
         max_length=255,
