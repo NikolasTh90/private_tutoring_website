@@ -12,4 +12,4 @@ let window_width = window.innerWidth
 if (window_width <= 990)
     form.style.marginTop = '20px'
 else
-    form.style.marginTop = '120px'
+    form.style.marginTop = '100px'
