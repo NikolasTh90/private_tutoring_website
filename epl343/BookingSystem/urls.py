@@ -11,11 +11,13 @@ urlpatterns = [
     # Name is useful for finding this particural url pattern
     path('', views.index, name='index'),
     path('index/', views.index, name='index'),
+    path('home/', views.index, name='index'),
     path('about/', views.about, name='about'),
     path('contact/', views.contacts, name='contacts'),
     path('booking/', views.booking, name='booking'),
     path('signup/', views.signup, name='signup'),
     path('login/', views.login1, name='login'),
+    path('login-signup/', views.login1, name='login'),
     path('logout/', views.logout1, name='logout1'),
     path('terms/', views.tc, name='tc'),
     path('dashboard/',views.dashboard,name='dashboard'),

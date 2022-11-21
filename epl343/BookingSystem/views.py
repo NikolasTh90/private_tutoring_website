@@ -23,8 +23,13 @@ User = get_user_model()
 def index(request):
     template = loader.get_template('index.html')
     testimonials = Testimonial.objects.all().values()
+    auth = False
+    name = None
+    if request.user.is_authenticated:
+        auth = True
+        name = request.user.first_name
 
-    return HttpResponse(template.render({'site': 'Home', 'testimonials': testimonials}, request))
+    return HttpResponse(template.render({'site': 'Home', 'testimonials': testimonials, 'authenticated' : auth, 'name' : name}, request))
 
 
 def about(request):
@@ -74,21 +79,18 @@ def login1(request):
             email = form.cleaned_data['username']
             password = form.cleaned_data['password']
             user = authenticate(request, username=email, password=password)
-
             if user is not None:
-
                 login(request, user)
                 return HttpResponseRedirect(reverse('bs:dashboard'))
         else:
             messages.error(request, 'Invalid username or password.')
-            messages.error(request, 'Please try again')
             template = loader.get_template('login.html')
-            return HttpResponse(template.render({"signinform": AuthenticationForm()}, request))
+            return HttpResponse(template.render({"signinform": AuthenticationForm(), 'login' : True}, request))
 
     else:
         template = loader.get_template('login.html')
         return HttpResponse(template.render(
-            {"signinform": AuthenticationForm()}, request))
+            {"login" : True, 'site': 'Login'}, request))
 
 
 def tc(request):
@@ -97,6 +99,9 @@ def tc(request):
 
 
 def signup(request):
+    context = {"login": False, 'site' : 'Login'}
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('bs:login'))
     if request.method == "POST":
         form = RegisterForm(request.POST)
         if form.is_valid():
@@ -107,14 +112,17 @@ def signup(request):
             return HttpResponseRedirect(reverse('bs:login'))
         else:  # wrong form
             template = loader.get_template('login.html')
-            context = {}
-            messages.error(request, 'Invalid form')
-            messages.error(request, form.errors)
+            for error in form.errors:
+                if str(error)=='email':
+                    messages.error(request, 'A user with this email already exists.')
+                if error=='password':
+                    print(error)
+                    messages.error(request, 'Wrong Username or password.')
+                if error=='password1':
+                    messages.error(request, 'Password and confirmation must be the same.')
             return HttpResponse(template.render(context, request))
     else:  # User accesing for 1st time
-        template = loader.get_template('login.html')
-        context = {"signupform": NewUserForm()}
-        return HttpResponse(template.render(context, request))
+        return HttpResponseRedirect(reverse('bs:login'))
 
 
 @login_required(login_url='bs:login')
