@@ -4,7 +4,6 @@ from django.contrib.auth.models import (
 )
 from django.db import models
 from django.core.exceptions import ValidationError
-from datetime import datetime
 #############################################################
 #Galery code
 class PhotoSection(models.Model):#subjects
@@ -201,18 +200,16 @@ class MyUser(AbstractBaseUser):
 
 # Booking System models #################################################################
 class Appointment(models.Model):
-    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
-    description = models.TextField(blank=False, default="")
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE, on_update = models.CASCADE)
+    description = models.TextField(blank=True)
     issued_date = models.DateTimeField(auto_now_add=True)
     accepted = models.BooleanField(default=False)
     pending = models.BooleanField(default=True)
     location = models.CharField(
         verbose_name='preferred_loc', max_length=255, choices=locations.choices, default=locations.NOT_SPECIFIED)
-    payment_method = models.CharField(verbose_name='pay', max_length=255,
-                           choices=payments.choices, default=payments.cash)
     duration = models.DurationField(blank=False)
-    start_dateTime = models.DateTimeField(primary_key= True, default=datetime.now())
-    end_dateTime = models.DateTimeField(blank=False, default=datetime.now())
+    start_dateTime = models.DateTimeField(primary_key= True)
+    end_dateTime = models.DateTimeField(blank=False)
 
     # not sure if this is correct
     def save(self, *args, **kwargs):
@@ -226,8 +223,5 @@ class Schedule(models.Model):  # working hours
     Closing = models.TimeField() 
 
 class Offs (models.Model): # day offs interval
-    start_dateTime = models.DateTimeField()
-    end_dateTime = models.DateTimeField()
-
-    class Meta :
-        unique_together = (('start_dateTime', 'end_dateTime'),)
+    start_dateTime = models.DateTimeField(primary_key=True)
+    end_dateTime = models.DateTimeField(primary_key=True)
