@@ -1,6 +1,6 @@
 from .forms import CustomerUpdateForm,ContactForm
 from urllib import request
-from .forms import LoginForm
+from .forms import LoginForm, RegisterForm
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render
 from django.template import loader
@@ -98,18 +98,21 @@ def tc(request):
 
 def signup(request):
     if request.method == "POST":
-        form = NewUserForm(request.POST)
+        form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
+            authenticate(request, username=user.email, password=user.password)
+            login(request, user)
             messages.success(request, 'Account created Successfully')
-            return HttpResponseRedirect(reverse('bs:signup'))
+            return HttpResponseRedirect(reverse('bs:login'))
         else:  # wrong form
-            template = loader.get_template('signup.html')
-            context = {"signupform": form}
+            template = loader.get_template('login.html')
+            context = {}
             messages.error(request, 'Invalid form')
+            messages.error(request, form.errors)
             return HttpResponse(template.render(context, request))
     else:  # User accesing for 1st time
-        template = loader.get_template('signup.html')
+        template = loader.get_template('login.html')
         context = {"signupform": NewUserForm()}
         return HttpResponse(template.render(context, request))
 

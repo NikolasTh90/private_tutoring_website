@@ -30,7 +30,7 @@ class UserAdmin(BaseUserAdmin):
     list_filter = ['admin', 'staff']
     # For change/update user
     fieldsets = (
-        ('Credentials', {'fields': ('email', 'username','password')}),
+        ('Credentials', {'fields': ('email','password')}),
         ('Personal info', {'fields': ('first_name', 'last_name','preferred_loc', 'year', 'pay', 'is_student')}),
         ('Permissions', {'fields': ('admin','staff',)}),
     )
@@ -40,7 +40,7 @@ class UserAdmin(BaseUserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'username', 'password1', 'password2', 'first_name', 'last_name', 'is_student', 'preferred_loc', 'year', 'pay')}
+            'fields': ('email', 'password1', 'password2', 'first_name', 'last_name', 'is_student', 'preferred_loc', 'year', 'pay')}
         ),
     )
     search_fields = ['last_name']

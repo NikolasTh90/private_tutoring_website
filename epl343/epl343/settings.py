@@ -29,7 +29,7 @@ DEBUG = True
 ALLOWED_HOSTS = ["a78d-3-82-124-127.ngrok.io", "127.0.0.1", "3.82.124.127", "3.74.236.224" , 'drsteliostheodorou.com', 'www.drsteliostheodorou.com']
 
 AUTH_USER_MODEL = 'BookingSystem.MyUser'
-AUTH_PROFILE_MODULE = 'BookingSystem.Profile'
+#AUTH_PROFILE_MODULE = 'BookingSystem.Profile'
 
 # Application definition
 
