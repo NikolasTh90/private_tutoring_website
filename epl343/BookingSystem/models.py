@@ -135,8 +135,8 @@ class MyUserManager(BaseUserManager):
 
 
 class MyUser(AbstractBaseUser):
-    # username = models.CharField(
-    #     verbose_name='username', max_length=100, default='TestUser', unique=True)
+    username = models.CharField(
+        verbose_name='username', max_length=100, default='TestUser')
     email = models.EmailField(
         verbose_name='email',
         max_length=255,
@@ -200,7 +200,7 @@ class MyUser(AbstractBaseUser):
 
 # Booking System models #################################################################
 class Appointment(models.Model):
-    user = models.ForeignKey(MyUser, on_delete=models.CASCADE, on_update = models.CASCADE)
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     description = models.TextField(blank=True)
     issued_date = models.DateTimeField(auto_now_add=True)
     accepted = models.BooleanField(default=False)
@@ -208,7 +208,7 @@ class Appointment(models.Model):
     location = models.CharField(
         verbose_name='preferred_loc', max_length=255, choices=locations.choices, default=locations.NOT_SPECIFIED)
     duration = models.DurationField(blank=False)
-    start_dateTime = models.DateTimeField(primary_key= True)
+    start_dateTime = models.DateTimeField(primary_key=True)
     end_dateTime = models.DateTimeField(blank=False)
 
     # not sure if this is correct
@@ -224,4 +224,4 @@ class Schedule(models.Model):  # working hours
 
 class Offs (models.Model): # day offs interval
     start_dateTime = models.DateTimeField(primary_key=True)
-    end_dateTime = models.DateTimeField(primary_key=True)
+    end_dateTime = models.DateTimeField()
