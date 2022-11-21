@@ -78,7 +78,7 @@
                     <span>Feedback</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'bs:index' %}">
+                <a class="nav-link" href="#">
                     <i class="fas fa-arrow-right-from-bracket"></i>
                     <span>Logout</span></a>
             </li>
@@ -295,7 +295,7 @@
                                     Activity Log
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="{% url 'bs:logout1' %}" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>

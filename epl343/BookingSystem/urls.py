@@ -16,6 +16,7 @@ urlpatterns = [
     path('booking/', views.booking, name='booking'),
     path('signup/', views.signup, name='signup'),
     path('login/', views.login1, name='login'),
+    path('logout/', views.logout1, name='logout1'),
     path('terms/', views.tc, name='tc'),
     path('dashboard/',views.dashboard,name='dashboard'),
     path('teaching-experience/', views.teaching, name='teaching'),

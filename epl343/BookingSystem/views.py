@@ -9,7 +9,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, logout, login
 from django.contrib.auth.decorators import login_required
 from .models import *
 from .checks import *
@@ -60,6 +60,9 @@ def testimonials(request):
     testimonials = Testimonial.objects.all().values()
     return render(request, "testimonials.html", {'site': 'Testimonials', 'testimonials': testimonials} )
 
+def logout1(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('bs:index'))
 
 def login1(request):
     if request.user.is_authenticated:
@@ -76,11 +79,9 @@ def login1(request):
 
                 login(request, user)
                 return HttpResponseRedirect(reverse('bs:dashboard'))
-            else:
-                messages.error(request, 'Invalid Person! You cannot login ')
-                return HttpResponseRedirect(reverse('bs:signin'))
         else:
-            messages.error(request, 'Invalid Form! Try again ')
+            messages.error(request, 'Invalid username or password.')
+            messages.error(request, 'Please try again')
             template = loader.get_template('login.html')
             return HttpResponse(template.render({"signinform": AuthenticationForm()}, request))
 
