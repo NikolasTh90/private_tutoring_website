@@ -12,7 +12,6 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import get_user_model, logout, login
 from django.contrib.auth.decorators import login_required
 from .models import *
-#from .checks import *
 from .BookingSystem import main
 
 import datetime
