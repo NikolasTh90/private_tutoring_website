@@ -24,6 +24,7 @@ urlpatterns = [
     path('teaching-experience/', views.teaching, name='teaching'),
     path('testimonials/', views.testimonials, name='testimonials'),
     path('feedback/', views.feedback, name='feedback'),
+    path('temp/',views.temp,name='temp'),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

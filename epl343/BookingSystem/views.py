@@ -1,6 +1,6 @@
 from .forms import CustomerUpdateForm,ContactForm
 from urllib import request
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm,BookingForm
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render
 from django.template import loader
@@ -12,7 +12,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import get_user_model, logout, login
 from django.contrib.auth.decorators import login_required
 from .models import *
-from .checks import *
+#from .checks import *
 from .BookingSystem import main
 
 import datetime
@@ -32,6 +32,17 @@ def index(request):
 
     return HttpResponse(template.render({'site': 'Home', 'testimonials': testimonials, 'authenticated' : auth, 'name' : name}, request))
 
+def temp(request) :
+    if (request.method == "POST") :
+        form = BookingForm(request.POST)
+        if form.is_valid():
+            form.save()
+        template =loader.get_template('signup.html')
+        return HttpResponse(template.render({}, request))
+
+    else :
+        template = loader.get_template('signup.html')
+        return HttpResponse(template.render({'form': BookingForm() }, request))
 
 def about(request):
     template = loader.get_template('about.html')
@@ -129,7 +140,7 @@ def signup(request):
                     messages.error(request, 'Wrong Username or password.')
                 if error=='password1':
                     messages.error(request, 'Password and confirmation must be the same.')
-            return HttpResponse(template.render(context, request))
+            return HttpResponseRedirect(reverse('bs:login'))
     else:  # User accesing for 1st time
         return HttpResponseRedirect(reverse('bs:login'))
 
