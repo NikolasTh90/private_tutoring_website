@@ -3,14 +3,13 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 # from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth import get_user_model
-from .models import years, payments, locations,Photo,PhotoSection,Appointment
+from .models import years, payments, locations,Photo,PhotoSection,LearningMaterialReference,LearningMaterial,FilesLearningMaterial,Testimonial
 ###################################################
 import pdb
 #Contact imports
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.conf import settings
-from .models import MyUser
 ######################################################################
 #contact source code
 class ContactForm(forms.Form):
@@ -64,6 +63,28 @@ class ContactForm(forms.Form):
         )
 #########################################################################
 #Galery source###########################################
+class LearningMaterialFormRef(forms.ModelForm):
+    # specify the name of model to use
+    class Meta:
+        model = LearningMaterialReference
+        fields = "__all__"
+class FilesLearningMaterialForm(forms.ModelForm):
+    # specify the name of model to use
+    class Meta:
+        model = FilesLearningMaterial
+        fields = "__all__"
+class LearningMaterialForm(forms.ModelForm):
+    # specify the name of model to use
+    class Meta:
+        model = LearningMaterial
+        fields = "__all__"
+
+class TestimonialForm(forms.ModelForm):
+    # specify the name of model to use
+    class Meta:
+        model = Testimonial
+        fields = ('description',)
+
 class GaleryPhotoForm(forms.ModelForm):
 
 	class Meta:
@@ -108,31 +129,10 @@ class RegisterForm(forms.ModelForm):
 	class Meta:
 		model = get_user_model()
 		fields = ('email', 'first_name', 'last_name', 'year', 'password')
-		
-		
-class BookingForm(forms.ModelForm):
-	duration = forms.DurationField()
-	start_dateTime = forms.DateTimeField()
-	
-	user = forms.ModelChoiceField(queryset=MyUser.objects.all())
+
 
 	
-	class Meta:
-		model = Appointment
-		fields = ('duration','start_dateTime','user') 
 
-	def is_valid(self):
-		valid = super(BookingForm, self).is_valid()
-		return valid
-
-	def save(self, commit=True):
-		app = super(BookingForm, self).save(commit=False)
-		print(self.cleaned_data['duration'])
-		print(self.cleaned_data['start_dateTime'])
-		if commit:
-			app.save()
-		return app
-		
 
 class NewUserForm(UserCreationForm):
 	email = forms.EmailField(required=True)
