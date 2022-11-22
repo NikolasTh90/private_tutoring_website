@@ -25,6 +25,6 @@ urlpatterns = [
     path('testimonials/', views.testimonials, name='testimonials'),
     path('feedback/', views.feedback, name='feedback'),
     path('temp/',views.temp,name='temp'),
-
+    path('myappointments/', views.myappointments, name = 'myappointments')
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
