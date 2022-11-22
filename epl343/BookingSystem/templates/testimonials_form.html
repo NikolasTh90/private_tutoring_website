@@ -11,13 +11,33 @@
         <div class="container">
           <div class="row justify-content-center">
             <div class="col-xl-8 text-center">
-              <h1 class="font-weight-bold wow fadeInLeft">Book a private lesson</h1>
+              <h1 class="font-weight-bold wow fadeInLeft">Teaching Experience</h1>
             </div>
           </div>
         </div>
       </section>
+      <form action = "" method = "post">
+    
+        {% csrf_token %}
+      {{form}}
+        {{FilesLearningMaterialForm}}
+        <input type="submit" value=Submit>
+      </form>
 
-      <h3> The booking system is currently under construction. Please <a onMouseOver="this.style.color='blue'"
-        onMouseOut="this.style.color='#0394fc'" style="color: #0394fc;" href="./contact">contact me</a> to arrange an appointment.</h3>
+      <section class="section section-lg bg-default">
+        <div class="container">
+           
+
+
+
+        </div>
+      </section>
+
+    </div>
+</body>
+
+
+
+      
 
 {% endblock content %}
