@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
@@ -117,4 +118,125 @@
 </body>
 
 
+=======
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+
+<body>
+	<div class="page">
+		<section class="forms-section">
+			<div class="forms">
+				<div class="form-wrapper is-active">
+					<button type="button" class="switcher switcher-signup">
+						Sign Up
+						<span class="underline"></span>
+					</button>
+					<form class="form form-signup" method="post" action="{% url 'bs:signup' %}">
+						{% csrf_token %}
+						<fieldset>
+							{% csrf_token %}
+							<legend>Please, enter your email, password and password confirmation for sign up.</legend>
+							<div class="input-block">
+								  <label for="signup-email">E-mail</label>
+								  <input id="email" name="email" type="email" required>
+							</div>
+							<div class="input-block">
+								<label for="signup-firstname">First Name</label>
+								<input id="first_name" name="first_name" type="text" required>
+							</div>
+							<div class="input-block">
+								<label for="signup-lastname">Last Name</label>
+								<input id="last_name" name="last_name" type="text" required>
+							</div>
+							<!-- <div class="input-block">
+								<label for="signup-pref-loc">Preffered location</label>
+								<select id="preffered_loc" name="preffered_loc">
+									<option value="OT">-----------</option>
+									<option value="ON">Online/Zoom</option>
+									<option value="PI">Private/Home</option>
+									<option value="PU">Public/Cafe</option>
+								</select>
+							</div>
+							<div class="input-block">
+								<label for="signup-pref-pay">Preffered Payment Method</label>
+								<select id="pay" name="pay">
+									<option value="NA">-------</option>
+									<option value="c">Cash</option>
+									<option value="paypal">Czech Bank Instant</option>
+									<option value="card">Payment</option>
+									<option value="rev">Revolut</option>
+								</select>
+							</div> -->
+							<div class="input-block">
+								<label for="signup-year">Year of Studies</label>
+								<select id="year" name="year">
+									<option value="OT">--</option>
+									<option value="one">1</option>
+									<option value="two">2</option>
+									<option value="three">3</option>
+									<option value="four">4</option>
+									<option value="five">5</option>
+									<option value="six">6</option>
+									<option value="six_p">6+</option>
+								</select>
+							</div>
+							<div class="input-block">
+								<label for="signup-password">Password</label>
+								  <input id="password" name = "password" type="password" required>
+							</div>
+							<div class="input-block">
+								  <label for="signup-password-confirm">Confirm password</label>
+								  <input id="password1" name="password1" type="password" required>
+							</div>
+							{% if login is False %}
+								{% for message in messages %}
+
+									<a style="color: red">{{ message }}</a>
+								{% endfor %}
+							{% endif %}
+						</fieldset>
+						<button type="submit" class="btn-signup">Continue</button>
+					</form>
+				</div>
+                <div class="form-wrapper">
+					<button type="button" class="switcher switcher-login">
+						Login
+						<span class="underline"></span>
+					</button>
+					{% csrf_token %}
+					<form class="form form-login" method="post">
+						{% csrf_token %}
+						<fieldset>
+						{% csrf_token %}
+							<legend>Please, enter your email and password for login.</legend>
+							<div class="input-block">
+								<label for="login-email">E-mail</label>
+								<input id="username" name="username" type="email" required>
+							</div>
+							<div class="input-block">
+								<label for="login-password">Password</label>
+								<input id="password" name="password" type="password" required>
+							</div>
+						</fieldset>
+						{% if login is True %}
+							{% for message in messages %}
+							<a style="color: red">{{ message }}</a>
+							{% endfor %}
+						{% endif %}
+						<button type="submit" class="btn-login">Login</button>
+					</form>
+				</div>
+			</div>
+		</section>
+	</div>
+	<script src="{% static 'js/login.js' %}"></script>
+</body>
+
+
+>>>>>>> 54e850644a3b9425c4538760e279d2165bd09632
 {% endblock content %}
