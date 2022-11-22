@@ -209,7 +209,7 @@ class Appointment(models.Model):
         verbose_name='preferred_loc', max_length=255, choices=locations.choices, default=locations.NOT_SPECIFIED)
     duration = models.DurationField(blank=False)
     start_dateTime = models.DateTimeField(primary_key=True)
-    end_dateTime = models.DateTimeField(blank=False)
+    end_dateTime = models.DateTimeField(blank=True)
 
     # not sure if this is correct
     def save(self, *args, **kwargs):

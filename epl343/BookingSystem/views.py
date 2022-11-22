@@ -13,6 +13,7 @@ from django.contrib.auth import get_user_model, logout, login
 from django.contrib.auth.decorators import login_required
 from .models import *
 from .checks import *
+from .BookingSystem import main
 
 import datetime
 
@@ -50,6 +51,14 @@ def contacts(request):
 
 def booking(request):
     template = loader.get_template('booking.html')
+    post_request={'requested_dateTime': datetime.datetime(2022,11,30,16),
+                'requested_duration': datetime.timedelta(minutes = 60),
+                'user_email': 'nikolasth90@gmail.com',
+                'description': 'i need help!',
+                'location': 'Online'
+
+                }
+    main(post_request)
     return HttpResponse(template.render({'site': 'Booking'}, request))    
 
 def teaching(request):
