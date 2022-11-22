@@ -80,5 +80,5 @@ def recommend_previous_appointment(requested_appointment_start_dateTime, request
     while recommended_previous_appointment >= datetime.datetime.now() + allowed_days_before_appointment:
         if appointment_is_available(recommended_previous_appointment, requested_appointment_duration):
             return recommended_previous_appointment
-    return False       
+    return None       
 
