@@ -1,5 +1,6 @@
 import datetime
 from .models import Schedule, Offs, Appointment, MyUser
+from django.db.models import Q
 break_time = datetime.timedelta(minutes = 10)
 allowed_days_before_appointment = datetime.timedelta(days = 3)
 # post_request={requested_dateTime: datetime.datetime(2022,11,30,16),
@@ -19,8 +20,9 @@ def main(post_request):
 
     if appointment_is_available(post_request['requested_dateTime'], post_request['requested_duration']):
         #create appointment model
-        user = MyUser.objects.filter(email=post_request['user_email'])
-        Appointment.objects.create(user = user, description = post_request['description'], duration = post_request['requested_duration'], start_dateTime = post_request['requested_dateTime']) 
+        #user = MyUser.objects.only(email).filter(email=post_request['user_email'])
+        #TODO user should be a MyUser instance, can we get this from sessions?
+        Appointment.objects.create(user = post_request['user_email'], description = post_request['description'], duration = post_request['requested_duration'], start_dateTime = post_request['requested_dateTime']) 
         #TODO send email notification
 
     else:
@@ -60,9 +62,9 @@ def is_in_offs(requested_appointment_start_dateTime, requested_appointment_durat
     return False        
 
 def is_colliding_with_appointment(requested_appointment_start_dateTime, requested_appointment_duration):
-    other_appointments = Appointment.objects.all().filter( ( start_dateTime__date = requested_appointment_start_dateTime.date() )&( pending == True | accepted == True) ) #| end_dateTime__date = requested_appointment_start_dateTime.date() 
+    other_appointments = Appointment.objects.all().filter( start_dateTime__date = requested_appointment_start_dateTime.date() ).filter(Q(pending = True) | Q(accepted = True) )
     for other in other_appointments:
-        if requested_appointment_start_dateTime + requested_appointment_duration >= other.start_dateTime and requested_appointment_start_dateTime <= other.end_dateTime:
+        if requested_appointment_start_dateTime + requested_appointment_duration >= other.start_dateTime.replace(tzinfo=None) and requested_appointment_start_dateTime <= other.end_dateTime.replace(tzinfo=None):
             return True
 
     return False 
