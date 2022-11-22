@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 # from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth import get_user_model
-from .models import years, payments, locations,Photo,PhotoSection
+from .models import years, payments, locations,Photo,PhotoSection,LearningMaterialReference,LearningMaterial,FilesLearningMaterial,Testimonial
 ###################################################
 import pdb
 #Contact imports
@@ -63,6 +63,28 @@ class ContactForm(forms.Form):
         )
 #########################################################################
 #Galery source###########################################
+class LearningMaterialFormRef(forms.ModelForm):
+    # specify the name of model to use
+    class Meta:
+        model = LearningMaterialReference
+        fields = "__all__"
+class FilesLearningMaterialForm(forms.ModelForm):
+    # specify the name of model to use
+    class Meta:
+        model = FilesLearningMaterial
+        fields = "__all__"
+class LearningMaterialForm(forms.ModelForm):
+    # specify the name of model to use
+    class Meta:
+        model = LearningMaterial
+        fields = "__all__"
+
+class TestimonialForm(forms.ModelForm):
+    # specify the name of model to use
+    class Meta:
+        model = Testimonial
+        fields = ('description',)
+
 class GaleryPhotoForm(forms.ModelForm):
 
 	class Meta:
