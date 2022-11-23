@@ -2,8 +2,6 @@ from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
-import os
-
 from django.db import models
 from django.core.exceptions import ValidationError
 #############################################################
@@ -17,6 +15,21 @@ class Photo(models.Model):
     belongs = models.ForeignKey(PhotoSection, on_delete=models.CASCADE)
 ###############################################################
 # Testimonial models #################################################################
+class Testimonial(models.Model):
+    def validate_image(fieldfile_obj):
+        filesize = fieldfile_obj.file.size
+        megabyte_limit = 20.0
+        if filesize > megabyte_limit*1024*1024:
+            raise ValidationError("Max file size is %sMB" % str(megabyte_limit))
+
+    author = models.CharField(max_length=60)
+    author_school_and_year = models.CharField(max_length=255, null=True, blank=True)
+    author_profile_pic = models.ImageField(null=True, blank=True, upload_to="images/")
+    author_profile_link = models.CharField(max_length=255, null=True, blank=True)
+    description = models.TextField()
+    show = models.BooleanField(default=True)
+    featured = models.BooleanField(default=True)
+
 
 
 
@@ -147,12 +160,6 @@ class MyUser(AbstractBaseUser):
                            choices=payments.choices, default=payments.cash)
     is_student = models.BooleanField(verbose_name='is_student', default=False)
     USERNAME_FIELD = 'email'
-    author_profile_link = models.TextField(blank=True,null=True)
-    school = models.TextField(blank=True,null=True)
-    yearofStudy = models.TextField(blank=True,null=True)
-    profilePic = models.ImageField(upload_to ='uploads/',blank=True,null=True)
-
-
     # Username & Password are required by default.
     REQUIRED_FIELDS = ['first_name', 'last_name']
 
@@ -189,21 +196,6 @@ class MyUser(AbstractBaseUser):
         "Is the user a admin member?"
         return self.admin
 
-class LearningMaterial(models.Model):
-    Name = models.CharField(max_length=60)
-    Description = models.CharField(max_length=200)
-    def __str__(self):
-        return self.Name+":"+self.Description
-
-class FilesLearningMaterial(models.Model):
-    LearningMaterialFK = models.OneToOneField(LearningMaterial, on_delete=models.CASCADE)    
-    upload = models.FileField(upload_to ='uploads/')
-    def fileextension(self):
-        return os.path.basename(self.upload.name).split(".")[1]
-
-class LearningMaterialReference(models.Model):
-    User = models.ForeignKey(MyUser, on_delete=models.CASCADE)    
-    LearningMaterial = models.ForeignKey(LearningMaterial, on_delete=models.CASCADE)    
 
 
 # Booking System models #################################################################
@@ -233,8 +225,3 @@ class Schedule(models.Model):  # working hours
 class Offs (models.Model): # day offs interval
     start_dateTime = models.DateTimeField(primary_key=True)
     end_dateTime = models.DateTimeField()
-class Testimonial(models.Model):
-    user= models.ForeignKey(MyUser, on_delete=models.CASCADE)    
-    description = models.TextField()
-    show = models.BooleanField(default=False)
-    featured = models.BooleanField(default=True)
