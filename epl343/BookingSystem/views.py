@@ -132,7 +132,9 @@ def testimonials(request):
     return render(request, "testimonials.html", {'site': 'Testimonials', 'testimonials': testimonials} )
 
 def gallery(request):
-    return render(request, "gallery.html")
+    sections = PhotoSection.objects.all().order_by('SectionName')
+    photos = Photo.objects.all()
+    return render(request, "gallery.html", {'site': 'Gallery', 'sections': sections, 'photos': photos})
 
 def logout1(request):
     logout(request)
