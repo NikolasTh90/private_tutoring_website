@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 # from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth import get_user_model
-from .models import years, payments, locations,Photo,PhotoSection,LearningMaterialReference,LearningMaterial,FilesLearningMaterial,Testimonial
+from .models import *
 ###################################################
 import pdb
 #Contact imports
@@ -234,3 +234,27 @@ class CustomerUpdateForm(forms.ModelForm):  # update customer details
         model = MyUser
         fields = ['first_name', 'last_name', 'dob', 'company_name', 'company_address', 'city', 'country', 'postcode',
                   'image']
+
+class BookingForm(forms.ModelForm):
+	duration = forms.DurationField()
+	start_dateTime = forms.DateTimeField()
+
+	user = forms.ModelChoiceField(queryset=MyUser.objects.all())
+
+
+	class Meta:
+		model = Appointment
+		fields = ('duration','start_dateTime','user') 
+
+	def is_valid(self):
+		valid = super(BookingForm, self).is_valid()
+		return valid
+
+
+	def save(self, commit=True):
+		app = super(BookingForm, self).save(commit=False)
+		print(self.cleaned_data['duration'])
+		print(self.cleaned_data['start_dateTime'])
+		if commit:
+			app.save()
+		return app
