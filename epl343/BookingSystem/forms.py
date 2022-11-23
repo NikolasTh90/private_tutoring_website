@@ -10,6 +10,8 @@ import pdb
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.conf import settings
+#from datetime import date,time
+
 ######################################################################
 #contact source code
 class ContactForm(forms.Form):
@@ -241,7 +243,7 @@ class BookingForm(forms.ModelForm):
 	appointment_duration = forms.IntegerField(required=True,label = "Book Duration")
 	start_dateTime = forms.DateTimeField(widget=forms.HiddenInput())
 	duration = forms.DurationField(widget=forms.HiddenInput())
-	user = forms.ModelChoiceField(queryset=MyUser.objects.all())
+	user = forms.ModelChoiceField(queryset=MyUser.objects.all(),widget=forms.HiddenInput())
 
 
 	class Meta:
@@ -250,11 +252,6 @@ class BookingForm(forms.ModelForm):
 
 	def is_valid(self):
 		valid = super(BookingForm, self).is_valid()
-		start_dateTime = datetime.datetime(date.year, date.month, date.day, time.strftime('%H'),time.strftime('%M'),time.strftime('%S'))
-		duration = datetime.time(appointment_duration/60,appointment_duration%60,appointment_duration/3600)
-		time.appointment_duration
-		print(start_dateTime)
-		print(duration)
 		return valid
 
 

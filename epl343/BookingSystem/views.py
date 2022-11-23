@@ -12,6 +12,7 @@ from django.contrib.auth import get_user_model, logout, login
 from django.contrib.auth.decorators import login_required
 from .models import *
 from .BookingSystem import main
+from django.utils.timezone import timedelta
 
 import datetime
 
@@ -45,11 +46,25 @@ def index(request):
 
 def temp(request) :
     if (request.method == "POST") :
-        form = BookingForm(request.POST)
-        if form.is_valid():
-            form.save()
-        template =loader.get_template('signup.html')
-        return HttpResponse(template.render({}, request))
+        request_copy = request.POST.copy()
+        date = request.POST.get('date')
+        time = request.POST.get('time')
+        print(int(time[:2]))
+        print(int(time[3:5]))
+        duration = request.POST.get('appointment_duration')
+        request_copy.update({'start_dateTime' : datetime.datetime(year=int(date[:4]),month=int(date[5:7]),day=int(date[8:]), hour=int(time[:2]), minute=int(time[3:5]), second=0) })
+        request_copy.update({'duration' :   timedelta(hours=int(duration)//60, minutes=int(duration)%60)})
+        if request.user.is_authenticated:
+            request_copy.update({'user' : request.user  })
+            form = BookingForm(data = request_copy)
+            if form.is_valid():
+                form.save()
+            return HttpResponseRedirect(reverse('bs:index'))
+        else:
+            print("User is not logged in")
+            template =loader.get_template('signup.html')
+            return HttpResponse(template.render({}, request))
+        
 
     else :
         template = loader.get_template('signup.html')
