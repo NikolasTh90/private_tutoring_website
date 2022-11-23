@@ -43,26 +43,6 @@ def temp(request) :
         template = loader.get_template('signup.html')
         return HttpResponse(template.render({'form': BookingForm() }, request))
 
-def myappointments(request):
-    appointments = Appointment.objects.filter(user = MyUser.objects.get(email = 'epl343@ucy.ac.cy'))
-    list_app = []
-    for a in range(len(appointments)):
-        print(type(appointments[a].start_dateTime))
-        list_app.append(appointments[a].start_dateTime)
-        print(appointments[a].start_dateTime)
-    min = list_app[0]
-    for appoint in range(len(appointments)):
-        if list_app[appoint]<min :
-            min=list_app[appoint]
-    print(min)
-    max = list_app[0]
-    for appoint in range(len(appointments)):
-        if list_app[appoint]>max :
-            max=list_app[appoint]
-    print(max)
-    template = loader.get_template('appointments_schedule/index.html')
-    return HttpResponse(template.render({'app' : appointments}, request))
-
 def about(request):
     template = loader.get_template('about.html')
     return HttpResponse(template.render({'site': 'About'}, request))

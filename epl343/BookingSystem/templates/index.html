@@ -221,15 +221,15 @@
                   {% for testimonial in testimonials %}
                   {% if testimonial.featured %}
                 <div class="item">
-                  <div class="item-preview wow fadeInDown" data-wow-delay=".2s"><a target="_blank" href="{{ testimonial.user.author_profile_link }}"><img src="../../media/{{ testimonial.user.profilePic }}"" alt="" width="216" height="108" /></a>
+                  <div class="item-preview wow fadeInDown" data-wow-delay=".2s"><a target="_blank" href="{{ testimonial.author_profile_link }}"><img src="../../media/{{ testimonial.author_profile_pic }}"" alt="" width="216" height="108" /></a>
                   </div>
                   <div class="item-description wow fadeInUp" data-wow-delay=".3s">
                    
                     <p>{{ testimonial.description }}</p>
                     
                     <div class="item-subsection">
-                       <span class="item-subsection-title devider-left" ><a target="_blank" href="{{ testimonial.user.author_profile_link }}" onMouseOver="this.style.color='blue'"
-                      onMouseOut="this.style.color='gray'">  {{ testimonial.user.first_name }} {{ testimonial.user.last_name }} </a> </span><span>{{testimonial.user.school}}: {{testimonial.user.yearofStudy}}</span></div>
+                       <span class="item-subsection-title devider-left" ><a target="_blank" href="{{ testimonial.author_profile_link }}" onMouseOver="this.style.color='blue'"
+                      onMouseOut="this.style.color='gray'">  {{ testimonial.author }} </a> </span><span>{{testimonial.author_school_and_year}}</span></div>
                   </div>
                 </div>
                 {% endif %}
