@@ -31,7 +31,7 @@ class UserAdmin(BaseUserAdmin):
     # For change/update user
     fieldsets = (
         ('Credentials', {'fields': ('email','password')}),
-        ('Personal info', {'fields': ('first_name', 'last_name','preferred_loc', 'year', 'pay', 'is_student')}),
+        ('Personal info', {'fields': ('first_name', 'last_name','preferred_loc', 'year', 'pay', 'is_student','profilePic','school','yearofStudy')}),
         ('Permissions', {'fields': ('admin','staff',)}),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
@@ -40,7 +40,7 @@ class UserAdmin(BaseUserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'password1', 'password2', 'first_name', 'last_name', 'is_student', 'preferred_loc', 'year', 'pay')}
+            'fields': ('email', 'password1', 'password2', 'first_name', 'last_name', 'is_student', 'preferred_loc', 'year', 'pay','profilePic','school','yearofStudy')}
         ),
     )
     search_fields = ['last_name']

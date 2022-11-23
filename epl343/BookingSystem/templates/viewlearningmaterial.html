@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+<body>
+    <div class="page">
+      <section class="section section-intro context-dark" style="background-color: #464d57;">
+
+        <div class="intro-bg" style="background:url({% static 'images/background-doctor-phone.jpg' %}) no-repeat center center; background-size:cover;"></div>
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-xl-8 text-center">
+              <h1 class="font-weight-bold wow fadeInLeft">Teaching Experience</h1>
+            </div>
+          </div>
+        </div>
+      </section>
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+        {% csrf_token %}
+      {% for material in learningmat %}
+        
+          <tr>
+          <td>{{material.LearningMaterial.Name}}</td>
+          <td>{{material.LearningMaterial.Description}}</td>
+    			<td><a href="../viewmaterial/{{material.LearningMaterial.id}}">View files</a></td>
+
+          </tr>
+    
+      {% endfor %}
+    </table>
+		{{ materialform }}
+
+{{FilesLearningMaterialForm}}
+
+      <section class="section section-lg bg-default">
+        <div class="container">
+           
+
+
+
+        </div>
+      </section>
+
+    </div>
+</body>
+
+
+
+      
+
+{% endblock content %}
