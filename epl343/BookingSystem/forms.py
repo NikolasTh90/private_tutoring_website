@@ -258,3 +258,9 @@ class BookingForm(forms.ModelForm):
 		if commit:
 			app.save()
 		return app
+
+class TestimonialForm(forms.ModelForm):
+    # specify the name of model to use
+    class Meta:
+        model = Testimonial
+        fields = ('description',)

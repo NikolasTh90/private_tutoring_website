@@ -19,7 +19,20 @@ import datetime
 
 User = get_user_model()
 
-
+def addTestimonial(request):
+    form=None
+    if(len(Appointment.objects.all().filter(user=request.user))!=0):
+        form=TestimonialForm()
+    if request.method == 'POST':
+        usersapp=Appointment.objects.all().filter(user=request.user).filter(accepted=True)#.filter(end_dateTime<datetime.now())
+        #if(len(userapp)>0):
+        #Den itan etimo to adminpanel giana kanw accepted,to fevgete apo comment
+        flag=False
+        Testimonial.objects.all().filter(user=request.user).delete()
+        model=Testimonial(user=request.user,description=request.POST['description'])
+        model.save()
+    return render(request, "testimonials_form.html", {'form': form} )
+    
 def index(request):
     template = loader.get_template('index.html')
     testimonials = Testimonial.objects.all().values()
