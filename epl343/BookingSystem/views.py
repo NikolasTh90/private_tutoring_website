@@ -44,19 +44,6 @@ def index(request):
 
     return HttpResponse(template.render({'site': 'Home', 'testimonials': testimonials, 'authenticated' : auth, 'name' : name}, request))
 
-def changeProfile(request) :
-    if (request.method == "POST") :
-        form = ChangeUserForm(request.POST)
-        if form.is_valid():
-            form.save()
-        else:
-            print("Your change form is not correct")
-        return HttpResponseRedirect(reverse('bs:changeProfile'))
-    else :
-        template = loader.get_template('customer/profile_cust.html')
-        return HttpResponse({"changeForm": ChangeUserForm() }, request)
-
-
 def makeBooking(request) :
     if (request.method == "POST") :
         request_copy = request.POST.copy()
@@ -210,15 +197,31 @@ def signup(request):
 
 @login_required(login_url='bs:login')
 def dashboard(request):
-    client = MyUser.objects.filter(email=request.user.email).first()
-    customer_update_form = CustomerUpdateForm(instance=client)
-    template = loader.get_template('customer/profile_cust.html')
-    context = {
-            'customer_update_form': customer_update_form,
-            'cust': client,
-            'age': 15
-        }
-    return HttpResponse(template.render(context, request))
+    if (request.method == "POST") :
+        form = ChangeUserForm(request.POST)
+        print(request.POST.get('first_name'))
+        print(request.POST.get('last_name'))
+        print(request.POST.get('year'))
+        print(request.POST.get('email'))
+
+        if form.is_valid():
+            
+            form.save()
+        else:
+            print(form.errors)
+            print("Your change form is not correct")
+    
+        return HttpResponseRedirect(reverse('bs:dashboard'))
+    else :
+        client = MyUser.objects.filter(email=request.user.email).first()
+        customer_update_form = CustomerUpdateForm(instance=client)
+        template = loader.get_template('customer/profile_cust.html')
+        context = {
+                'customer_update_form': customer_update_form,
+                'cust': client,
+                'age': 15
+            }
+        return HttpResponse(template.render(context, request))
 
 
 

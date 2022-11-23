@@ -66,8 +66,9 @@
                                                         <div class="card-body">
                                                             <div class="pl-lg-4">
                                                                 <div class="row">
-                                                                    <div class="col-lg-6">
+                                                                    <!-- <div class="col-lg-6">
                                                                         <div class="form-group focused">
+
                                                                             <label class="text-l font-weight-bold text-primary text-uppercase mb-1"
                                                                                    for="input-username">Username</label>
                                                                             <input readonly type="text"
@@ -75,16 +76,17 @@
                                                                                    class="form-control form-control-alternative"
                                                                                    placeholder="{{ user.username }}">
                                                                         </div>
-                                                                    </div>
+                                                                    </div> -->
                                                                     <div class="col-lg-6">
                                                                         <div class="form-group">
                                                                             <label class="text-l font-weight-bold text-primary text-uppercase mb-1"
                                                                                    for="input-email">Email
-                                                                                Address</label>
-                                                                            <input readonly type="email"
-                                                                                   id="input-email"
+                                                                                    Address</label>
+                                                                            <input readonly type="text"
+                                                                                   id="email"
+                                                                                   name="email"
                                                                                    class="form-control form-control-alternative"
-                                                                                   placeholder="{{ user.email }}">
+                                                                                   value="{{ cust.email }}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -93,33 +95,169 @@
                                                                         <div class="form-group focused">
                                                                             <label class="text-l font-weight-bold text-primary text-uppercase mb-1"
                                                                                    for="input-first-name">First
-                                                                                Name</label>
-                                                                            {{ customer_update_form.first_name|add_class:"form-control form-control-alternative" }}
-                                                                            {{ customer_update_form.first_name.errors }}
+                                                                                    Name</label>
+                                                                            <input 
+                                                                                    id="first_name"
+                                                                                    name = "first_name"
+                                                                                    class="form-control form-control-alternative"
+                                                                                    value="{{ cust.first_name }}">
+                                                                            <!-- {{ customer_update_form.first_name|add_class:"form-control form-control-alternative" }}
+                                                                            {{ customer_update_form.first_name.errors }} --> 
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-lg-6">
                                                                         <div class="form-group">
                                                                             <label class="text-l font-weight-bold text-primary text-uppercase mb-1"
-                                                                                   for="input-last-name">Last
+                                                                                for="input-last-name">Last
                                                                                 Name</label>
-                                                                            {{ customer_update_form.last_name|add_class:"form-control form-control-alternative" }}
-                                                                            {{ customer_update_form.last_name.errors }}
+                                                                            <input 
+                                                                                id="last_name"
+                                                                                name = "last_name"
+                                                                                class=form-control form-control-alternative"
+                                                                                value="{{ cust.last_name }}">
+                                                                                <!-- {{ customer_update_form.last_name|add_class:"form-control form-control-alternative" }}
+                                                                            {{ customer_update_form.last_name.errors }}  -->
                                                                         </div>
                                                                     </div>
                                                                 </div>
+
                                                                 <div class="row">
                                                                     <div class="col-lg-6">
                                                                         <div class="form-group focused">
                                                                             <label class="text-l font-weight-bold text-primary text-uppercase mb-1"
-                                                                                   for="input-age">Age</label>
-                                                                            <input readonly type="text"
-                                                                                   id="input-username"
-                                                                                   class="form-control form-control-alternative"
-                                                                                   placeholder="{{ age }}">
+                                                                                   for="input-preferred_loc">Location
+                                                                                    </label>
+                                                                    
+                                                                            <select id="preferred_loc" name="preferred_loc">
+                                                                                <option value="OT">--</option>
+                                                                                {% ifequal cust.preferred_loc 'ON' %}
+                                                                                    <option value="ON" selected>Online</option>
+                                                                                {% else %}
+                                                                                    <option value="ON">Online</option>
+                                                                                {% endifequal %}
+
+                                                                                {% ifequal cust.preferred_loc 'PU' %}
+                                                                                    <option value="PU" selected>Public/Cafe</option>
+                                                                                {% else %}
+                                                                                    <option value="PU">Public/Cafe</option>
+                                                                                {% endifequal %}
+
+                                                                                {% ifequal cust.preferred_loc 'PI' %}
+                                                                                    <option value="PI" selected>Private/Home</option>
+                                                                                {% else %}
+                                                                                    <option value="PI">Private/Home</option>
+                                                                                {% endifequal %}
+                                                                            
+                                                                                {% ifequal cust.preferred_loc 'NS' %}
+                                                                                    <option value="NS" selected>Not Specified</option>
+                                                                                {% else %}
+                                                                                    <option value="NS">Not Specified</option>
+                                                                                {% endifequal %}
+                                                                            </select>        
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-lg-6">
+                                                                        <div class="form-group">
+                                                                            <label class="text-l font-weight-bold text-primary text-uppercase mb-1"
+                                                                                for="input-school">School
+                                                                                </label>
+                                                                            <input 
+                                                                                id="school"
+                                                                                name = "school"
+                                                                                class=form-control form-control-alternative"
+                                                                                value="{{ cust.school }}">
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6">
+                                                                        <div class="form-group">
+                                                                            <label class="text-l font-weight-bold text-primary text-uppercase mb-1"
+                                                                                for="input-pay">Payment Method
+                                                                                </label>
+                                                                            <select id="pay" name="pay">
+                                                                                <option value="NA">--</option>
+                                                                                {% ifequal cust.pay 'c' %}
+                                                                                    <option value="c" selected>Cash</option>
+                                                                                {% else %}
+                                                                                    <option value="c">Cash</option>
+                                                                                {% endifequal %}
+
+                                                                                {% ifequal cust.pay 'paypal' %}
+                                                                                    <option value="paypal" selected>Paypal</option>
+                                                                                {% else %}
+                                                                                    <option value="paypal">Paypal</option>
+                                                                                {% endifequal %}
+
+                                                                                {% ifequal cust.pay 'card' %}
+                                                                                    <option value="card" selected>Card</option>
+                                                                                {% else %}
+                                                                                    <option value="card">Card</option>
+                                                                                {% endifequal %}
+                                                                            
+                                                                                {% ifequal cust.pay 'rev' %}
+                                                                                    <option value="rev" selected>Revolut</option>
+                                                                                {% else %}
+                                                                                    <option value="rev">Revolut</option>
+                                                                                {% endifequal %}
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row">
+                                                                    <div class="col-lg-6">
+                                                                        <div class="form-group focused">
+                                                                            <label class="text-l font-weight-bold text-primary text-uppercase mb-1"
+                                                                                   for="input-age">Year</label>
+                                                                            <select id="year" name="year">
+                                                                                <option value="OT">--</option>
+                                                                                {% ifequal cust.year 'one' %}
+                                                                                    <option value="one" selected>1</option>
+                                                                                {% else %}
+                                                                                    <option value="one">1</option>
+                                                                                {% endifequal %}
+                                                                                
+                                                                                {% ifequal cust.year 'two' %}
+                                                                                    <option value="two" selected>2</option>
+                                                                                {% else %}
+                                                                                    <option value="two">2</option>
+                                                                                {% endifequal %}
+                                                                                
+                                                                                {% ifequal cust.year 'three' %}
+                                                                                    <option value="three" selected>3</option>
+                                                                                {% else %}
+                                                                                    <option value="three">3</option>
+                                                                                {% endifequal %}
+                                                                                {% ifequal cust.year 'four' %}
+                                                                                    <option value="four" selected>4</option>
+                                                                                {% else %}
+                                                                                    <option value="four">4</option>
+                                                                                {% endifequal %}
+                                                                                {% ifequal cust.year 'five' %}
+                                                                                    <option value="five" selected>5</option>
+                                                                                {% else %}
+                                                                                    <option value="five">5</option>
+                                                                                {% endifequal %}
+
+                                                                                {% ifequal cust.year 'six' %}
+                                                                                    <option value="six" selected>6</option>
+                                                                                {% else %}
+                                                                                    <option value="six">6</option>
+                                                                                {% endifequal %}
+
+                                                                                {% ifequal cust.year 'six_p' %}
+                                                                                    <option value="six_p" selected>6+</option>
+                                                                                {% else %}
+                                                                                    <option value="six_p">6+</option>
+                                                                                {% endifequal %}
+                                                                            </select>
+                                                                            <!--<input readonly type="text"
+                                                                                   id="input-username"
+                                                                                   class="form-control form-control-alternative"
+                                                                                   placeholder="{{ age }}"> -->
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- <div class="col-lg-6">
                                                                         <div class="form-group">
                                                                             <label class="text-l font-weight-bold text-primary text-uppercase mb-1"
                                                                                    for="input-date">Date of
@@ -127,13 +265,13 @@
                                                                             {{ customer_update_form.dob|add_class:"form-control form-control-alternative" }}
                                                                             {{ customer_update_form.dob.errors }}
                                                                         </div>
-                                                                    </div>
+                                                                    </div> -->
                                                                 </div>
                                                             </div>
                                                             <hr class="my-1">
                                                             <br>
                                                             <div class="pl-lg-4">
-                                                                <div class="row">
+                                                                <!--<div class="row">
                                                                     <div class="col-md-12">
                                                                         <div class="form-group focused">
                                                                             <label class="text-l font-weight-bold text-primary text-uppercase mb-1"
@@ -156,7 +294,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
-                                                                    <div class="col-lg-4">
+                                                                     <div class="col-lg-4">
                                                                         <div class="form-group focused">
                                                                             <label class="text-l font-weight-bold text-primary text-uppercase mb-1"
                                                                                    for="input-city">City</label>
@@ -179,15 +317,16 @@
                                                                             {{ customer_update_form.postcode|add_class:"form-control form-control-alternative" }}
                                                                             {{ customer_update_form.postcode.errors }}
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-md-12">
+                                                                    </div> -->
+                                                                    <!-- Profile Picture-->
+                                                                    <!-- <div class="col-md-12">
                                                                         <div class="form-group">
                                                                             <label class="text-l font-weight-bold text-primary text-uppercase mb-1"
                                                                                    for="input-image">Profile
                                                                                 Picture</label>
                                                                             {{ customer_update_form.image|add_class:"form-control form-control-alternative" }}
                                                                         </div>
-                                                                    </div>
+                                                                    </div> -->
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -211,18 +350,18 @@
 
             </div>
             <!-- End of Main Content -->
-            <div id="divider-space-50"></div>
-            <!-- Footer -->
+            <!--<div id="divider-space-50"></div>
+            Footer 
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
                         <span>Copyright &copy; Trisome Technical Services & Supply Pte Ltd 2022</span>
                     </div>
                 </div>
-            </footer>
-            <!-- End of Footer -->
+            </footer> 
+            End of Footer 
 
-        </div>
+        </div> -->
         <!-- End of Content Wrapper -->
 
     </div>
