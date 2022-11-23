@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 # from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth import get_user_model
+from .BookingSystem import *
 from .models import *
 ###################################################
 import pdb
@@ -238,9 +239,10 @@ class CustomerUpdateForm(forms.ModelForm):  # update customer details
                   'image']
 
 class BookingForm(forms.ModelForm):
-	date = forms.DateField(required=True,label = "Book Date")
-	time = forms.TimeField(required=True,label = "Book Time")
-	appointment_duration = forms.IntegerField(required=True,label = "Book Duration")
+	date = forms.DateField(required=True)
+	time = forms.TimeField(required=True)
+	appointment_duration = forms.IntegerField(required=True)
+	location = forms.CharField(required=True)
 	start_dateTime = forms.DateTimeField(widget=forms.HiddenInput())
 	duration = forms.DurationField(widget=forms.HiddenInput())
 	user = forms.ModelChoiceField(queryset=MyUser.objects.all(),widget=forms.HiddenInput())
@@ -248,17 +250,10 @@ class BookingForm(forms.ModelForm):
 
 	class Meta:
 		model = Appointment
-		fields = ('duration','start_dateTime','user') 
-
-	def is_valid(self):
-		valid = super(BookingForm, self).is_valid()
-		return valid
-
+		fields = ('duration','start_dateTime','user', 'location') 
 
 	def save(self, commit=True):
 		app = super(BookingForm, self).save(commit=False)
-		print(self.cleaned_data['duration'])
-		print(self.cleaned_data['start_dateTime'])
 		if commit:
 			app.save()
 		return app

@@ -12,12 +12,31 @@ label {
 </script>
 <div class="page" style="background-color : #aab2b9">
 <hr style="height : 300px">
+{% for message in messages %}
+    <a style="color : red">{{ message }}</a>
+{% endfor %}
 <center>
 <form method="post">
-    
+    {% csrf_token %}
+    <label for="birthday">Date</label>
+    <p>
+    <label style="color : white">Description</label>
+    <p>
+    <textarea type="text" style="width : 80%; margin-right: 50px; margin-left: 100px;"></textarea>
+    <p>
+    <input type="date" name="date" id="birthday" name="birthday" required>
+    <p>
+    <label style="color : white">Start Time</label>
+    <p>
+    <input type="time" id="appt" name="time"required>
+    <p>
+    <label style="color : white">Duration</label>
+    <p>
+    <input type="number" name="appointment_duration" required>
+    <p>
     <label for="signup-pref-loc" style="color : white">Preffered location</label>
     <p>
-    <select id="preffered_loc" name="preffered_loc" style="width : 80%; margin-right: 50px; margin-left: 100px;">
+    <select id="preffered_loc" name="location" style="width : 80%; margin-right: 50px; margin-left: 100px;">
         <option value="OT">-----------</option>
         <option value="ON">Online/Zoom</option>
         <option value="PI">Private/Home</option>
@@ -34,21 +53,10 @@ label {
         <option value="rev">Revolut</option>
     </select>
     <p>
-    <label style="color : white">Description</label>
-    <p>
-    <textarea type="text" style="width : 80%; margin-right: 50px; margin-left: 100px;"></textarea>
-    <p>
-    <label style="color : white">Start Time</label>
-    <p>
-    <input type="time" id="appt" name="appt"min="09:00" max="18:00"required>
-    <p>
-    <label style="color : white">Duration</label>
-    <p>
-    <input type="number" required>
-    <p>
     <button type="submit">Submit</button>
 </form>
 </center>
+
 </div>
 {% endblock content %}
 
