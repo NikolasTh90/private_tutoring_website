@@ -22,6 +22,7 @@ urlpatterns = [
     path('terms/', views.tc, name='tc'),
     path('dashboard/',views.dashboard,name='dashboard'),
     path('teaching-experience/', views.teaching, name='teaching'),
+    path('gallery/', views.gallery, name='gallery'),
     path('testimonials/', views.testimonials, name='testimonials'),
     path('feedback/', views.feedback, name='feedback'),
     path('learningmaterial/', views.addLearningMaterial, name='addlearningmaterial'),

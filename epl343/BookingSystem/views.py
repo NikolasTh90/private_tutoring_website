@@ -104,6 +104,9 @@ def testimonials(request):
     testimonials = Testimonial.objects.all().values()
     return render(request, "testimonials.html", {'site': 'Testimonials', 'testimonials': testimonials} )
 
+def gallery(request):
+    return render(request, "gallery.html")
+
 def logout1(request):
     logout(request)
     return HttpResponseRedirect(reverse('bs:index'))
