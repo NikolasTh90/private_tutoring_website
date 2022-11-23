@@ -33,7 +33,9 @@ urlpatterns = [
     path('getalllearningmaterialadmin/', views.getAllLearningMaterial, name='getallmaterial'),
     path('addTestimonial/', views.addTestimonial, name='addTestimonial'),
     path('makeBooking/',views.makeBooking,name='makeBooking'),
-    path('dashboard/myappointments/', views.myappointments, name = 'myappointments')
+    path('dashboard/myappointments/', views.myappointments, name = 'myappointments'),
+    path('dashboard/changeProfile/', views.changeProfile, name = 'changeProfile')
+    
 
 
 

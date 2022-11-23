@@ -268,3 +268,39 @@ class TestimonialForm(forms.ModelForm):
     class Meta:
         model = Testimonial
         fields = ('description',)
+
+
+class ChangeUserForm(forms.ModelForm):
+	email = forms.EmailField(required=True)
+	password = forms.CharField()
+	password1 = forms.CharField()
+	first_name = forms.CharField(max_length=255)
+	last_name = forms.CharField(max_length=255)
+	year = forms.ChoiceField(choices = years.choices)
+	#school = forms.TextField(max_length=255)
+	model = get_user_model()
+
+	def is_valid(self):
+		from django.core.exceptions import ValidationError
+		valid = super(ChangeUserForm, self).is_valid()
+		try:
+			password1 = self.cleaned_data['password']
+			password2 = self.cleaned_data['password1']
+			if password1!=password2:
+				self.add_error('password1', ValidationError('Password and Password Confirmation fields must match.'))
+				return False
+		except:
+			self.add_error('password', ValidationError('Incorrect username or password'))
+		return True and valid
+
+	def save(self, commit=True):
+		user = super(ChangeUserForm, self).save(commit=False)
+		user.set_password(self.cleaned_data['password'])
+		if commit:
+			user.save()
+		return user
+
+	class Meta:
+		model = get_user_model()
+		fields = ('email', 'first_name', 'last_name', 'year', 'password', 'school')
+

@@ -44,6 +44,19 @@ def index(request):
 
     return HttpResponse(template.render({'site': 'Home', 'testimonials': testimonials, 'authenticated' : auth, 'name' : name}, request))
 
+def changeProfile(request) :
+    if (request.method == "POST") :
+        form = ChangeUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+        else:
+            print("Your change form is not correct")
+        return HttpResponseRedirect(reverse('bs:changeProfile'))
+    else :
+        template = loader.get_template('customer/profile_cust.html')
+        return HttpResponse({"changeForm": ChangeUserForm() }, request)
+
+
 def makeBooking(request) :
     if (request.method == "POST") :
         request_copy = request.POST.copy()
