@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 # from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth import get_user_model
+from .BookingSystem import *
 from .models import *
 ###################################################
 import pdb
@@ -238,9 +239,10 @@ class CustomerUpdateForm(forms.ModelForm):  # update customer details
                   'image']
 
 class BookingForm(forms.ModelForm):
-	date = forms.DateField(required=True,label = "Book Date")
-	time = forms.TimeField(required=True,label = "Book Time")
-	appointment_duration = forms.IntegerField(required=True,label = "Book Duration")
+	date = forms.DateField(required=True)
+	time = forms.TimeField(required=True)
+	appointment_duration = forms.IntegerField(required=True)
+	location = forms.CharField(required=True)
 	start_dateTime = forms.DateTimeField(widget=forms.HiddenInput())
 	duration = forms.DurationField(widget=forms.HiddenInput())
 	user = forms.ModelChoiceField(queryset=MyUser.objects.all(),widget=forms.HiddenInput())
@@ -248,17 +250,10 @@ class BookingForm(forms.ModelForm):
 
 	class Meta:
 		model = Appointment
-		fields = ('duration','start_dateTime','user') 
-
-	def is_valid(self):
-		valid = super(BookingForm, self).is_valid()
-		return valid
-
+		fields = ('duration','start_dateTime','user', 'location') 
 
 	def save(self, commit=True):
 		app = super(BookingForm, self).save(commit=False)
-		print(self.cleaned_data['duration'])
-		print(self.cleaned_data['start_dateTime'])
 		if commit:
 			app.save()
 		return app
@@ -272,35 +267,26 @@ class TestimonialForm(forms.ModelForm):
 
 class ChangeUserForm(forms.ModelForm):
 	email = forms.EmailField(required=True)
-	password = forms.CharField()
-	password1 = forms.CharField()
 	first_name = forms.CharField(max_length=255)
 	last_name = forms.CharField(max_length=255)
 	year = forms.ChoiceField(choices = years.choices)
-	#school = forms.TextField(max_length=255)
+	preferred_loc = forms.ChoiceField(choices = locations.choices)
+	pay = forms.ChoiceField(choices = payments.choices)
+	school = forms.CharField(max_length=255)
 	model = get_user_model()
-
-	def is_valid(self):
-		from django.core.exceptions import ValidationError
-		valid = super(ChangeUserForm, self).is_valid()
-		try:
-			password1 = self.cleaned_data['password']
-			password2 = self.cleaned_data['password1']
-			if password1!=password2:
-				self.add_error('password1', ValidationError('Password and Password Confirmation fields must match.'))
-				return False
-		except:
-			self.add_error('password', ValidationError('Incorrect username or password'))
-		return True and valid
-
-	def save(self, commit=True):
-		user = super(ChangeUserForm, self).save(commit=False)
-		user.set_password(self.cleaned_data['password'])
-		if commit:
-			user.save()
-		return user
 
 	class Meta:
 		model = get_user_model()
-		fields = ('email', 'first_name', 'last_name', 'year', 'password', 'school')
+		fields = ('first_name', 'last_name', 'year', 'preferred_loc', 'pay', 'school')
+
+	def save(self, commit=True):
+		user = MyUser.objects.get(email=self.cleaned_data['email'])
+		user.first_name = self.cleaned_data['first_name']
+		user.last_name = self.cleaned_data['last_name']
+		user.year = self.cleaned_data['year']
+		user.preferred_loc = self.cleaned_data['preferred_loc']
+		user.pay = self.cleaned_data['pay']
+		user.school = self.cleaned_data['school']
+		user.save()
+		return user
 

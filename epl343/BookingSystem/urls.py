@@ -36,6 +36,8 @@ urlpatterns = [
     path('dashboard/myappointments/', views.myappointments, name = 'myappointments'),
     path('dashboard/changeProfile/', views.changeProfile, name = 'changeProfile'),
     path('dashboard/learningmaterial/', views.learning_material, name = 'learningmaterial')
+    path('makeBooking/requestSubmitted/', views.requestSubmitted, name='requestSubmitted'),
+    path('dashboard/myappointments/', views.myappointments, name = 'myappointments')
     
 
 
