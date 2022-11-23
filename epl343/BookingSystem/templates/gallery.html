@@ -4,4 +4,74 @@
 
 {% block content %}
 
+<body>
+    <div class="page">
+      <section class="section section-intro context-dark" style="background-color: #464d57;">
+
+        <div class="intro-bg" style="background:url({% static 'images/intro-bg-1.jpg' %}) no-repeat center center; background-size:cover;"></div>
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-xl-8 text-center">
+              <h1 class="font-weight-bold wow fadeInLeft">Gallery</h1>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    <style>
+        .swiper-container {
+            width: 100%;
+            height: auto;
+            margin-top: 10vh;
+        }
+        .swiper {
+            margin-top: 5vh;
+            width: 50%;
+            height: fit-content;
+            display: flex;
+            align-items: center;
+            justify-content: center;    
+        }
+        .swiper-slide img {
+            width: 100%;
+        }
+
+    </style>
+
+    <!-- Create swiper for every section -->
+    {% for section in sections %}
+
+    <section class="swiper-container">
+
+        <div>
+            <h2 class="font-weight-bold wow fadeInLeft" style="text-align: center;">{{section}}</h2>
+        </div>
+
+        <!---- Add swiper section -->
+        <div class="swiper">
+
+            <!-- Additional required wrapper -->
+            <div class="swiper-wrapper">
+
+                <!-- Image slides -->
+                {% for photo in photos %}
+                    {% if photo.belongs == section %}
+                        <div class="swiper-slide"><img src="/media/{{photo.image}}"></div>
+                    {% endif %}
+                {% endfor %}
+
+                <!-- If we need pagination -->
+                <div class="swiper-pagination"></div>
+            </div>
+
+            <!-- If we need navigation buttons -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+        <br>
+    </section>
+    {% endfor %}
+
+</body>
+
 {% endblock content %}
