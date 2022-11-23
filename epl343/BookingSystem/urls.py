@@ -34,7 +34,8 @@ urlpatterns = [
     path('addTestimonial/', views.addTestimonial, name='addTestimonial'),
     path('makeBooking/',views.makeBooking,name='makeBooking'),
     path('dashboard/myappointments/', views.myappointments, name = 'myappointments'),
-    path('dashboard/changeProfile/', views.changeProfile, name = 'changeProfile')
+    path('dashboard/changeProfile/', views.changeProfile, name = 'changeProfile'),
+    path('dashboard/learningmaterial/', views.learning_material, name = 'learningmaterial')
     
 
 

@@ -134,7 +134,7 @@
             </div>
 
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'bs:index' %}">
+                <a class="nav-link" href="{% url 'bs:learningmaterial' %}">
                     <i class="fas fa-fw fa-folder"></i>
                     <span>View Files </span></a>
             </li>
@@ -157,7 +157,7 @@
             <hr class="sidebar-divider d-none d-md-block">
 
             <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
+            <div class="text-center d-none d-md-inline ">
                 <button class="rounded-circle border-0 " id="sidebarToggle"></button>
               
             </div>
@@ -179,7 +179,7 @@
                         <i class="fa fa-bars"></i>
                     </button>
 
-                    <!-- Topbar Search -->
+                    {% comment %} <!-- Topbar Search -->
                     <form
                             class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
@@ -191,7 +191,7 @@
                                 </button>
                             </div>
                         </div>
-                    </form>
+                    </form> {% endcomment %}
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">

@@ -220,6 +220,23 @@ def dashboard(request):
         }
     return HttpResponse(template.render(context, request))
 
+@login_required(login_url='bs:login')
+def learning_material(request):
+    client = MyUser.objects.filter(email=request.user.email).first()
+    customer_update_form = CustomerUpdateForm(instance=client)
+    template = loader.get_template('customer/view_learning_material.html')
+    materials=LearningMaterialReference.objects.filter(User__id=request.user.id)
+    supported_icons = ["aac","avi","bmp","dll","doc","eps","flv","gif","html","iso","jpg","midi","mov","mp3","mpg","pdf","png","ppt","psd","tif","txt","wmv","xls","zip"]
+    # need to fix the context, communicate with panis or stilis
+    context = {
+            'customer_update_form': customer_update_form,
+            'cust': client,
+            'age': 15,
+            'materials': materials,
+            'supported_icons': supported_icons
+        }
+
+    return HttpResponse(template.render(context, request))
 
 
 def addLearningMaterial(request):
