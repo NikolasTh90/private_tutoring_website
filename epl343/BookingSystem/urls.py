@@ -32,8 +32,8 @@ urlpatterns = [
     path('addAllLearningMaterial/<int:id>', views.addUserToLearningMaterial, name='addUserToLearningMateriald'),
     path('getalllearningmaterialadmin/', views.getAllLearningMaterial, name='getallmaterial'),
     path('addTestimonial/', views.addTestimonial, name='addTestimonial'),
-    path('temp/',views.temp,name='temp'),
-    path('myappointments/', views.myappointments, name = 'myappointments')
+    path('makeBooking/',views.makeBooking,name='makeBooking'),
+    path('dashboard/myappointments/', views.myappointments, name = 'myappointments')
 
 
 

@@ -44,7 +44,7 @@ def index(request):
 
     return HttpResponse(template.render({'site': 'Home', 'testimonials': testimonials, 'authenticated' : auth, 'name' : name}, request))
 
-def temp(request) :
+def makeBooking(request) :
     if (request.method == "POST") :
         request_copy = request.POST.copy()
         date = request.POST.get('date')
@@ -59,16 +59,15 @@ def temp(request) :
             form = BookingForm(data = request_copy)
             if form.is_valid():
                 form.save()
-            return HttpResponseRedirect(reverse('bs:index'))
+            return HttpResponseRedirect(reverse('bs:reqeustSubmitted'))
         else:
             print("User is not logged in")
-            template =loader.get_template('signup.html')
-            return HttpResponse(template.render({}, request))
+            return HttpResponseRedirect(reverse('bs:login-signup'))
         
 
     else :
-        template = loader.get_template('signup.html')
-        return HttpResponse(template.render({'form': BookingForm() }, request))
+        template = loader.get_template('bookingform/makebooking.html')
+        return HttpResponse(template.render({}, request))
 
 def myappointments(request):
     appointments = Appointment.objects.filter(user = MyUser.objects.get(email = 'epl343@ucy.ac.cy'))
