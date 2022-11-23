@@ -24,6 +24,14 @@ urlpatterns = [
     path('teaching-experience/', views.teaching, name='teaching'),
     path('testimonials/', views.testimonials, name='testimonials'),
     path('feedback/', views.feedback, name='feedback'),
+    path('learningmaterial/', views.addLearningMaterial, name='addlearningmaterial'),
+    path('addfiletolearningmaterial/', views.addFileToMaterial, name='learningmaterialasas'),
+    path('userViewMaterial/', views.userViewMaterial, name='userViewMaterialsda'),
+    path('viewmaterial/<int:id>', views.viewmaterial, name='viewmateriall'),
+    path('addAllLearningMaterial/<int:id>', views.addUserToLearningMaterial, name='addUserToLearningMateriald'),
+    path('getalllearningmaterialadmin/', views.getAllLearningMaterial, name='getallmaterial'),
+    path('addTestimonial/', views.addTestimonial, name='addTestimonial'),
+
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

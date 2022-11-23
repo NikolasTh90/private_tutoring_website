@@ -1,10 +1,10 @@
 from .forms import CustomerUpdateForm,ContactForm
 from urllib import request
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm,TestimonialForm
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render
 from django.template import loader
-from .forms import NewUserForm
+from .forms import NewUserForm,LearningMaterialForm,FilesLearningMaterialForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import messages
@@ -12,17 +12,31 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import get_user_model, logout, login
 from django.contrib.auth.decorators import login_required
 from .models import *
+from .checks import *
 from .BookingSystem import main
-
+import pdb
 import datetime
 
 
 User = get_user_model()
 
-
+def addTestimonial(request):
+    form=None
+    if(len(Appointment.objects.all().filter(user=request.user))!=0):
+        form=TestimonialForm()
+    if request.method == 'POST':
+        usersapp=Appointment.objects.all().filter(user=request.user).filter(accepted=True)#.filter(end_dateTime<datetime.now())
+        #if(len(userapp)>0):
+        #Den itan etimo to adminpanel giana kanw accepted,to fevgete apo comment
+        flag=False
+        Testimonial.objects.all().filter(user=request.user).delete()
+        model=Testimonial(user=request.user,description=request.POST['description'])
+        model.save()
+    return render(request, "testimonials_form.html", {'form': form} )
+ 
 def index(request):
     template = loader.get_template('index.html')
-    testimonials = Testimonial.objects.all().values()
+    testimonials = Testimonial.objects.all().filter(show=True)
     auth = False
     name = None
     if request.user.is_authenticated:
@@ -70,7 +84,7 @@ def feedback(request):
 
 def testimonials(request):
     # template = loader.get_template('teaching_experience.html')
-    testimonials = Testimonial.objects.all().values()
+    testimonials = Testimonial.objects.all().filter(show=True)
     return render(request, "testimonials.html", {'site': 'Testimonials', 'testimonials': testimonials} )
 
 def logout1(request):
@@ -144,6 +158,56 @@ def dashboard(request):
             'age': 15
         }
     return HttpResponse(template.render(context, request))
+def addLearningMaterial(request):
+   # if request.user.is_authenticated and request.user.is_superuser::
+        if request.method == "GET":#epistrefis forma
+            return render(request, "addlearningmaterial.html", {'materialform': LearningMaterialForm()})
+        if request.method == "POST":
+            learning_material=LearningMaterialForm(request.POST)#kanis tin forma construct
+            if(learning_material.is_valid()):#an einai valid
+                learning_material.save()#apothikevse tin
+                message="succeed"
+            else:#alios epestrepse error
+                message="error"
+            return render(request, "addlearningmaterial.html", {'materialform': LearningMaterialForm(),'message':message})
+def getAllLearningMaterial(request):
+   # if request.user.is_authenticated and request.user.is_superuser::
+    allmaterial=LearningMaterial.objects.all()
+    return render(request, "getalllearningmaterial.html", {'allmaterials': allmaterial})
+def addUserToLearningMaterial(request,id):
+   # if request.user.is_authenticated and request.user.is_superuser::
+    if request.method == "GET":#epistrefis forma
+        usersall=MyUser.objects.all()#epestrepse olus tus xristes
+        return render(request, "addusertomaterial.html", {'usersall': usersall})
+    if request.method == "POST":#epistrefis forma
+        usersall=MyUser.objects.all()
+        material=LearningMaterial.objects.filter(pk=id)
+        LearningMaterialReference.objects.all().filter(LearningMaterial__id=id).delete()
+        for x in usersall:
+            if(str(x.id) in request.POST):
+                LearningMaterialReference(User=x,LearningMaterial=material[0]).save()
+        return render(request, "addusertomaterial.html", {'usersall': usersall,'FilesLearningMaterialForm':FilesLearningMaterialForm()})
+def addFileToMaterial(request):
+   # if request.user.is_authenticated and request.user.is_superuser::
+    if request.method == "GET":#epistrefis forma
+        return render(request, "addfiletomaterial.html", {'FilesLearningMaterialForm':FilesLearningMaterialForm()})
+    if request.method == "POST":#epistrefis forma
+        form=FilesLearningMaterialForm(request.POST,request.FILES)
+        msg=None
+        if form.is_valid():
+            msg="succeed"
+            form.save()
+        else:
+            msg="failed"
+        return render(request, "addfiletomaterial.html", {'FilesLearningMaterialForm':FilesLearningMaterialForm(),'message':msg})
+def userViewMaterial(request):
+    #if request.user.is_authenticated
+    learningmat=LearningMaterialReference.objects.filter(User__id=request.user.id)
+    return render(request, "viewlearningmaterial.html", {'learningmat':learningmat})
+def viewmaterial(request,id):
+    learningmat=FilesLearningMaterial.objects.filter(LearningMaterialFK__id=id)
+    #na kano ena elegxo oti anikoun ston xristi
+    return render(request, "viewmaterialfiles.html", {'learningmat':learningmat})
 
 ##########################################################################################################################
 ######################################################################################
@@ -183,3 +247,60 @@ def dashboard(request):
 # 				context = {'form': form}
 # 				return form
 ######################################################################################
+# def booking(request, findNextBest=True, target_date=None):
+#     template = loader.get_template('index.html')
+#     if request.method == 'POST':
+#         if findNextBest:
+#             requested_date = datetime.datetime.strptime(request.POST['theDate'], '%Y-%m-%dT%H:%M')  # convert the date to datetime object
+
+#         else:
+# 			# requested_date = datetime.datetime.strptime(specific_date_time_string, '%Y-%m-%dT%H:%M')#convert the date to datetime object
+#             requested_date = target_date
+# 		#########################################################################################################################
+#         if (is_day_off(requested_date)):  # simenei oti iparxi ekseresi tin simerini imera
+#             if not findNextBest:
+#                 return False
+#             messages.error(request, _('Pote den dulevume tetoies imeres.'))
+
+#         if (argies(requested_date.month, requested_date.day)):
+#             if not findNextBest:
+#                 return False
+#             messages.error(request, _('Tin sigekrimeni imera eimaste kleistoi panta.'))
+
+#         if (kleistoi_mines(requested_date.month)):
+#             if not findNextBest:
+#                 return False
+#         messages.error(request, _('Ton sigekrimeno mina eimaste kleistoi.'))
+
+#         # if (daysExceptions(requested_date, request)):
+#         #     if not findNextBest:
+#         #         return False
+#         #     messages.error(request, _('eimaste kleistoi tin sigkekrimeni periodo.'))
+
+#         if (timeExceptions(requested_date, request)):
+#             if not findNextBest:
+#                 return False
+#             messages.error(request, _('kleinume pio grigora aftin tin imera.'))
+#         if (not orarioHmeras(requested_date, request)):
+#             if not findNextBest:
+#                 return False
+#         messages.error(request, _(
+# 			    'simfona me to orario mas aftin tin imera imaste klistoi.'))
+
+#         if (hasCollision(requested_date, 60)):
+#             if not findNextBest:
+#                 return False
+#             messages.error(request, _('iparxi alo rantevou.'))
+
+#         # hasColission(2022, requested_date.month, requested_date.day,
+# 		#              requested_date, 60, request)
+
+
+#     # else:
+#     #     form = AppointmentForm()
+#     #     return render(request, 'applicationForReg/book.html', {'form': form})
+
+
+
+
+#     return HttpResponse(template.render({'site' : 'Booking'}, request))

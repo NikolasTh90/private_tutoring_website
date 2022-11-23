@@ -3,6 +3,16 @@ from .models import Schedule, Offs, Appointment, MyUser
 from django.db.models import Q
 break_time = datetime.timedelta(minutes = 10)
 allowed_days_before_appointment = datetime.timedelta(days = 3)
+# post_request={requested_dateTime: datetime.datetime(2022,11,30,16),
+#                 requested_duration: datetime.timedelta(minutes = 60),
+#                 user_email: 'nikolasth90@gmail.com',
+#                 description: 'i need help!',
+#                 location: 'Online',
+
+#                 }
+
+
+
 
 def main(post_request):
     if not is_valid_appointment_request(post_request['requested_dateTime']):
@@ -54,7 +64,7 @@ def is_in_offs(requested_appointment_start_dateTime, requested_appointment_durat
 def is_colliding_with_appointment(requested_appointment_start_dateTime, requested_appointment_duration):
     other_appointments = Appointment.objects.all().filter( start_dateTime__date = requested_appointment_start_dateTime.date() ).filter(Q(pending = True) | Q(accepted = True) )
     for other in other_appointments:
-        if requested_appointment_start_dateTime + requested_appointment_duration + break_time>= other.start_dateTime.replace(tzinfo=None) and requested_appointment_start_dateTime - break_time <= other.end_dateTime.replace(tzinfo=None):
+        if requested_appointment_start_dateTime + requested_appointment_duration >= other.start_dateTime.replace(tzinfo=None) and requested_appointment_start_dateTime <= other.end_dateTime.replace(tzinfo=None):
             return True
 
     return False 
@@ -64,15 +74,11 @@ def recommend_next_appointment(requested_appointment_start_dateTime, requested_a
     while True:
         if appointment_is_available(recommended_next_appointment, requested_appointment_duration):
             return recommended_next_appointment
-        recommended_next_appointment = requested_appointment_start_dateTime + datetime.timedelta(minutes=5)
-    
 
 def recommend_previous_appointment(requested_appointment_start_dateTime, requested_appointment_duration):
     recommended_previous_appointment = requested_appointment_start_dateTime - datetime.timedelta(minutes=5)
     while recommended_previous_appointment >= datetime.datetime.now() + allowed_days_before_appointment:
         if appointment_is_available(recommended_previous_appointment, requested_appointment_duration):
             return recommended_previous_appointment
-        recommended_previous_appointment = requested_appointment_start_dateTime - datetime.timedelta(minutes=5)
-    
-    return None       
+    return False       
 

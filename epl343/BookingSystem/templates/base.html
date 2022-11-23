@@ -8,7 +8,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Montserrat:300,400,700%7CPoppins:300,400,500,700,900">
-    <link rel="stylesheet" href="{% static 'css/rd-navbar.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
@@ -93,35 +92,47 @@
                   <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
                   <!--RD Navbar Brand-->
                   <div class="rd-navbar-brand">
-                    <h3 style="color:white; font-weight: 500; font-size: 25px"> MUDR. Stelios Theodorou </h3>
+                    <h3 style="color:white; font-weight: 500; font-size: 1.4rem"> MUDR. Stelios Theodorou </h3>
                   </div>
                   <hr>
                 </div>
                 <div class="rd-navbar-main-element">
                   <div class="rd-navbar-nav-wrap" style="font-size: 14px; font-weight: 500;">
                     <ul class="rd-navbar-nav">
-                      
-                        <li class="rd-nav-item {% if site == 'Home' %} active {% endif %}"><a class="rd-nav-link" href="{% url 'bs:index' %}" style="font-weight: 500;">Home</a></li> 
-                      
-                        <li class="rd-nav-item {% if site == 'Booking' %} active {% endif %}"><a class="rd-nav-link" href="{% url 'bs:booking' %}" style="font-weight: 500;">Booking</a></li>
-                      
-                        <li class="rd-navbar--has-dropdown rd-navbar-submenu" style="padding: 0 10px;">
-                          <a class="rd-nav-link rd-navbar--has-dropdown rd-navbar-submenu active" style="font-weight: 500; color: #ffff;">About</a>
-                          <ul class="rd-navbar-dropdown rd-navbar-open-right" style="display: inline flow-root list-item">
-                            <li><a href="{% url 'bs:about' %}">About me</a></li>
-                            <li><a href="{% url 'bs:teaching' %}">Teaching Experience</a></li>
-                            <li><a href="{% url 'bs:testimonials' %}">Testimonials</a></li>
-                          </ul>
+                      {% if site == "Home" %}
+                        <li class="rd-nav-item active"><a class="rd-nav-link" href="{% url 'bs:index' %}" style="font-weight: 500;">Home</a>
+                        </li>
+                      {% else %}
+                        <li class="rd-nav-item"><a class="rd-nav-link" href="{% url 'bs:index' %}" style="font-weight: 500;">Home</a>
+                        </li>
+                      {% endif %}
+                      {% if site == "Booking" %}
+                        <li class="rd-nav-item active"><a class="rd-nav-link" href="{% url 'bs:booking' %}" style="font-weight: 500;">Booking</a>
+                        </li>
+                      {% else %}
+                        <li class="rd-nav-item"><a class="rd-nav-link" href="{% url 'bs:booking' %}" style="font-weight: 500;">Booking</a>
+                        </li>
+                      {% endif %}
+                      {% if site == "About" %}
+                        <li class="rd-nav-item active"><a class="rd-nav-link" href="{% url 'bs:about' %}" style="font-weight: 500;">About Me</a>
                         </li>            
-                      
-                      <!-- <li class="rd-nav-item {% if site == 'TeachingExperience' %} active {% endif %}"><a class="rd-nav-link" href="{% url 'bs:teaching' %}" style="font-weight: 500;">Teaching Experience</a></li>
+                      {% else %}
+                        <li class="rd-nav-item"><a class="rd-nav-link" href="{% url 'bs:about' %}" style="font-weight: 500;">About Me</a>
+                        </li>  
+                      {% endif %}
+
+                      {% if site == "TeachingExperience" %}
+                      <li class="rd-nav-item active"><a class="rd-nav-link" href="{% url 'bs:teaching' %}" style="font-weight: 500;">Teaching Experience</a>
+                      </li>
+                      {% else %}
+                        <li class="rd-nav-item"><a class="rd-nav-link" href="{% url 'bs:teaching' %}" style="font-weight: 500;">Teaching Experience</a></li>
+                      {% endif %}
 
                       {% if site == "Testimonials" %}
                         <li class="rd-nav-item active"><a class="rd-nav-link" href="{% url 'bs:testimonials' %}" style="font-weight: 500;">Testimonials</a></li>
                       {% else %}
                         <li class="rd-nav-item"><a class="rd-nav-link" href="{% url 'bs:testimonials' %}" style="font-weight: 500;">Testimonials</a></li>
-                      {% endif %} -->
-                      
+                      {% endif %}
                       <!--
                       {% if site == "Gallery" %}
                       <li class="rd-nav-item active"><a class="rd-nav-link" href="#" style="font-weight: 500;">Gallery</a>
@@ -130,8 +141,8 @@
                         <li class="rd-nav-item"><a class="rd-nav-link" href="#" style="font-weight: 500;">Gallery</a></li>
                       {% endif %}
                       -->
-                      <!-- <li class="rd-nav-item {% if site == 'Feedback' %} active {% endif %}"><a class="rd-nav-link" href="{% url 'bs:feedback' %}" style="font-weight: 500;">Feedback</a>
-                      </li> -->
+                      <li class="rd-nav-item {% if site == 'Feedback' %} active {% endif %}"><a class="rd-nav-link" href="{% url 'bs:feedback' %}" style="font-weight: 500;">Feedback</a>
+                      </li>
 
                       {% if site == "Contacts" %}
                         <li class="rd-nav-item active"><a class="rd-nav-link" href="{% url 'bs:contacts' %}" style="font-weight: 500;">Contact Me</a>
@@ -192,7 +203,6 @@
                 <li><a href="{% url 'bs:about' %}">About Me</a></li>
                 <li><a href="{% url 'bs:contacts' %}">Contact Me</a></li>
                 <li><a href="{% url 'bs:tc' %}">Terms & Conditions</a></li>
-                <li><a href="{% url 'bs:feedback' %}">Feedback</a></li>
               </ul>
             </div>
           </div>
