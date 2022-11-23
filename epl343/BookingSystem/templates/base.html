@@ -107,10 +107,10 @@
                       
                         <li class="rd-navbar--has-dropdown rd-navbar-submenu" style="padding: 0 10px;">
                           <a class="rd-nav-link rd-navbar--has-dropdown rd-navbar-submenu active" style="font-weight: 500;">About</a>
-                          <ul class="rd-navbar-dropdown rd-navbar-open-right" style="display: inline flow-root list-item">
-                            <li><a href="{% url 'bs:about' %}">About me</a></li>
-                            <li><a href="{% url 'bs:teaching' %}">Teaching Experience</a></li>
-                            <li><a href="{% url 'bs:testimonials' %}">Testimonials</a></li>
+                          <ul class="rd-navbar-dropdown rd-navbar-open-right" style="display: inline; background-color: #404044;">
+                            <li><a href="{% url 'bs:about' %}" style="font-weight: 600">About me</a></li>
+                            <li><a href="{% url 'bs:teaching' %}" style="font-weight: 600">Teaching Experience</a></li>
+                            <li><a href="{% url 'bs:testimonials' %}" style="font-weight: 600">Testimonials</a></li>
                           </ul>
                         </li>            
                       
@@ -139,12 +139,9 @@
                       <li class="rd-nav-item active"><a class="rd-nav-link" href="{% url 'bs:login' %}" style="font-weight: 500;">Sign In | Sign Up</a></li>
                       {% else %}
                         {% if authenticated is True %}
-                          <li class="rd-nav-item"><a class="rd-nav-link" href="{% url 'bs:dashboard' %}" style="font-weight: 500;">{{ name }}'s Dashboard</a>  
-                          <li class="rd-nav-item"><a class="rd-nav-link" href="{% url 'bs:logout1' %}" style="font-weight: 500;">Logout</a>  
-                          </li>
+                          <li class="rd-nav-item"><a class="rd-nav-link" href="{% url 'bs:dashboard' %}" style="font-weight: 500;">{{ name }}'s Dashboard</a></li>
                         {% else %}
-                        <li class="rd-nav-item"><a class="rd-nav-link" href="{% url 'bs:login' %}" style="font-weight: 500;">Sign In | Sign Up</a>
-                        </li>
+                        <li class="rd-nav-item"><a class="rd-nav-link" href="{% url 'bs:login' %}" style="font-weight: 500;">Sign In | Sign Up</a></li>
                         {% endif %}
                       {% endif %}
                       
