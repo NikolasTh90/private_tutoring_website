@@ -1,6 +1,7 @@
 import datetime
 from .models import Schedule, Offs, Appointment, MyUser
 from django.db.models import Q
+import django.utils.timezone as timezone
 break_time = datetime.timedelta(minutes = 10)
 allowed_days_before_appointment = datetime.timedelta(days = 3)
 
@@ -20,9 +21,28 @@ def main(post_request):
                             recommend_previous_appointment(post_request['requested_dateTime'], post_request['requested_duration'])] 
         return recommendations  
 
+def Available(requested_dateTime, requested_duration):
+		if not is_valid_appointment_request(requested_dateTime):
+			return [False, 'Requested date must have difference more than 3 days from now']
+
+		if appointment_is_available(requested_dateTime, requested_duration):
+			return [True]
+			#create appointment model
+			#user = MyUser.objects.only(email).filter(email=post_request['user_email'])
+			#TODO user should be a MyUser instance, can we get this from sessions?
+			Appointment.objects.create(user = post_request['user_email'], description = post_request['description'], duration = requested_duration, start_dateTime = requested_dateTime) 
+			#TODO send email notification
+		else:
+			return [False, 'Appointment is not available']
+
+def makeRecommendations(requested_dateTime, requested_duration):
+		return [recommend_next_appointment(requested_dateTime, requested_duration),
+							recommend_previous_appointment(requested_dateTime, requested_duration)] 
 
 def is_valid_appointment_request(requested_appointment_dateTime):
-    if requested_appointment_dateTime < datetime.datetime.now() + allowed_days_before_appointment:
+    now = datetime.datetime.now()
+    current_datetime = datetime.datetime(year=now.year, month=now.month, day=now.day, hour=now.hour, minute=now.minute, second=now.second, tzinfo=timezone.utc) + allowed_days_before_appointment
+    if requested_appointment_dateTime < current_datetime:
         return False
     return True    
 
@@ -46,7 +66,7 @@ def is_compatible_with_schedule(requested_appointment_start_dateTime, requested_
 def is_in_offs(requested_appointment_start_dateTime, requested_appointment_duration):
     offs = Offs.objects.all()
     for off in offs:
-        if requested_appointment_start_dateTime + requested_appointment_duration >= off.start_dateTime.replace(tzinfo=None) and requested_appointment_start_dateTime  <= off.end_dateTime.replace(tzinfo=None):
+        if requested_appointment_start_dateTime + requested_appointment_duration >= off.start_dateTime.replace(tzinfo=timezone.utc) and requested_appointment_start_dateTime  <= off.end_dateTime.replace(tzinfo=timezone.utc):
             return True
     
     return False        
@@ -54,7 +74,7 @@ def is_in_offs(requested_appointment_start_dateTime, requested_appointment_durat
 def is_colliding_with_appointment(requested_appointment_start_dateTime, requested_appointment_duration):
     other_appointments = Appointment.objects.all().filter( start_dateTime__date = requested_appointment_start_dateTime.date() ).filter(Q(pending = True) | Q(accepted = True) )
     for other in other_appointments:
-        if requested_appointment_start_dateTime + requested_appointment_duration >= other.start_dateTime.replace(tzinfo=None) and requested_appointment_start_dateTime <= other.end_dateTime.replace(tzinfo=None):
+        if requested_appointment_start_dateTime + requested_appointment_duration >= other.start_dateTime.replace(tzinfo=timezone.utc) and requested_appointment_start_dateTime <= other.end_dateTime.replace(tzinfo=timezone.utc):
             return True
 
     return False 
