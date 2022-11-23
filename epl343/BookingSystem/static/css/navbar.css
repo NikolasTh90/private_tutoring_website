@@ -232,11 +232,9 @@
 .rd-navbar-fixed .rd-navbar-toggle span:after {
   top: 8px;
 }
-
 .rd-navbar-fixed .rd-navbar-toggle span:after, .rd-navbar-fixed .rd-navbar-toggle span:before, .rd-navbar-fixed .rd-navbar-toggle span {
   width: 24px;
   height: 4px;
-  background-color: #333;
   backface-visibility: hidden;
   border-radius: 0;
 }

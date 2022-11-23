@@ -1,10 +1,9 @@
 from .forms import CustomerUpdateForm,ContactForm
 from urllib import request
-from .forms import LoginForm, RegisterForm,BookingForm
+from .forms import *
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render
 from django.template import loader
-from .forms import NewUserForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import messages

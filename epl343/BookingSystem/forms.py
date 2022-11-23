@@ -236,9 +236,11 @@ class CustomerUpdateForm(forms.ModelForm):  # update customer details
                   'image']
 
 class BookingForm(forms.ModelForm):
-	duration = forms.DurationField()
-	start_dateTime = forms.DateTimeField()
-
+	date = forms.DateField(required=True,label = "Book Date")
+	time = forms.TimeField(required=True,label = "Book Time")
+	appointment_duration = forms.IntegerField(required=True,label = "Book Duration")
+	start_dateTime = forms.DateTimeField(widget=forms.HiddenInput())
+	duration = forms.DurationField(widget=forms.HiddenInput())
 	user = forms.ModelChoiceField(queryset=MyUser.objects.all())
 
 
@@ -248,6 +250,11 @@ class BookingForm(forms.ModelForm):
 
 	def is_valid(self):
 		valid = super(BookingForm, self).is_valid()
+		start_dateTime = datetime.datetime(date.year, date.month, date.day, time.strftime('%H'),time.strftime('%M'),time.strftime('%S'))
+		duration = datetime.time(appointment_duration/60,appointment_duration%60,appointment_duration/3600)
+		time.appointment_duration
+		print(start_dateTime)
+		print(duration)
 		return valid
 
 
