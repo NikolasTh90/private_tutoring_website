@@ -19,20 +19,6 @@ import datetime
 
 User = get_user_model()
 
-def addTestimonial(request):
-    form=None
-    if(len(Appointment.objects.all().filter(user=request.user))!=0):
-        form=TestimonialForm()
-    if request.method == 'POST':
-        usersapp=Appointment.objects.all().filter(user=request.user).filter(accepted=True)#.filter(end_dateTime<datetime.now())
-        #if(len(userapp)>0):
-        #Den itan etimo to adminpanel giana kanw accepted,to fevgete apo comment
-        flag=False
-        Testimonial.objects.all().filter(user=request.user).delete()
-        model=Testimonial(user=request.user,description=request.POST['description'])
-        model.save()
-    return render(request, "testimonials_form.html", {'form': form} )
-
 
 def index(request):
     template = loader.get_template('index.html')
@@ -192,62 +178,6 @@ def dashboard(request):
             'age': 15
         }
     return HttpResponse(template.render(context, request))
-
-
-
-def addLearningMaterial(request):
-   # if request.user.is_authenticated and request.user.is_superuser::
-        if request.method == "GET":#epistrefis forma
-            return render(request, "addlearningmaterial.html", {'materialform': LearningMaterialForm()})
-        if request.method == "POST":
-            learning_material=LearningMaterialForm(request.POST)#kanis tin forma construct
-            if(learning_material.is_valid()):#an einai valid
-                learning_material.save()#apothikevse tin
-                message="succeed"
-            else:#alios epestrepse error
-                message="error"
-            return render(request, "addlearningmaterial.html", {'materialform': LearningMaterialForm(),'message':message})
-
-def getAllLearningMaterial(request):
-   # if request.user.is_authenticated and request.user.is_superuser::
-    allmaterial=LearningMaterial.objects.all()
-    return render(request, "getalllearningmaterial.html", {'allmaterials': allmaterial})
-def addUserToLearningMaterial(request,id):
-   # if request.user.is_authenticated and request.user.is_superuser::
-    if request.method == "GET":#epistrefis forma
-        usersall=MyUser.objects.all()#epestrepse olus tus xristes
-        return render(request, "addusertomaterial.html", {'usersall': usersall})
-    if request.method == "POST":#epistrefis forma
-        usersall=MyUser.objects.all()
-        material=LearningMaterial.objects.filter(pk=id)
-        LearningMaterialReference.objects.all().filter(LearningMaterial__id=id).delete()
-        for x in usersall:
-            if(str(x.id) in request.POST):
-                LearningMaterialReference(User=x,LearningMaterial=material[0]).save()
-        return render(request, "addusertomaterial.html", {'usersall': usersall,'FilesLearningMaterialForm':FilesLearningMaterialForm()})
-def addFileToMaterial(request):
-   # if request.user.is_authenticated and request.user.is_superuser::
-    if request.method == "GET":#epistrefis forma
-        return render(request, "addfiletomaterial.html", {'FilesLearningMaterialForm':FilesLearningMaterialForm()})
-    if request.method == "POST":#epistrefis forma
-        form=FilesLearningMaterialForm(request.POST,request.FILES)
-        msg=None
-        if form.is_valid():
-            msg="succeed"
-            form.save()
-        else:
-            msg="failed"
-        return render(request, "addfiletomaterial.html", {'FilesLearningMaterialForm':FilesLearningMaterialForm(),'message':msg})
-def userViewMaterial(request):
-    #if request.user.is_authenticated
-    learningmat=LearningMaterialReference.objects.filter(User__id=request.user.id)
-    return render(request, "viewlearningmaterial.html", {'learningmat':learningmat})
-def viewmaterial(request,id):
-    learningmat=FilesLearningMaterial.objects.filter(LearningMaterialFK__id=id)
-    #na kano ena elegxo oti anikoun ston xristi
-    return render(request, "viewmaterialfiles.html", {'learningmat':learningmat})
-
-
 
 ##########################################################################################################################
 ######################################################################################
