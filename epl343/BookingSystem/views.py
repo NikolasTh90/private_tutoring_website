@@ -1,6 +1,6 @@
 from .forms import CustomerUpdateForm,ContactForm
 from urllib import request
-from .forms import LoginForm, RegisterForm,BookingForm
+from .forms import LoginForm, RegisterForm
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render
 from django.template import loader
@@ -31,17 +31,6 @@ def index(request):
 
     return HttpResponse(template.render({'site': 'Home', 'testimonials': testimonials, 'authenticated' : auth, 'name' : name}, request))
 
-def temp(request) :
-    if (request.method == "POST") :
-        form = BookingForm(request.POST)
-        if form.is_valid():
-            form.save()
-        template =loader.get_template('signup.html')
-        return HttpResponse(template.render({}, request))
-
-    else :
-        template = loader.get_template('signup.html')
-        return HttpResponse(template.render({'form': BookingForm() }, request))
 
 def about(request):
     template = loader.get_template('about.html')
@@ -139,7 +128,7 @@ def signup(request):
                     messages.error(request, 'Wrong Username or password.')
                 if error=='password1':
                     messages.error(request, 'Password and confirmation must be the same.')
-            return HttpResponseRedirect(reverse('bs:login'))
+            return HttpResponse(template.render(context, request))
     else:  # User accesing for 1st time
         return HttpResponseRedirect(reverse('bs:login'))
 
