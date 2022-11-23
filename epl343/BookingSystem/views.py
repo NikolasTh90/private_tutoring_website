@@ -319,7 +319,10 @@ def learning_material(request):
     client = MyUser.objects.filter(email=request.user.email).first()
     customer_update_form = CustomerUpdateForm(instance=client)
     template = loader.get_template('customer/view_learning_material.html')
-    materials=LearningMaterialReference.objects.filter(User__id=request.user.id)
+    materials_reference=LearningMaterialReference.objects.all().filter(User__id=request.user.id).values('LearningMaterial')
+    materials = []
+    for reference in materials_reference:
+        materials.append(LearningMaterial.objects.get(id=reference['LearningMaterial']))
     supported_icons = ["aac","avi","bmp","dll","doc","eps","flv","gif","html","iso","jpg","midi","mov","mp3","mpg","pdf","png","ppt","psd","tif","txt","wmv","xls","zip"]
     # need to fix the context, communicate with panis or stilis
     context = {
@@ -329,6 +332,7 @@ def learning_material(request):
             'materials': materials,
             'supported_icons': supported_icons
         }
+    print(context['materials'], context['materials'][0])
 
     return HttpResponse(template.render(context, request))
 

@@ -71,11 +71,11 @@ class LearningMaterialFormRef(forms.ModelForm):
     class Meta:
         model = LearningMaterialReference
         fields = "__all__"
-class FilesLearningMaterialForm(forms.ModelForm):
-    # specify the name of model to use
-    class Meta:
-        model = FilesLearningMaterial
-        fields = "__all__"
+# class FilesLearningMaterialForm(forms.ModelForm):
+#     # specify the name of model to use
+#     class Meta:
+#         model = FilesLearningMaterial
+#         fields = "__all__"
 class LearningMaterialForm(forms.ModelForm):
     # specify the name of model to use
     class Meta:

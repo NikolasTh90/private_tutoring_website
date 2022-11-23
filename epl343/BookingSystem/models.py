@@ -189,21 +189,38 @@ class MyUser(AbstractBaseUser):
         "Is the user a admin member?"
         return self.admin
 
-class LearningMaterial(models.Model):
-    Name = models.CharField(max_length=60)
-    Description = models.CharField(max_length=200)
-    def __str__(self):
-        return self.Name+":"+self.Description
+# class LearningMaterial(models.Model):
+#     Name = models.CharField(max_length=60)
+#     Description = models.CharField(max_length=200)
+#     def __str__(self):
+#         return self.Name+":"+self.Description
 
-class FilesLearningMaterial(models.Model):
-    LearningMaterialFK = models.OneToOneField(LearningMaterial, on_delete=models.CASCADE)    
+class LearningMaterial(models.Model):
+    # LearningMaterialFK = models.OneToOneField(LearningMaterial, on_delete=models.CASCADE)    
     upload = models.FileField(upload_to ='uploads/')
-    def fileextension(self):
-        return os.path.basename(self.upload.name).split(".")[1]
+    name = models.CharField(max_length= 255, blank=True, verbose_name='file name')
+    description = models.CharField(max_length= 255, blank=True)
+    type = models.CharField(max_length= 10, blank=True)
+
+    def save(self, *args, **kwargs):
+        if (os.path.basename(self.upload.name).split(".")[-1][-1] == 'x'):
+            self.type = os.path.basename(self.upload.name).split(".")[-1][:-1]
+        else:
+            self.type = os.path.basename(self.upload.name).split(".")[-1]
+
+        self.name = os.path.basename(self.upload.name)
+
+        super().save(*args, **kwargs)
+    def __str__(self):
+        return self.name
+
 
 class LearningMaterialReference(models.Model):
     User = models.ForeignKey(MyUser, on_delete=models.CASCADE)    
-    LearningMaterial = models.ForeignKey(LearningMaterial, on_delete=models.CASCADE)    
+    LearningMaterial = models.ForeignKey(LearningMaterial, on_delete=models.CASCADE)  
+
+    def __str__(self):
+        return self.User.__str__() + ':'+ self.LearningMaterial.__str__()  
 
 
 # Booking System models #################################################################

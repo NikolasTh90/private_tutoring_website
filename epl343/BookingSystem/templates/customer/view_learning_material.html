@@ -37,16 +37,18 @@
                                        
 
                                         <div class="row">
-                                            
+                                        {% for file in materials %}
                                             <div class="col-lg-3 col-xl-2">
-                                                <div class="file-man-box"><a href="" class="file-close"><i class="fa fa-times-circle"></i></a>
-                                                    <div class="file-img-box"><img src={% if lear %} "https://coderthemes.com/highdmin/layouts/assets/images/file_icons/png.svg" alt="icon"></div><a href="#" class="file-download"><i class="fa fa-download"></i></a>
+                                                <div class="file-man-box">
+                                                    <div class="file-img-box"><img src={% if file.type in supported_icons %} "https://coderthemes.com/highdmin/layouts/assets/images/file_icons/{{ file.type }}.svg" {% else %} "https://www.shareicon.net/data/256x256/2015/08/11/83725_file_256x256.png" {% endif %}alt="icon"></div><a href="{{file.upload.url}}" class="file-download"><i class="fa fa-download"></i></a>
                                                     <div class="file-man-title">
-                                                        <h5 class="mb-0 text-overflow">invoice_project.pdf</h5>
-                                                        <p class="mb-0"><small>568.8 kb</small></p>
+                                                        <h5 class="mb-0 text-overflow">{{ file.name }}</h5>
+                                                        <p class="mb-0"><small>{{ file.upload.size | filesizeformat }}</small></p>
                                                     </div>
                                                 </div>
                                             </div>
+                                        
+                                        {% endfor %}
                                         </div>
                                         {% comment %} <div class="text-center mt-3">
                                             <button type="button" class="btn btn-outline-danger w-md waves-effect waves-light"><i class="mdi mdi-refresh"></i> Load More Files</button>
@@ -145,11 +147,10 @@
                     
 
                     <div class="text-center">
-                        <button type="button" class="btn btn-primary" disabled>Back to Main View</button>
-                        </a>
                         <a href="{% url 'bs:dashboard' %}">
-                            <button type="button" class="btn btn-primary">View All Appointments</button>
+                        <button type="button" class="btn btn-primary">Back to Main View</button>
                         </a>
+
                     </div>
 
 
