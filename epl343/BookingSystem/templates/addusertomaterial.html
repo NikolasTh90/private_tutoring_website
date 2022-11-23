@@ -20,7 +20,7 @@
         {% csrf_token %}
 
       {% for user in usersall %}
-      {{user.username}}<input type="checkbox" name="{{user.id}}">
+         {{user.email}}<input type="checkbox" name="{{user.id}}">
       <br>
 
       {% endfor %}
