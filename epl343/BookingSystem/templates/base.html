@@ -106,9 +106,9 @@
                   <div class="rd-navbar-nav-wrap" style="font-size: 14px; font-weight: 500;">
                     <ul class="rd-navbar-nav">
                       
-                        <li class="rd-nav-item {% if site == 'Home' %} active {% endif %}"><a class="rd-nav-link" href="{% url 'bs:index' %}" style="font-weight: 500;">Home</a></li> 
+                        <li class="rd-nav-item {% if site == 'Home' %} active {% endif %}" style="margin-left: 0px;"><a class="rd-nav-link" href="{% url 'bs:index' %}" style="font-weight: 500;">Home</a></li> 
                       
-                        <li class="rd-nav-item {% if site == 'Booking' %} active {% endif %}"><a class="rd-nav-link" href="{% url 'bs:booking' %}" style="font-weight: 500;">Booking</a></li>
+                        <li class="rd-nav-item {% if site == 'Booking' %} active {% endif %}" style="margin-left: 0px;"><a class="rd-nav-link" href="{% url 'bs:booking' %}" style="font-weight: 500;">Booking</a></li>
                       
                         <li class="rd-navbar--has-dropdown rd-navbar-submenu" style="padding: 0 10px;">
                           <a class="rd-nav-link rd-navbar--has-dropdown rd-navbar-submenu active" style="font-weight: 500;">About</a>
@@ -129,24 +129,24 @@
                       
                       
                       {% if site == "Gallery" %}
-                      <li class="rd-nav-item active"><a class="rd-nav-link" href="{% url 'bs:gallery' %}" style="font-weight: 500;">Gallery</a>
+                      <li class="rd-nav-item active" style="margin-left: 0px;"><a class="rd-nav-link" href="{% url 'bs:gallery' %}" style="font-weight: 500;">Gallery</a>
                       </li>
                       {% else %}
-                        <li class="rd-nav-item"><a class="rd-nav-link" href="{% url 'bs:gallery' %}" style="font-weight: 500;">Gallery</a></li>
+                        <li class="rd-nav-item" style="margin-left: 0px;"><a class="rd-nav-link" href="{% url 'bs:gallery' %}" style="font-weight: 500;">Gallery</a></li>
                       {% endif %}
                       
                       <!-- <li class="rd-nav-item {% if site == 'Feedback' %} active {% endif %}"><a class="rd-nav-link" href="{% url 'bs:feedback' %}" style="font-weight: 500;">Feedback</a>
                       </li> -->
                       
-                      <li class="rd-nav-item {% if site == 'Contacts' %} active {% endif %}"><a class="rd-nav-link" href="{% url 'bs:contacts' %}" style="font-weight: 500;">Contact Me</a></li>
+                      <li class="rd-nav-item {% if site == 'Contacts' %} active {% endif %}" style="margin-left: 0px;"><a class="rd-nav-link" href="{% url 'bs:contacts' %}" style="font-weight: 500;">Contact Me</a></li>
                      
                       {% if site == "Login"%}
-                      <li class="rd-nav-item active"><a class="rd-nav-link" href="{% url 'bs:login' %}" style="font-weight: 500;">Sign In | Sign Up</a></li>
+                      <li class="rd-nav-item active" style="margin-left: 0px;"><a class="rd-nav-link" href="{% url 'bs:login' %}" style="font-weight: 500;">Sign In | Sign Up</a></li>
                       {% else %}
                         {% if authenticated is True %}
-                          <li class="rd-nav-item"><a class="rd-nav-link" href="{% url 'bs:dashboard' %}" style="font-weight: 500;">{{ name }}'s Dashboard</a></li>
+                          <li class="rd-nav-item" style="margin-left: 0px;"><a class="rd-nav-link" href="{% url 'bs:dashboard' %}" style="font-weight: 500;">{{ name }}'s Dashboard</a></li>
                         {% else %}
-                        <li class="rd-nav-item"><a class="rd-nav-link" href="{% url 'bs:login' %}" style="font-weight: 500;">Sign In | Sign Up</a></li>
+                        <li class="rd-nav-item" style="margin-left: 0px;"><a class="rd-nav-link" href="{% url 'bs:login' %}" style="font-weight: 500;">Sign In | Sign Up</a></li>
                         {% endif %}
                       {% endif %}
                       
