@@ -11,8 +11,9 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import get_user_model, logout, login
 from django.contrib.auth.decorators import login_required
 from .models import *
-from .BookingSystem import main
 from django.utils.timezone import timedelta
+from .BookingSystem import *
+import numpy as np
 
 import datetime
 
@@ -49,36 +50,52 @@ def strToDateTime(date, time, duration):
     requested_duration = timedelta(hours=int(duration)//60, minutes=int(duration)%60)
     return requested_dateTime, requested_duration
 
+def updateRequestWith(request_copy, requested_dateTime, requested_duration, user, date, time, duration, location):
+    request_copy.update({'start_dateTime' : requested_dateTime })
+    request_copy.update({'duration' :   requested_duration })
+    if user is not None:
+        request_copy.update({'user' : user })
+        request_copy.update({'date' :   date })
+        request_copy.update({'time' :   time })
+        request_copy.update({'appointment_duration' :   duration })
+        request_copy.update({'location' :   location })
+    return request_copy
+
 def makeBooking(request) :
     try:
         if request.session['waitforlogin'] == True:
             request.session['waitforlogin'] = False
+            date = request.session['date']
+            time = request.session['time']
+            duration = request.session['duration']
+            location = request.session['location']
+            #pay = request.session['pay']
+            description = request.session['description']
+            user = request.user
             requested_dateTime, requested_duration = strToDateTime(request.session['date'], request.session['time'], request.session['duration'])
             request_copy = request.POST.copy()
-            request_copy.update({'start_dateTime' : requested_dateTime })
-            request_copy.update({'duration' :   requested_duration })
-            request_copy.update({'user' : request.user })
-            request_copy.update({'date' :   date })
-            request_copy.update({'time' :   time })
-            request_copy.update({'appointment_duration' :   duration })
-            request_copy.update({'location' :   request.session['location'] })
+            request_copy = updateRequestWith(request_copy, requested_dateTime, requested_duration, user, date, time, duration, location)
             form = BookingForm(data = request_copy)
             form.start_dateTime = requested_dateTime
             form.duration = requested_duration
-            form.user = request.user
-            form.location = ""
-            from .BookingSystem import Available
+            form.user = user
+            form.location = location
+            #form.pay = pay
+            form.description = description
             availability = Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration)
-            is_available = availability[0]
+            is_available = availability[0] 
             if is_available:
                 if form.is_valid():
                     form.save()
                     return HttpResponseRedirect(reverse('bs:requestSubmitted'))
             else:
                 template = loader.get_template('bookingform/makebooking.html')
-                from .BookingSystem import makeRecommendations
+                requested_dateTime, requested_duration = strToDateTime(date, time, duration)
+                recommendations = np.array(makeRecommendations(requested_dateTime=requested_dateTime, requested_duration=requested_duration))
+                recommendations = recommendations[np.where(recommendations!=None)]
+                request.session['recommended'] = True
+                request.session['description'] = request.session['description']
                 recommendations = makeRecommendations(requested_dateTime=requested_dateTime, requested_duration=requested_duration)
-                print(recommendations[recommendations!=None])
                 return HttpResponse(template.render({'recommendations' : recommendations, 'recommend' : True}, request))
         else:
             if (request.method == "POST") :
@@ -86,16 +103,11 @@ def makeBooking(request) :
                 date = request.POST.get('date')
                 time = request.POST.get('time')
                 duration = request.POST.get('appointment_duration')
-                requested_dateTime = datetime.datetime(year=int(date[:4]),month=int(date[5:7]),day=int(date[8:]), hour=int(time[:2]), minute=int(time[3:5]), second=0, tzinfo=timezone.utc)
-                requested_duration = timedelta(hours=int(duration)//60, minutes=int(duration)%60)
-                request_copy.update({'start_dateTime' : requested_dateTime })
-                request_copy.update({'duration' :   requested_duration })
-                request_copy.update({'user' : request.user  })
+                requested_dateTime, requested_duration = strToDateTime(date, time, duration)
+                request_copy = updateRequestWith(request_copy, requested_dateTime, requested_duration, None, None, None, None, None)
                 form = BookingForm(data = request_copy)
-                from .BookingSystem import Available
-                availability = Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration)
-                is_available = availability[0]
-                if is_available:
+                if Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration):
+                    print(Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration))
                     if request.user.is_authenticated:
                         request_copy.update({'user' : request.user  })
                         form = BookingForm(data = request_copy)
@@ -103,39 +115,36 @@ def makeBooking(request) :
                             form.save()
                         return HttpResponseRedirect(reverse('bs:requestSubmitted'))
                     else:
+                        # Prepare session to redirect to login
                         request.session['date'] = date
                         request.session['time'] = time
                         request.session['duration'] = duration
                         request.session['location'] = request.POST.get('location')
+                        request.session['description'] = request.POST.get('description')
+                        #request.session['pay'] = request.POST.get('pay')
                         request.session['waitforlogin'] = True
                         return HttpResponseRedirect('/login-signup/?next=/makeBooking/')
                 else:
                     template = loader.get_template('bookingform/makebooking.html')
-                    requested_dateTime = datetime.datetime(year=int(date[:4]),month=int(date[5:7]),day=int(date[8:]), hour=int(time[:2]), minute=int(time[3:5]), second=0, tzinfo=timezone.utc)
-                    requested_duration = timedelta(hours=int(duration)//60, minutes=int(duration)%60)
-                    from .BookingSystem import makeRecommendations
-                    recommendations = makeRecommendations(requested_dateTime=requested_dateTime, requested_duration=requested_duration)
-                    print(recommendations[recommendations!=None])
+                    requested_dateTime, requested_duration = strToDateTime(date, time, duration)
+                    recommendations = np.array(makeRecommendations(requested_dateTime=requested_dateTime, requested_duration=requested_duration))
+                    recommendations = recommendations[np.where(recommendations!=None)]
+                    request.session['recommended'] = True
                     return HttpResponse(template.render({'recommendations' : recommendations, 'recommend' : True}, request))
             else :
                 template = loader.get_template('bookingform/makebooking.html')
-                return HttpResponse(template.render({'recommend' : True}, request))
+                return HttpResponse(template.render({'recommend' : False}, request))
+
     except:
         if (request.method == "POST") :
             request_copy = request.POST.copy()
             date = request.POST.get('date')
             time = request.POST.get('time')
             duration = request.POST.get('appointment_duration')
-            requested_dateTime = datetime.datetime(year=int(date[:4]),month=int(date[5:7]),day=int(date[8:]), hour=int(time[:2]), minute=int(time[3:5]), second=0, tzinfo=timezone.utc)
-            requested_duration = timedelta(hours=int(duration)//60, minutes=int(duration)%60)
-            request_copy.update({'start_dateTime' : requested_dateTime })
-            request_copy.update({'duration' :   requested_duration })
-            request_copy.update({'user' : request.user  })
+            requested_dateTime, requested_duration = strToDateTime(date, time, duration)
+            request_copy = updateRequestWith(request_copy, requested_dateTime, requested_duration, None, None, None, None, None)
             form = BookingForm(data = request_copy)
-            from .BookingSystem import Available
-            availability = Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration)
-            is_available = availability[0]
-            if is_available:
+            if Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration):
                 if request.user.is_authenticated:
                     request_copy.update({'user' : request.user  })
                     form = BookingForm(data = request_copy)
@@ -143,25 +152,25 @@ def makeBooking(request) :
                         form.save()
                     return HttpResponseRedirect(reverse('bs:requestSubmitted'))
                 else:
+                    # Prepare session to redirect to login
                     request.session['date'] = date
                     request.session['time'] = time
                     request.session['duration'] = duration
                     request.session['location'] = request.POST.get('location')
+                    request.session['description'] = request.POST.get('description')
+                    #request.session['pay'] = request.POST.get('pay')
                     request.session['waitforlogin'] = True
                     return HttpResponseRedirect('/login-signup/?next=/makeBooking/')
             else:
                 template = loader.get_template('bookingform/makebooking.html')
-                requested_dateTime = datetime.datetime(year=int(date[:4]),month=int(date[5:7]),day=int(date[8:]), hour=int(time[:2]), minute=int(time[3:5]), second=0, tzinfo=timezone.utc)
-                requested_duration = timedelta(hours=int(duration)//60, minutes=int(duration)%60)
-                from .BookingSystem import makeRecommendations
-                import numpy as np
+                requested_dateTime, requested_duration = strToDateTime(date, time, duration)
                 recommendations = np.array(makeRecommendations(requested_dateTime=requested_dateTime, requested_duration=requested_duration))
                 recommendations = recommendations[np.where(recommendations!=None)]
                 request.session['recommended'] = True
                 return HttpResponse(template.render({'recommendations' : recommendations, 'recommend' : True}, request))
         else :
             template = loader.get_template('bookingform/makebooking.html')
-            return HttpResponse(template.render({'recommend' : False, 'recommendations' : [None]}, request))
+            return HttpResponse(template.render({'recommend' : False}, request))
 
 
     
@@ -173,10 +182,11 @@ def requestSubmitted(request):
 def BookFromRecommend(request, date, time, duration):
     try:
         if request.session['recommended']==True:
-            from .BookingSystem import Available
+            requested_dateTime, requested_duration = strToDateTime(date, time, duration)
             availability = Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration)
             is_available = availability[0]
             if is_available:
+                Appointment.objects.create(user = request.user, description = post_request['description'], duration = post_request['requested_duration'], start_dateTime = post_request['requested_dateTime']) 
                 template = loader.get_template('BookingRequestSubmitted.html')
                 return HttpResponse(template.render({}, request))
     except:

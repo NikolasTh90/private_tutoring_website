@@ -23,21 +23,21 @@ def main(post_request):
 
 def Available(requested_dateTime, requested_duration):
 		if not is_valid_appointment_request(requested_dateTime):
-			return [False, 'Requested date must have difference more than 3 days from now']
+			return False
 
 		if appointment_is_available(requested_dateTime, requested_duration):
-			return [True]
+			return True
 			#create appointment model
 			#user = MyUser.objects.only(email).filter(email=post_request['user_email'])
 			#TODO user should be a MyUser instance, can we get this from sessions?
 			Appointment.objects.create(user = post_request['user_email'], description = post_request['description'], duration = requested_duration, start_dateTime = requested_dateTime) 
 			#TODO send email notification
 		else:
-			return [False, 'Appointment is not available']
+			return False
 
 def makeRecommendations(requested_dateTime, requested_duration):
-		return [recommend_next_appointment(requested_dateTime, requested_duration),
-							recommend_previous_appointment(requested_dateTime, requested_duration)] 
+		return [recommend_previous_appointment(requested_dateTime, requested_duration),
+                    recommend_next_appointment(requested_dateTime, requested_duration)] 
 
 def is_valid_appointment_request(requested_appointment_dateTime):
     now = datetime.datetime.now()
@@ -91,7 +91,7 @@ def recommend_previous_appointment(requested_appointment_start_dateTime, request
     recommended_previous_appointment_dateTime = requested_appointment_start_dateTime - datetime.timedelta(minutes=5)
     now = datetime.datetime.now()
     current_datetime = datetime.datetime(year=now.year, month=now.month, day=now.day, hour=now.hour, minute=now.minute, second=now.second, tzinfo=timezone.utc) + allowed_days_before_appointment
-    while recommended_previous_appointment_dateTime >= current_datetime + allowed_days_before_appointment:
+    while recommended_previous_appointment_dateTime >= current_datetime:
         if appointment_is_available(recommended_previous_appointment_dateTime, requested_appointment_duration):
             return recommended_previous_appointment_dateTime
         recommended_previous_appointment_dateTime -= datetime.timedelta(minutes=5)
