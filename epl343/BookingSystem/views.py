@@ -13,6 +13,7 @@ from django.contrib.auth.decorators import login_required
 from .models import *
 from .BookingSystem import main
 from django.utils.timezone import timedelta
+from . import smtp_service
 
 import datetime
 
@@ -240,7 +241,7 @@ def contacts(request):
 	if request.method == 'POST':
 		form = ContactForm(request.POST)
 		if form.is_valid():
-			form.send()
+			smtp_service.send_inquiry(form)
 			messages.success(request, ('Your message was sent!'))
 		else:
 			messages.error(request, ('Please correct the error below.'))

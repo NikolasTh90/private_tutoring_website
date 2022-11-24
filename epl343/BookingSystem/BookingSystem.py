@@ -89,9 +89,8 @@ def recommend_next_appointment(requested_appointment_start_dateTime, requested_a
 
 def recommend_previous_appointment(requested_appointment_start_dateTime, requested_appointment_duration):
     recommended_previous_appointment_dateTime = requested_appointment_start_dateTime - datetime.timedelta(minutes=5)
-    now = datetime.datetime.now()
-    current_datetime = datetime.datetime(year=now.year, month=now.month, day=now.day, hour=now.hour, minute=now.minute, second=now.second, tzinfo=timezone.utc) + allowed_days_before_appointment
-    while recommended_previous_appointment_dateTime >= current_datetime + allowed_days_before_appointment:
+    now = datetime.datetime.now().replace(tzinfo=timezone.utc)
+    while recommended_previous_appointment_dateTime >= now + allowed_days_before_appointment:
         if appointment_is_available(recommended_previous_appointment_dateTime, requested_appointment_duration):
             return recommended_previous_appointment_dateTime
         recommended_previous_appointment_dateTime -= datetime.timedelta(minutes=5)
