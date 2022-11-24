@@ -16,12 +16,12 @@ def send_inquiry(form):
     }
     send(context, form.cleaned_data['inquiry'], rec_email)
    
-# status can be either confirmed/rejected/pending confirmation       
+# status can be either confirmed/rejected/pending      
 def send_booking(status, appointment):
     strong_greeting = "Thank you for your appointment booking"
     status = "\nYour appointment is now " + status
     if( status.contains("pending")):
-        status +="from the Admin \n the Admin has been notified and will confirm or reject the appointment as soon as possible"
+        status +=" confirmation from the Admin \n the Admin has been notified and will confirm or reject the appointment as soon as possible"
     
     description = "Update regarding your appointment on " + str(appointment.start_dateTime.date())
     context = {

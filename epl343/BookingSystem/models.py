@@ -134,7 +134,7 @@ class MyUser(AbstractBaseUser):
     admin = models.BooleanField(default=False)  # a superuser
     date_joined = models.DateTimeField(
         verbose_name='date joined', auto_now_add=True)
-    last_login = models.DateField(verbose_name='last login', auto_now=True)
+    last_login = models.DateTimeField(verbose_name='last login', auto_now=True)
     first_name = models.CharField(
         verbose_name='first_name', max_length=255, default='Please add first name')
     last_name = models.CharField(
