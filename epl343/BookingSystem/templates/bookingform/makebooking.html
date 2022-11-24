@@ -1,256 +1,128 @@
-
+{% extends "base.html" %}
 {% load static %}
 
 {% block content %}
+<head>
     <title>Educational registration form</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
-    <style>
-      html, body {
-      min-height: 100%;
-      }
-      body, div, form, input, select, p, textarea { 
-      padding: 0;
-      margin: 0;
-      outline: none;
-      font-family: Roboto, Arial, sans-serif;
-      font-size: 16px;
-      color: #eee;
-      }
-      body {
-      background: url("{% static 'bookingform/images/background.jpeg") no-repeat center;
-      background-size: cover;
-      }
-      h1, h2 {
-      text-transform: uppercase;
-      font-weight: 400;
-      }
-      h2 {
-      margin: 0 0 0 8px;
-      }
-      .main-block {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-      padding: 25px;
-      background: rgba(0, 0, 0, 0.5); 
-      }
-      .left-part, form {
-      padding: 25px;
-      }
-      .left-part {
-      text-align: center;
-      }
-      .fa-graduation-cap {
-      font-size: 72px;
-      }
-      form {
-      background: rgba(0, 0, 0, 0.7); 
-      }
-
-      .recommend{
-        padding: 10px 5px;
-      margin-top: 20px;
-      border-radius: 5px; 
-      border: none;
-      background: #26a9e0; 
-      text-decoration: none;
-      font-size: 15px;
-      font-weight: 400;
-      color: #fff;
-      display: inline-block;
-      margin: 20px 5px 0;
-      width: 100%;
-      }
-
-      .recommend:hover{
-        background: #85d6de;
-      }
-      .title {
-      display: flex;
-      align-items: center;
-      margin-bottom: 20px;
-      }
-      .info {
-      display: flex;
-      flex-direction: column;
-      }
-      input, select, textarea {
-      padding: 5px;
-      margin-bottom: 30px;
-      background: transparent;
-      border: none;
-      border-bottom: 1px solid #eee;
-      }
-      input::placeholder {
-      color: #eee;
-      }
-      option:focus {
-      border: none;
-      }
-      option {
-      background: black; 
-      border: none;
-      }
-      .checkbox input {
-      margin: 0 10px 0 0;
-      vertical-align: middle;
-      }
-      .checkbox a {
-      color: #26a9e0;
-      }
-      .checkbox a:hover {
-      color: #85d6de;
-      }
-      .btn-item, button {
-      padding: 10px 5px;
-      margin-top: 20px;
-      border-radius: 5px; 
-      border: none;
-      background: #26a9e0; 
-      text-decoration: none;
-      font-size: 15px;
-      font-weight: 400;
-      color: #fff;
-      }
-      .btn-item {
-      display: inline-block;
-      margin: 20px 5px 0;
-      }
-      button {
-      width: 100%;
-      }
-      button:hover, .btn-item:hover {
-      background: #85d6de;
-      }
-      @media (min-width: 568px) {
-      html, body {
-      height: 100%;
-      }
-      .main-block {
-      flex-direction: row;
-      height: calc(100% - 50px);
-      }
-      .left-part, form {
-      flex: 1;
-      height: auto;
-      }
-      }
-    </style>
-
-<div class="page" style="background: url({% static 'bookingform/images/background.jpeg' %}) no-repeat center; background-size: cover; ">
-<hr style="height : 175px">
-{% for message in messages %}
-    <a style="color : red">{{ message }}</a>
-{% endfor %}
-
-
-<div class="main-block">
-    <div class="left-part">
-      <i class="fas fa-graduation-cap"></i>
-      <h1>Make an appointment request</h1>
-      <p>W3docs provides free learning materials for programming languages like HTML, CSS, Java Script, PHP etc.</p>
-    </div>
-    <form method="post">
-    {% if recommend is True %}
-        {% csrf_token %}
-        <div class="title">
-            <i class="fas fa-pencil-alt"></i> 
-            <h2>Selected date and time are not available. You may want one of these</h2>
-        </div>
-        {% for recommendation in recommendations %}
-        <input type="button" class="recommend" onclick="window.location.href='/makeBooking/recommend/{{recommendation.1}}/{{recommendation.2}}/{{recommendation.3}}';" value="{{recommendation.0}}"></input>
+    <link rel="stylesheet" href="{% static 'css/makeBooking.css' %}">
+</head>
+  
+<body>
+    <div class="page" style="background: url({% static 'bookingform/images/background.jpeg' %}) no-repeat center; background-size: cover; ">
+        <hr style="height : 175px">
+        {% for message in messages %}
+            <a style="color : red">{{ message }}</a>
         {% endfor %}
-    {% else %}
-        {% csrf_token %}
-        <div class="title">
-            <i class="fas fa-pencil-alt"></i> 
-            <h2>request here</h2>
-        </div>
-        <div class="info">
-            <label for="birthday">Date</label>
-            <input type="date" name="date" required>
-            <label style="color : white">Start Time</label>
-            <input type="time" id="appt" name="time"required>
-            <label style="color : white">Duration</label>
-            <label for="appointment_duration">
-                <select id="appointment_duration" name="appointment_duration" required>
-                    <option value="" selected disabled>---------</option>
-                    <option value="45">45 min</option>
-                    <option value="60">1h</option>
-                    <option value="75">1h 15min</option>
-                    <option value="90">1h 30min</option>
+        
+        
+        <div class="main-block">
+            <div class="left-part">
+              <i class="fas fa-graduation-cap"></i>
+              <h1 style="color: white;">Make an appointment request</h1>
+              <p>W3docs provides free learning materials for programming languages like HTML, CSS, Java Script, PHP etc.</p>
+            </div>
+            <form method="post">
+            {% if recommend is True %}
+                {% csrf_token %}
+                <div class="title">
+                    <i class="fas fa-pencil-alt"></i> 
+                    <h2>Selected date and time are not available. You may want one of these</h2>
+                </div>
+                {% for recommendation in recommendations %}
+                <input type="button" class="recommend" onclick="window.location.href='/makeBooking/recommend/{{recommendation.1}}/{{recommendation.2}}/{{recommendation.3}}';" value="{{recommendation.0}}"></input>
+                {% endfor %}
+            {% else %}
+                {% csrf_token %}
+                <div class="title">
+                    <h2 style="color: white; margin: 0px;">request here</h2>
+                </div>
+                <div class="info" style="margin-top: 5px;">
+                    <label for="birthday" style="margin-top: -10px;">Date</label>
+                    <input type="date" name="date" required style="margin-bottom: -10px; margin-top: -5px;">
+                    <label style="color : white; margin-top: 15px;">Start Time</label>
+                    <input type="time" id="appt" name="time"required style="margin-bottom: 5px;">
+                    <label style="color : white; margin-top: 5px;">Duration</label>
+                    <label for="appointment_duration" style="margin-bottom: -10px;">
+                        <select id="appointment_duration" name="appointment_duration" required style="width: 100%;">
+                            <option value="" selected disabled>-----------</option>
+                            <option value="45">45 min</option>
+                            <option value="60">1h</option>
+                            <option value="75">1h 15min</option>
+                            <option value="90">1h 30min</option>
+                        </select>
+                    </label>
+                    <label for="signup-pref-loc" style="color : white; margin-top: -10px;">Preffered location</label>
+                    <select id="preffered_loc" name="location" required style="margin-bottom: 15px; width: 100%;">
+                        <option value="" selected disabled>------------</option>
+                        <option value="ON">Online/Zoom</option>
+                        <option value="PI">Private/Home</option>
+                        <option value="PU">Public/Cafe</option>
+                    </select>
+         
+                    <!-- <label for="signup-pref-pay" style="color : white">Preffered Payment Method</label>
+                    <select id="pay" name="pay" required>
+                        <option value="" selected disabled>----------</option>
+                        <option value="c">Cash</option>
+                        <option value="paypal">Czech Bank Instant</option>
+                        <option value="card">Payment</option>
+                        <option value="rev">Revolut</option>
+                    </select> -->
+        
+                    <label style="color : white">Description (Describe efficently all your questions and the subject you need help with)</label>
+                    <textarea type="text" name="description" style="height: 50px;" minlength="30" placeholder="Write something"></textarea>
+                    <button type="submit" style="margin: 0px;">Submit</button>
+                {% endif %}
+                </form>
+            </div>
+        
+        
+            <!-- <center>
+            <form method="post">
+                {% csrf_token %}
+                <label for="birthday">Date</label>
+                <p>
+                <label style="color : white">Description</label>
+                <p>
+                <textarea type="text" style="width : 80%; margin-right: 50px; margin-left: 100px;"></textarea>
+                <p>
+                <input type="date" name="date" id="birthday" name="birthday" required>
+                <p>
+                <label style="color : white">Start Time</label>
+                <p>
+                <input type="time" id="appt" name="time"required>
+                <p>
+                <label style="color : white">Duration</label>
+                <p>
+                <input type="number" name="appointment_duration" required>
+                <p>
+                <label for="signup-pref-loc" style="color : white">Preffered location</label>
+                <p>
+                <select id="preffered_loc" name="location" style="width : 80%; margin-right: 50px; margin-left: 100px;">
+                    <option value="OT">-----------</option>
+                    <option value="ON">Online/Zoom</option>
+                    <option value="PI">Private/Home</option>
+                    <option value="PU">Public/Cafe</option>
                 </select>
-            </label>
-            <label for="signup-pref-loc" style="color : white">Preffered location</label>
-            <select id="preffered_loc" name="location" required>
-                <option value="" selected disabled>----------</option>
-                <option value="ON">Online/Zoom</option>
-                <option value="PI">Private/Home</option>
-                <option value="PU">Public/Cafe</option>
-            </select>
- 
-            <!-- <label for="signup-pref-pay" style="color : white">Preffered Payment Method</label>
-            <select id="pay" name="pay" required>
-                <option value="" selected disabled>----------</option>
-                <option value="c">Cash</option>
-                <option value="paypal">Czech Bank Instant</option>
-                <option value="card">Payment</option>
-                <option value="rev">Revolut</option>
-            </select> -->
-
-            <label style="color : white">Description (Describe efficently all your questions and the subject you need help with)</label>
-            <textarea type="text" name="description" style="width : 80%;" minlength="30" placeholder="Write something"></textarea>
-            <button type="submit">Submit</button>
-        {% endif %}
-        </form>
-    </div>
+                <p>
+                <label for="signup-pref-pay" style="color : white">Preffered Payment Method</label>
+                <p>
+                <select id="pay" name="pay" style="width : 80%; margin-right: 50px; margin-left: 100px;">
+                    <option value="NA">-------</option>
+                    <option value="c">Cash</option>
+                    <option value="paypal">Czech Bank Instant</option>
+                    <option value="card">Payment</option>
+                    <option value="rev">Revolut</option>
+                </select>
+                <p>
+                <button type="submit">Submit</button>
+            </form>
+            </center> -->
+        
+        </div>
+</body>
 
 
-    <!-- <center>
-    <form method="post">
-        {% csrf_token %}
-        <label for="birthday">Date</label>
-        <p>
-        <label style="color : white">Description</label>
-        <p>
-        <textarea type="text" style="width : 80%; margin-right: 50px; margin-left: 100px;"></textarea>
-        <p>
-        <input type="date" name="date" id="birthday" name="birthday" required>
-        <p>
-        <label style="color : white">Start Time</label>
-        <p>
-        <input type="time" id="appt" name="time"required>
-        <p>
-        <label style="color : white">Duration</label>
-        <p>
-        <input type="number" name="appointment_duration" required>
-        <p>
-        <label for="signup-pref-loc" style="color : white">Preffered location</label>
-        <p>
-        <select id="preffered_loc" name="location" style="width : 80%; margin-right: 50px; margin-left: 100px;">
-            <option value="OT">-----------</option>
-            <option value="ON">Online/Zoom</option>
-            <option value="PI">Private/Home</option>
-            <option value="PU">Public/Cafe</option>
-        </select>
-        <p>
-        <label for="signup-pref-pay" style="color : white">Preffered Payment Method</label>
-        <p>
-        <select id="pay" name="pay" style="width : 80%; margin-right: 50px; margin-left: 100px;">
-            <option value="NA">-------</option>
-            <option value="c">Cash</option>
-            <option value="paypal">Czech Bank Instant</option>
-            <option value="card">Payment</option>
-            <option value="rev">Revolut</option>
-        </select>
-        <p>
-        <button type="submit">Submit</button>
-    </form>
-    </center> -->
-
-</div>
 {% endblock content %}
 
