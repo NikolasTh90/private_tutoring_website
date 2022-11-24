@@ -130,29 +130,29 @@
                                                                     
                                                                             <select id="preferred_loc" name="preferred_loc">
                                                                                 <option value="OT">--</option>
-                                                                                {% ifequal cust.preferred_loc 'ON' %}
+                                                                                {% if cust.preferred_loc == 'ON' %}
                                                                                     <option value="ON" selected>Online</option>
                                                                                 {% else %}
                                                                                     <option value="ON">Online</option>
-                                                                                {% endifequal %}
+                                                                                {% endif %}
 
-                                                                                {% ifequal cust.preferred_loc 'PU' %}
+                                                                                {% if cust.preferred_loc == 'PU' %}
                                                                                     <option value="PU" selected>Public/Cafe</option>
                                                                                 {% else %}
                                                                                     <option value="PU">Public/Cafe</option>
-                                                                                {% endifequal %}
+                                                                                {% endif %}
 
-                                                                                {% ifequal cust.preferred_loc 'PI' %}
+                                                                                {% if cust.preferred_loc == 'PI' %}
                                                                                     <option value="PI" selected>Private/Home</option>
                                                                                 {% else %}
                                                                                     <option value="PI">Private/Home</option>
-                                                                                {% endifequal %}
+                                                                                {% endif %}
                                                                             
-                                                                                {% ifequal cust.preferred_loc 'NS' %}
+                                                                                {% if cust.preferred_loc == 'NS' %}
                                                                                     <option value="NS" selected>Not Specified</option>
                                                                                 {% else %}
                                                                                     <option value="NS">Not Specified</option>
-                                                                                {% endifequal %}
+                                                                                {% endif %}
                                                                             </select>        
                                                                         </div>
                                                                     </div>
@@ -176,29 +176,29 @@
                                                                                 </label>
                                                                             <select id="pay" name="pay">
                                                                                 <option value="NA">--</option>
-                                                                                {% ifequal cust.pay 'c' %}
+                                                                                {% if cust.pay == 'c' %}
                                                                                     <option value="c" selected>Cash</option>
                                                                                 {% else %}
                                                                                     <option value="c">Cash</option>
-                                                                                {% endifequal %}
+                                                                                {% endif %}
 
-                                                                                {% ifequal cust.pay 'paypal' %}
+                                                                                {% if cust.pay == 'paypal' %}
                                                                                     <option value="paypal" selected>Paypal</option>
                                                                                 {% else %}
                                                                                     <option value="paypal">Paypal</option>
-                                                                                {% endifequal %}
+                                                                                {% endif %}
 
-                                                                                {% ifequal cust.pay 'card' %}
+                                                                                {% if cust.pay == 'card' %}
                                                                                     <option value="card" selected>Card</option>
                                                                                 {% else %}
                                                                                     <option value="card">Card</option>
-                                                                                {% endifequal %}
+                                                                                {% endif %}
                                                                             
-                                                                                {% ifequal cust.pay 'rev' %}
+                                                                                {% if cust.pay == 'rev' %}
                                                                                     <option value="rev" selected>Revolut</option>
                                                                                 {% else %}
                                                                                     <option value="rev">Revolut</option>
-                                                                                {% endifequal %}
+                                                                                {% endif %}
                                                                             </select>
                                                                         </div>
                                                                     </div>
@@ -211,45 +211,45 @@
                                                                                    for="input-age">Year</label>
                                                                             <select id="year" name="year">
                                                                                 <option value="OT">--</option>
-                                                                                {% ifequal cust.year 'one' %}
+                                                                                {% if cust.year == 'one' %}
                                                                                     <option value="one" selected>1</option>
                                                                                 {% else %}
                                                                                     <option value="one">1</option>
-                                                                                {% endifequal %}
+                                                                                {% endif %}
                                                                                 
-                                                                                {% ifequal cust.year 'two' %}
+                                                                                {% if cust.year == 'two' %}
                                                                                     <option value="two" selected>2</option>
                                                                                 {% else %}
                                                                                     <option value="two">2</option>
-                                                                                {% endifequal %}
+                                                                                {% endif %}
                                                                                 
-                                                                                {% ifequal cust.year 'three' %}
+                                                                                {% if cust.year == 'three' %}
                                                                                     <option value="three" selected>3</option>
                                                                                 {% else %}
                                                                                     <option value="three">3</option>
-                                                                                {% endifequal %}
-                                                                                {% ifequal cust.year 'four' %}
+                                                                                {% endif %}
+                                                                                {% if cust.year == 'four' %}
                                                                                     <option value="four" selected>4</option>
                                                                                 {% else %}
                                                                                     <option value="four">4</option>
-                                                                                {% endifequal %}
-                                                                                {% ifequal cust.year 'five' %}
+                                                                                {% endif %}
+                                                                                {% if cust.year == 'five' %}
                                                                                     <option value="five" selected>5</option>
                                                                                 {% else %}
                                                                                     <option value="five">5</option>
-                                                                                {% endifequal %}
+                                                                                {% endif %}
 
-                                                                                {% ifequal cust.year 'six' %}
+                                                                                {% if cust.year == 'six' %}
                                                                                     <option value="six" selected>6</option>
                                                                                 {% else %}
                                                                                     <option value="six">6</option>
-                                                                                {% endifequal %}
+                                                                                {% endif %}
 
-                                                                                {% ifequal cust.year 'six_p' %}
+                                                                                {% if cust.year == 'six_p' %}
                                                                                     <option value="six_p" selected>6+</option>
                                                                                 {% else %}
                                                                                     <option value="six_p">6+</option>
-                                                                                {% endifequal %}
+                                                                                {% endif %}
                                                                             </select>
                                                                             <!--<input readonly type="text"
                                                                                    id="input-username"
