@@ -9,8 +9,6 @@ from .models import *
 import pdb
 #Contact imports
 from django.core.mail import send_mail
-from django.template.loader import render_to_string
-from django.conf import settings
 #from datetime import date,time
 
 ######################################################################
@@ -22,48 +20,8 @@ class ContactForm(forms.Form):
     inquiry = forms.CharField(max_length=120)
     phone = forms.IntegerField()
     message = forms.CharField(widget=forms.Textarea)
-
-    def get_info(self,contactAdmin=False):
-        """
-        Method that returns formatted information
-        :return: subject, msg
-        """
-        # Cleaned data
-        cl_data = super().clean()
-
-        name = cl_data.get('name').strip()
-        from_email = cl_data.get('email')
-        subject = cl_data.get('inquiry')
         
-        msg = f'{name} with email {from_email} said:'
-        msg += f'\n"{subject}"\n\n'
-        msg += cl_data.get('message')
-        if not contactAdmin:
-            message = render_to_string("contact_template_user.html",{'name':name,'email':self.cleaned_data['email'],'inquiry':self.cleaned_data['inquiry'],'message':self.cleaned_data['message']})
-        else:
-            message = render_to_string("contact_template_admin.html",{'name':name,'email':self.cleaned_data['email'],'inquiry':self.cleaned_data['inquiry'],'message':self.cleaned_data['message']})            
-        return subject, message
-
-    def send(self):
-
-        subject, msg = self.get_info()
-        #ston user
-        send_mail(
-            subject=subject,
-            message=msg,
-            html_message=msg,
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[settings.RECIPIENT_ADDRESS]#na to ftiakso
-        )
-        #
-        subject, msg = self.get_info(contactAdmin=True)
-        send_mail(
-            subject=subject,
-            message=msg,
-            html_message=msg,
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[self.cleaned_data['email']]#na to ftiakso
-        )
+       
 #########################################################################
 #Galery source###########################################
 class LearningMaterialFormRef(forms.ModelForm):
@@ -243,6 +201,7 @@ class BookingForm(forms.ModelForm):
 	time = forms.TimeField(required=True)
 	appointment_duration = forms.IntegerField(required=True)
 	location = forms.CharField(required=True)
+	description = forms.Textarea()
 	start_dateTime = forms.DateTimeField(widget=forms.HiddenInput())
 	duration = forms.DurationField(widget=forms.HiddenInput())
 	user = forms.ModelChoiceField(queryset=MyUser.objects.all(),widget=forms.HiddenInput())
@@ -250,7 +209,7 @@ class BookingForm(forms.ModelForm):
 
 	class Meta:
 		model = Appointment
-		fields = ('duration','start_dateTime','user', 'location') 
+		fields = ('duration','start_dateTime','user', 'location', 'description') 
 
 	def save(self, commit=True):
 		app = super(BookingForm, self).save(commit=False)

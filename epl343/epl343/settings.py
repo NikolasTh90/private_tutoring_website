@@ -34,9 +34,7 @@ AUTH_USER_MODEL = 'BookingSystem.MyUser'
 # Application definition
 
 CSRF_TRUSTED_ORIGINS = ["https://a78d-3-82-124-127.ngrok.io", "http://a78d-3-82-124-127.ngrok.io", "http://3.82.124.127/", "http://3.74.236.224", "https://drsteliostheodorou.com", "https://www.drsteliostheodorou.com", "http://www.drsteliostheodorou.com", "http://drsteliostheodorou.com"]
-EMAIL_HOST_USER = 'nikolaswebservice2001@outlook.com'
-EMAIL_HOST_PASSWORD = 'nikolassalokin11'
-RECIPIENT_ADDRESS='nikolaswebservice2001@outlook.com'
+
 
 INSTALLED_APPS = [
     'BookingSystem.apps.BookingsystemConfig',
@@ -140,6 +138,9 @@ STATICFILES_DIRS = (
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp-mail.outlook.com'
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'dr.stelios.theodorou@gmail.com'
+EMAIL_HOST_PASSWORD = 'hshjwipkkanzkwuc'
+# RECIPIENT_ADDRESS='nikolaswebservice2001@outlook.com'
