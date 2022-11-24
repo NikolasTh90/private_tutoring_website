@@ -62,13 +62,16 @@ def updateRequestWith(request_copy, requested_dateTime, requested_duration, user
     return request_copy
 
 def makeBooking(request) :
-    try:
-        if request.session['waitforlogin'] == True:
-            request.session['waitforlogin'] = False
+    try:        
+        if request.session['waitforlogin'] == True:    
+            print('dfnsjfdshgkdfghfhhhhhhhhhhhhhhhhhhhhhhhhh')
             date = request.session['date']
             time = request.session['time']
+            print(date)
             duration = request.session['duration']
             location = request.session['location']
+            print('hd', date)
+            print(time)
             #pay = request.session['pay']
             description = request.session['description']
             user = request.user
@@ -82,6 +85,7 @@ def makeBooking(request) :
             form.location = location
             #form.pay = pay
             form.description = description
+            request.session['waitforlogin'] = False
             availability = Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration)
             is_available = availability[0] 
             if is_available:
@@ -130,7 +134,12 @@ def makeBooking(request) :
                     recommendations = np.array(makeRecommendations(requested_dateTime=requested_dateTime, requested_duration=requested_duration))
                     recommendations = recommendations[np.where(recommendations!=None)]
                     request.session['recommended'] = True
-                    return HttpResponse(template.render({'recommendations' : recommendations, 'recommend' : True}, request))
+                    a = recommendations[0]
+                    final_recommendations = list()
+                    for recommend in recommendations:
+                        temp = [recommend, str(recommend.date()), str(recommend.time()), duration]
+                        final_recommendations.append(temp)
+                    return HttpResponse(template.render({'recommendations' : final_recommendations, 'recommend' : True}, request))
             else :
                 template = loader.get_template('bookingform/makebooking.html')
                 return HttpResponse(template.render({'recommend' : False}, request))
@@ -183,16 +192,11 @@ def BookFromRecommend(request, date, time, duration):
     try:
         if request.session['recommended']==True:
             requested_dateTime, requested_duration = strToDateTime(date, time, duration)
-            availability = Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration)
-            is_available = availability[0]
-            if is_available:
-                Appointment.objects.create(user = request.user, description = post_request['description'], duration = post_request['requested_duration'], start_dateTime = post_request['requested_dateTime']) 
-                template = loader.get_template('BookingRequestSubmitted.html')
-                return HttpResponse(template.render({}, request))
+            if Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration):
+                Appointment.objects.create(user = request.user, description = request.session['description'], duration = requested_duration, start_dateTime = requested_dateTime) 
+                return HttpResponseRedirect(reverse('bs:requestSubmitted'))
     except:
-        return
-    template = loader.get_template('bookingform/makebooking.html')
-    return HttpResponse(template.render({}, request))
+        return HttpResponseRedirect(reverse('bs:makeBooking'))
 
 
 def myappointments(request):
