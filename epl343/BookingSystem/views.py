@@ -147,37 +147,43 @@ def makeBooking(request) :
 
     except:
         if (request.method == "POST") :
-            request_copy = request.POST.copy()
-            date = request.POST.get('date')
-            time = request.POST.get('time')
-            duration = request.POST.get('appointment_duration')
-            requested_dateTime, requested_duration = strToDateTime(date, time, duration)
-            request_copy = updateRequestWith(request_copy, requested_dateTime, requested_duration, None, None, None, None, None)
-            form = BookingForm(data = request_copy)
-            if Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration):
-                if request.user.is_authenticated:
-                    request_copy.update({'user' : request.user  })
-                    form = BookingForm(data = request_copy)
-                    if form.is_valid():
-                        form.save()
-                    return HttpResponseRedirect(reverse('bs:requestSubmitted'))
-                else:
-                    # Prepare session to redirect to login
-                    request.session['date'] = date
-                    request.session['time'] = time
-                    request.session['duration'] = duration
-                    request.session['location'] = request.POST.get('location')
-                    request.session['description'] = request.POST.get('description')
-                    #request.session['pay'] = request.POST.get('pay')
-                    request.session['waitforlogin'] = True
-                    return HttpResponseRedirect('/login-signup/?next=/makeBooking/')
-            else:
-                template = loader.get_template('bookingform/makebooking.html')
+                request_copy = request.POST.copy()
+                date = request.POST.get('date')
+                time = request.POST.get('time')
+                duration = request.POST.get('appointment_duration')
                 requested_dateTime, requested_duration = strToDateTime(date, time, duration)
-                recommendations = np.array(makeRecommendations(requested_dateTime=requested_dateTime, requested_duration=requested_duration))
-                recommendations = recommendations[np.where(recommendations!=None)]
-                request.session['recommended'] = True
-                return HttpResponse(template.render({'recommendations' : recommendations, 'recommend' : True}, request))
+                request_copy = updateRequestWith(request_copy, requested_dateTime, requested_duration, None, None, None, None, None)
+                form = BookingForm(data = request_copy)
+                if Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration):
+                    print(Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration))
+                    if request.user.is_authenticated:
+                        request_copy.update({'user' : request.user  })
+                        form = BookingForm(data = request_copy)
+                        if form.is_valid():
+                            form.save()
+                        return HttpResponseRedirect(reverse('bs:requestSubmitted'))
+                    else:
+                        # Prepare session to redirect to login
+                        request.session['date'] = date
+                        request.session['time'] = time
+                        request.session['duration'] = duration
+                        request.session['location'] = request.POST.get('location')
+                        request.session['description'] = request.POST.get('description')
+                        #request.session['pay'] = request.POST.get('pay')
+                        request.session['waitforlogin'] = True
+                        return HttpResponseRedirect('/login-signup/?next=/makeBooking/')
+                else:
+                    template = loader.get_template('bookingform/makebooking.html')
+                    requested_dateTime, requested_duration = strToDateTime(date, time, duration)
+                    recommendations = np.array(makeRecommendations(requested_dateTime=requested_dateTime, requested_duration=requested_duration))
+                    recommendations = recommendations[np.where(recommendations!=None)]
+                    request.session['recommended'] = True
+                    a = recommendations[0]
+                    final_recommendations = list()
+                    for recommend in recommendations:
+                        temp = [recommend, str(recommend.date()), str(recommend.time()), duration]
+                        final_recommendations.append(temp)
+                    return HttpResponse(template.render({'recommendations' : final_recommendations, 'recommend' : True}, request))
         else :
             template = loader.get_template('bookingform/makebooking.html')
             return HttpResponse(template.render({'recommend' : False}, request))
