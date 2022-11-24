@@ -201,6 +201,7 @@ class BookingForm(forms.ModelForm):
 	time = forms.TimeField(required=True)
 	appointment_duration = forms.IntegerField(required=True)
 	location = forms.CharField(required=True)
+	description = forms.Textarea()
 	start_dateTime = forms.DateTimeField(widget=forms.HiddenInput())
 	duration = forms.DurationField(widget=forms.HiddenInput())
 	user = forms.ModelChoiceField(queryset=MyUser.objects.all(),widget=forms.HiddenInput())
@@ -208,7 +209,7 @@ class BookingForm(forms.ModelForm):
 
 	class Meta:
 		model = Appointment
-		fields = ('duration','start_dateTime','user', 'location') 
+		fields = ('duration','start_dateTime','user', 'location', 'description') 
 
 	def save(self, commit=True):
 		app = super(BookingForm, self).save(commit=False)
