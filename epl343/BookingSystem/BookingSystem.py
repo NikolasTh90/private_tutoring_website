@@ -60,7 +60,6 @@ def is_compatible_with_schedule(requested_appointment_start_dateTime, requested_
     for schedule_entry in weekday_schedule:
         if requested_appointment_start_dateTime.time() >= schedule_entry.Opening and (requested_appointment_start_dateTime + requested_duration).time() <= schedule_entry.Closing :
             return True
-
     return False    
 
 def is_in_offs(requested_appointment_start_dateTime, requested_appointment_duration):
@@ -80,19 +79,22 @@ def is_colliding_with_appointment(requested_appointment_start_dateTime, requeste
     return False 
 
 def recommend_next_appointment(requested_appointment_start_dateTime, requested_appointment_duration):
-    recommended_next_appointment = requested_appointment_start_dateTime + datetime.timedelta(minutes=5)
+    recommend_next_appointment_datetime = requested_appointment_start_dateTime
+    recommend_next_appointment_datetime += datetime.timedelta(minutes=5)
     while True:
-        if appointment_is_available(recommended_next_appointment, requested_appointment_duration):
-            return recommended_next_appointment
-        recommended_next_appointment = requested_appointment_start_dateTime + datetime.timedelta(minutes=5)
+        if appointment_is_available(recommend_next_appointment_datetime, requested_appointment_duration):
+            return recommend_next_appointment_datetime
+        recommend_next_appointment_datetime += datetime.timedelta(minutes=5)
     
 
 def recommend_previous_appointment(requested_appointment_start_dateTime, requested_appointment_duration):
-    recommended_previous_appointment = requested_appointment_start_dateTime - datetime.timedelta(minutes=5)
-    while recommended_previous_appointment >= datetime.datetime.now() + allowed_days_before_appointment:
-        if appointment_is_available(recommended_previous_appointment, requested_appointment_duration):
-            return recommended_previous_appointment
-        recommended_previous_appointment = requested_appointment_start_dateTime - datetime.timedelta(minutes=5)
+    recommended_previous_appointment_dateTime = requested_appointment_start_dateTime - datetime.timedelta(minutes=5)
+    now = datetime.datetime.now()
+    current_datetime = datetime.datetime(year=now.year, month=now.month, day=now.day, hour=now.hour, minute=now.minute, second=now.second, tzinfo=timezone.utc) + allowed_days_before_appointment
+    while recommended_previous_appointment_dateTime >= current_datetime + allowed_days_before_appointment:
+        if appointment_is_available(recommended_previous_appointment_dateTime, requested_appointment_duration):
+            return recommended_previous_appointment_dateTime
+        recommended_previous_appointment_dateTime -= datetime.timedelta(minutes=5)
     
     return None       
 

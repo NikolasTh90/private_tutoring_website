@@ -37,6 +37,7 @@ urlpatterns = [
     # path('dashboard/changeProfile/', views.changeProfile, name = 'changeProfile'),
     path('dashboard/learningmaterial/', views.learning_material, name = 'learningmaterial'),
     path('makeBooking/requestSubmitted/', views.requestSubmitted, name='requestSubmitted'),
+    path('makeBooking/recommend/<str:date>/<str:time>/<str:duration>/', views.BookFromRecommend, name='recommend'),
     path('dashboard/myappointments/', views.myappointments, name = 'myappointments')
     
 
