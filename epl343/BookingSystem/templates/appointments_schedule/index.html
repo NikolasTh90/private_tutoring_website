@@ -54,20 +54,22 @@
         {% for appointments in appointments_sorted %}
         <li class="cd-schedule__group">
           <div class="cd-schedule__top-info"><span>{{appointments.0}}</span></div>
-          <ul>
-            {% for app in appointments %}
-            {% ifnotequal forloop.counter0 0 %}
-            <li class="cd-schedule__event">
-              <a data-start="{{ app.0.start_dateTime|date:'H:i' }}" data-end="{{ app.0.end_dateTime|date:'H:i' }}" data-content="event-abs-circuit" data-event="event-1" href="#0">
-                <em class="cd-schedule__name"> Appointment {{ app.1 }} </em>
-                <em class="cd-schedule__name">{{app.0.description}} </em>
-                <buttony>Cancel</button>
-                <button>Change</button>
-              </a>
-            </li>
-            {% endifnotequal %}
-            {% endfor %}
-          </ul>
+            <ul>
+              {% for app in appointments %}
+              {% ifnotequal forloop.counter0 0 %}
+              <li class="cd-schedule__event">
+                <a data-start="{{ app.0.start_dateTime|date:'H:i' }}" data-end="{{ app.0.end_dateTime|date:'H:i' }}" 
+                  data-content="event-abs-circuit" data-event="event-1" href="#0">
+                  <em class="cd-schedule__name"> Appointment {{ app.1 }} </em>
+                  <em class="cd-schedule__name">{{app.0.description}} </em>
+                  
+                  <a href="../../../deleteBooking/{{app.0.start_dateTime|slugify}}"><button>Cancel</button></a>
+                  <a href="../../../changeBooking/{{app.0.start_dateTime|slugify}}"><button>Change</button></a>
+              </li>
+              {% endifnotequal %}
+              {% endfor %}
+            </ul>
+        
         </li>
         {% endfor %}
   

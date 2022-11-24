@@ -290,3 +290,22 @@ class ChangeUserForm(forms.ModelForm):
 		user.save()
 		return user
 
+class ChangeBookingForm(forms.ModelForm):
+	date = forms.DateField(required=True)
+	time = forms.TimeField(required=True)
+	appointment_duration = forms.IntegerField(required=True)
+	location = forms.CharField(required=True)
+	start_dateTime = forms.DateTimeField(widget=forms.HiddenInput())
+	duration = forms.DurationField(widget=forms.HiddenInput())
+	user = forms.ModelChoiceField(queryset=MyUser.objects.all(),widget=forms.HiddenInput())
+
+
+	class Meta:
+		model = Appointment
+		fields = ('duration','start_dateTime','user','location') 
+
+	def save(self, commit=True):
+		app = super(ChangeBookingForm, self).save(commit=False)
+		if commit:
+			app.save()
+		return app
