@@ -15,13 +15,14 @@ from django.utils.timezone import timedelta
 from .BookingSystem import *
 import numpy as np
 from . import smtp_service
-
+from django.core.exceptions import ObjectDoesNotExist
 import datetime
 
 
 User = get_user_model()
 
 def addTestimonial(request):
+    """
     form=None
     if(len(Appointment.objects.all().filter(user=request.user))!=0):
         form=TestimonialForm()
@@ -33,7 +34,34 @@ def addTestimonial(request):
         Testimonial.objects.all().filter(user=request.user).delete()
         model=Testimonial(user=request.user,description=request.POST['description'])
         model.save()
-    return render(request, "testimonials_form.html", {'form': form} )
+    """
+
+    # Get the current timestamp
+    timestampNow=datetime.datetime.now()
+
+    # The number of total accepted appointments of the user that have ended
+    noOfUserAppointments = len(Appointment.objects.all().filter(user=request.user).filter(accepted=True).filter(end_dateTime__lt=timestampNow))
+
+    # Get existing testimonial (if it exists)
+    try:
+        existingTestimonial = Testimonial.objects.get(user=request.user)
+    except ObjectDoesNotExist:
+        existingTestimonial = None
+
+    # If request is POST, check if the user already has a testimonial.
+    # If a testimonial exists, update the existing testimonial
+    # Else, create a new testimonial
+    if request.method == 'POST':
+        if existingTestimonial:
+            existingTestimonial.description = request.POST['description']
+            existingTestimonial.save()
+        else:
+            model = Testimonial(user=request.user, description=request.POST['description'])
+            model.save()
+
+    # IF request is GET, ...
+
+    return render(request, "customer/add_testimonial.html", {'Site': 'AddTestimonial', 'NoOfUserAppointments': noOfUserAppointments, 'CallBackMethod': request.method, 'ExistingTestimonial': existingTestimonial} )
     
 def index(request):
     template = loader.get_template('index.html')

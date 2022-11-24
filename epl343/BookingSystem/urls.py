@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 
 app_name = "bs"
 
@@ -40,9 +41,11 @@ urlpatterns = [
     path('makeBooking/recommend/<str:date>/<str:time>/<str:duration>/', views.BookFromRecommend, name='recommend'),
     path('dashboard/myappointments/', views.myappointments, name = 'myappointments'),
     path('changeBooking/<str:startdate>', views.changeBooking, name = 'changeBooking'),
-    path('deleteBooking/<str:startdate>', views.deleteBooking, name = 'deleteBooking')
-
-    
+    path('deleteBooking/<str:startdate>', views.deleteBooking, name = 'deleteBooking'),
+    path('reset_password/', auth_views.PasswordResetView.as_view(), name = 'reset_password'),
+    path('reset_password_sent/', auth_views.PasswordResetDoneView.as_view(), name = 'password_reset_done'),
+    path('reset/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view, name ='reset_password_confirm'),
+    path('reset_password_complete', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
 
 
 
