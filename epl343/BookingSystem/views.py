@@ -287,6 +287,7 @@ def BookFromRecommend(request, date, time, duration):
 
 def myappointments(request):
     appointments = Appointment.objects.filter(user = MyUser.objects.get(email = 'epl343@ucy.ac.cy'))
+    print(appointments)
     minstart = appointments[0].start_dateTime.time()
     maxend = appointments[0].end_dateTime.time()
     for app in appointments:
@@ -304,6 +305,7 @@ def myappointments(request):
         weekday_apps = [dict[i]]
         counter = 1
         for app in appointments:
+            print(app)
             if app.start_dateTime.weekday()==i:
                 weekday_apps.append([app, counter])
                 counter += 1

@@ -7,7 +7,6 @@
   <script>document.getElementsByTagName("html")[0].className += " js";</script>
   <link rel="stylesheet" href="{% static 'static_appointments_schedule/css/style.css' %}">
   <title>Schedule Template | CodyHouse</title>
-  
 </head>
 <body>
   <header class="cd-main-header text-center flex flex-column flex-center">
@@ -15,19 +14,13 @@
 
     <h1 class="text-xl">Schedule Template</h1>
   </header>
-  {% for a in app %}
-    {{ a.start_dateTime|date:'Y-m-d H:i'}}
-    
-  {% endfor %}
+  <button> 👈 </button>
+  <button> 👉 </button>
 
   <div class="cd-schedule cd-schedule--loading margin-top-lg margin-bottom-lg js-cd-schedule">
     <div class="cd-schedule__timeline">
       <ul>
-        {% for b in slot %}
-        <li><span>{{b|date:'H:i'}}</span></li>  
-        {% endfor %}
-        <!-- <p>h{{b|date:'H:i'}}h</p>  
-        
+        <li><span>09:00</span></li>
         <li><span>09:30</span></li>
         <li><span>10:00</span></li>
         <li><span>10:30</span></li>
@@ -45,7 +38,7 @@
         <li><span>16:30</span></li>
         <li><span>17:00</span></li>
         <li><span>17:30</span></li>
-        <li><span>18:00</span></li> -->
+        <li><span>18:00</span></li>
       </ul>
     </div> <!-- .cd-schedule__timeline -->
   
@@ -54,25 +47,27 @@
         {% for appointments in appointments_sorted %}
         <li class="cd-schedule__group">
           <div class="cd-schedule__top-info"><span>{{appointments.0}}</span></div>
-            <ul>
-              {% for app in appointments %}
-              {% ifnotequal forloop.counter0 0 %}
-              <li class="cd-schedule__event">
-                <a data-start="{{ app.0.start_dateTime|date:'H:i' }}" data-end="{{ app.0.end_dateTime|date:'H:i' }}" 
-                  data-content="event-abs-circuit" data-event="event-1" href="#0">
-                  <em class="cd-schedule__name"> Appointment {{ app.1 }} </em>
-                  <em class="cd-schedule__name">{{app.0.description}} </em>
-                  
-                  <a href="../../../deleteBooking/{{app.0.start_dateTime|slugify}}"><button>Cancel</button></a>
-                  <a href="../../../changeBooking/{{app.0.start_dateTime|slugify}}"><button>Change</button></a>
-              </li>
-              {% endifnotequal %}
-              {% endfor %}
-            </ul>
-        
+  
+          <ul>
+            {% for app in appointments %}
+              
+              {% if forloop.counter0 != 0 %}
+                  <li class="cd-schedule__event">
+                    <a data-start="{{ app.0.start_dateTime|date:'H:i' }}" data-end="{{ app.0.end_dateTime|date:'H:i' }}" 
+                      data-content="event-abs-circuit" data-event="event-{{app.1}}" href="#0">
+                      <em class="cd-schedule__name"> Appointment {{ app.1 }} </em>
+                      <em class="cd-schedule__name">{{app.0.description}} </em>
+                      <button onclick="window.location.href='../../../deleteBooking/{{app.0.start_dateTime|slugify}}';">Cancel</button>
+                      <button onclick="window.location.href='../../../changeBooking/{{app.0.start_dateTime|slugify}}';">Change</button>
+                      </a>  
+                  </li>
+            {% endif %}
+            {% endfor %}
+          </ul>
+          
         </li>
         {% endfor %}
-  
+        
       </ul>
     </div>
   
@@ -81,7 +76,6 @@
         <div class="cd-schedule-modal__content">
           <span class="cd-schedule-modal__date"></span>
           <h3 class="cd-schedule-modal__name"></h3>
-          dshjkfgjks
         </div>
   
         <div class="cd-schedule-modal__header-bg"></div>

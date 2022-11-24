@@ -5,6 +5,7 @@
 		this.timelineItems = this.element.getElementsByClassName('cd-schedule__timeline')[0].getElementsByTagName('li');
 		this.timelineStart = getScheduleTimestamp(this.timelineItems[0].textContent);
 		this.timelineUnitDuration = getScheduleTimestamp(this.timelineItems[1].textContent) - getScheduleTimestamp(this.timelineItems[0].textContent);
+		
 		this.topInfoElement = this.element.getElementsByClassName('cd-schedule__top-info')[0];
 		this.singleEvents = this.element.getElementsByClassName('cd-schedule__event');
 		
@@ -30,7 +31,6 @@
 	ScheduleTemplate.prototype.initSchedule = function() {
 		this.scheduleReset();
 		this.initEvents();
-		alert(this.getScheduleTimestamp(this.timelineItems[1].textContent) - this.getScheduleTimestamp(this.timelineItems[0].textContent));
 	};
 
 	ScheduleTemplate.prototype.scheduleReset = function() {
@@ -81,25 +81,25 @@
 		Util.removeClass(this.element, 'cd-schedule--loading');
 	};
 
-	// ScheduleTemplate.prototype.initEvents = function() {
-	// 	var self = this;
-	// 	for(var i = 0; i < this.singleEvents.length; i++) {
-	// 		// open modal when user selects an event
-	// 		this.singleEvents[i].addEventListener('click', function(event){
-	// 			event.preventDefault();
-	// 			if(!self.animating) self.openModal(this.getElementsByTagName('a')[0]);
-	// 		});
-	// 	}
-	// 	//close modal window
-	// 	this.modalClose.addEventListener('click', function(event){
-	// 		event.preventDefault();
-	// 		if( !self.animating ) self.closeModal();
-	// 	});
-	// 	this.coverLayer.addEventListener('click', function(event){
-	// 		event.preventDefault();
-	// 		if( !self.animating ) self.closeModal();
-	// 	});
-	// };
+	ScheduleTemplate.prototype.initEvents = function() {
+		var self = this;
+		for(var i = 0; i < this.singleEvents.length; i++) {
+			// open modal when user selects an event
+			this.singleEvents[i].addEventListener('click', function(event){
+				event.preventDefault();
+				if(!self.animating) self.openModal(this.getElementsByTagName('a')[0]);
+			});
+		}
+		//close modal window
+		this.modalClose.addEventListener('click', function(event){
+			event.preventDefault();
+			if( !self.animating ) self.closeModal();
+		});
+		this.coverLayer.addEventListener('click', function(event){
+			event.preventDefault();
+			if( !self.animating ) self.closeModal();
+		});
+	};
 
 	ScheduleTemplate.prototype.openModal = function(target) {
 		var self = this;
