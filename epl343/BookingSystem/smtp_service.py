@@ -36,7 +36,17 @@ def send_booking(status, appointment):
 #     strong_greeting = "Learning Materiak file has been shared with you"
 #     description = "File " + 
 
-# def send_reset_password_token()
+def send_reset_password_token(token, email):
+    strong_greeting = "Password Reset request"
+    description = "Copy the token to it's field at www.drsteliostheodorou.com/reset_password"
+    token = str(token)
+    context = {
+        'strong_greeting': strong_greeting,
+        'paragraph1': description,
+        'paragraph2': token
+    }
+    send(context, "Reset Password at Dr Stelios Theodorou", str(email))
+
 
 def send(context, subject, rec_email):
     html_content = render_to_string("email_template.html", context)

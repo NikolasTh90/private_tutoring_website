@@ -249,3 +249,13 @@ class ChangeUserForm(forms.ModelForm):
 		user.save()
 		return user
 
+
+class RequestResetPassword(forms.Form):
+	email = forms.EmailField(required=True)
+	
+
+class ResetPassword(forms.Form):
+	email = forms.EmailField(required=True)
+	token = forms.CharField(required=True)
+	newPassword = forms.CharField(required=False)
+	confirmPassword = forms.CharField(required=False)

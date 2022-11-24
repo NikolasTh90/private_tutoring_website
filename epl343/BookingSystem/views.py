@@ -370,6 +370,75 @@ def logout1(request):
     logout(request)
     return HttpResponseRedirect(reverse('bs:index'))
 
+def request_reset_password(request):
+    if request.method == "POST":
+        form = RequestResetPassword(request.POST)
+        # email = form.cleaned_data['username'] 
+        # fields = form.fields    
+        # request.POST.get('username')
+        if form.is_valid():
+            email = form.cleaned_data['email']   
+            userTable = MyUser.objects.filter(email=email)
+            if (userTable):  
+                user = MyUser.objects.get(email=email)                    
+                tokenTable = ResetTokens.objects.filter(User=user)
+                if (not tokenTable):
+                    ResetTokens.objects.create(User = user, Token = '')
+
+                tokenTable = ResetTokens.objects.get(User=user)
+                token = tokenTable.generate_token()
+                smtp_service.send_reset_password_token(token, email) 
+            else:
+                print("There is not a User with the given email")      
+            return HttpResponseRedirect(reverse('bs:reset_password'))
+
+        else :
+            print(form.errors)
+    else:
+        template = loader.get_template('request_reset_password.html')
+        return HttpResponse(template.render({},request))    
+
+def reset_password(request):
+    if request.method == "POST":
+        form = ResetPassword(request.POST)
+        # email = form.cleaned_data['username'] 
+        # fields = form.fields    
+        # request.POST.get('username')
+        if form.is_valid():
+            email = form.cleaned_data['email'] 
+            token = form.cleaned_data['token']
+            password = form.cleaned_data['newPassword']
+            password1 = form.cleaned_data['confirmPassword']  
+            # TODO if password = password1 -> message error
+            userTable = MyUser.objects.filter(email=email)
+            if (userTable):  
+                user = MyUser.objects.get(email=email)                    
+                tokenTable = ResetTokens.objects.filter(User=user)
+                if (tokenTable):
+                    tokenTable = ResetTokens.objects.get(User=user)
+                    if (tokenTable.sent < (datetime.datetime.now() + datetime.timedelta(minutes=15)).replace(tzinfo=timezone.utc) ):
+                        if (token == tokenTable.Token):
+                            #TODO Enter new password to MyUser
+                            print("Entering new password")
+                            return HttpResponseRedirect(reverse('bs:login'))
+                        else:
+                            print("wrong token")  
+                    else: 
+                        print("token life time expired") 
+                else:
+                    print("This user never requested a password reset")                
+            else:
+                print("There is not a User with the given email")      
+            
+        else :
+            print(form.errors)
+            template = loader.get_template('reset_password.html')
+            return HttpResponse(template.render({},request))
+    else:
+        template = loader.get_template('reset_password.html')
+        return HttpResponse(template.render({},request))      
+
+
 def login1(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse('bs:dashboard'))

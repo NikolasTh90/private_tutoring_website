@@ -6,6 +6,8 @@ import os
 
 from django.db import models
 from django.core.exceptions import ValidationError
+from secrets import token_hex
+import datetime
 #############################################################
 #Galery code
 class PhotoSection(models.Model):#subjects
@@ -255,3 +257,15 @@ class Testimonial(models.Model):
     description = models.TextField()
     show = models.BooleanField(default=False)
     featured = models.BooleanField(default=True)
+
+# Reset Password Models ##############################
+class ResetTokens(models.Model):
+    User = models.OneToOneField(MyUser,unique=True, on_delete=models.CASCADE)
+    Token = models.CharField(max_length=16)
+    sent = models.DateTimeField(auto_now_add=True)
+
+    def generate_token(self):
+        self.Token = token_hex(16)
+        self.save()
+        return self.Token
+        
