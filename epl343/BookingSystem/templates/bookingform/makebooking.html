@@ -1,6 +1,5 @@
-
 {% load static %}
-
+ 
 {% block content %}
     <title>Educational registration form</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
@@ -120,14 +119,14 @@
       }
       }
     </style>
-
+ 
 <div class="page" style="background: url({% static 'bookingform/images/background.jpeg' %}) no-repeat center; background-size: cover; ">
 <hr style="height : 175px">
 {% for message in messages %}
     <a style="color : red">{{ message }}</a>
 {% endfor %}
-
-
+ 
+ 
 <div class="main-block">
     <div class="left-part">
       <i class="fas fa-graduation-cap"></i>
@@ -145,60 +144,50 @@
         {% endfor %}
     {% else %}
         {% csrf_token %}
-      <div class="title">
-        <i class="fas fa-pencil-alt"></i> 
-        <h2>request here</h2>
-      </div>
-      <div class="info">
-        <label for="birthday">Date</label>
-        <p>
-        <input type="date" name="date" id="birthday" name="birthday" required>
-        <p>
-        <label style="color : white">Start Time</label>
-        <p>
-        <input type="time" id="appt" name="time"required>
-        <p>
-        <label style="color : white">Duration</label>
-        <p>
-        <select id="appointment_duration" name="appointment_duration" required>
-            <option selected disabled>-----------</option>
-            <option value="15">15 min</option>
-            <option value="30">30 min</option>
-            <option value="45">45 min</option>
-            <option value="60">1h</option>
-            <option value="75">1h 15min</option>
-            <option value="90">1h 30min</option>
-        </select>
-        <p>
-        <label for="signup-pref-loc" style="color : white">Preffered location</label>
-        <p>
-        <select id="preffered_loc" name="location" required>
-            <option value="OT" selected disabled>-----------</option>
-            <option value="ON">Online/Zoom</option>
-            <option value="PI">Private/Home</option>
-            <option value="PU">Public/Cafe</option>
-        </select>
-        <p>
-        <label for="signup-pref-pay" style="color : white" required>Preffered Payment Method</label>
-        <p>
-        <select id="pay" name="pay">
-            <option value="NA" selected disabled>-------</option>
+        <div class="title">
+            <i class="fas fa-pencil-alt"></i> 
+            <h2>request here</h2>
+        </div>
+        <div class="info">
+            <label for="birthday">Date</label>
+            <input type="date" name="date" required>
+            <label style="color : white">Start Time</label>
+            <input type="time" id="appt" name="time"required>
+            <label style="color : white">Duration</label>
+            <label for="appointment_duration">
+                <select id="appointment_duration" name="appointment_duration" required>
+                    <option value="" selected disabled>---------</option>
+                    <option value="45">45 min</option>
+                    <option value="60">1h</option>
+                    <option value="75">1h 15min</option>
+                    <option value="90">1h 30min</option>
+                </select>
+            </label>
+            <label for="signup-pref-loc" style="color : white">Preffered location</label>
+            <select id="preffered_loc" name="location" required>
+                <option value="" selected disabled>----------</option>
+                <option value="ON">Online/Zoom</option>
+                <option value="PI">Private/Home</option>
+                <option value="PU">Public/Cafe</option>
+            </select>
+ 
+        <!-- <label for="signup-pref-pay" style="color : white">Preffered Payment Method</label>
+        <select id="pay" name="pay" required>
+            <option value="" selected disabled>----------</option>
             <option value="c">Cash</option>
             <option value="paypal">Czech Bank Instant</option>
             <option value="card">Payment</option>
             <option value="rev">Revolut</option>
-        </select>
-        <p>
-        <label style="color : white">Description</label>
-        <p>
-        <textarea type="text" style="width : 80%;"></textarea>
-        <p>
+        </select> -->
+
+        <label style="color : white">Description (Describe efficently all your questions and the subject you need help with)</label>
+        <textarea type="text" name="description" style="width : 80%;" minlength="30" placeholder="Write something"></textarea>
         <button type="submit">Submit</button>
         {% endif %}
     </form>
-  </div>
-
-
+    </div>
+ 
+ 
 <!-- <center>
 <form method="post">
     {% csrf_token %}
@@ -240,7 +229,6 @@
     <button type="submit">Submit</button>
 </form>
 </center> -->
-
+ 
 </div>
 {% endblock content %}
-
