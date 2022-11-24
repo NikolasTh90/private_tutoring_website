@@ -2,7 +2,6 @@ import datetime
 from .models import Schedule, Offs, Appointment, MyUser
 from django.db.models import Q
 import django.utils.timezone as timezone
-from .smtp_service import send_booking
 break_time = datetime.timedelta(minutes = 10)
 allowed_days_before_appointment = datetime.timedelta(days = 3)
 
@@ -15,8 +14,7 @@ def main(post_request):
         #user = MyUser.objects.only(email).filter(email=post_request['user_email'])
         #TODO user should be a MyUser instance, can we get this from sessions?
         Appointment.objects.create(user = post_request['user_email'], description = post_request['description'], duration = post_request['requested_duration'], start_dateTime = post_request['requested_dateTime']) 
-        #end email notification
-        send_booking("pending")
+        #TODO send email notification
 
     else:
         recommendations = [recommend_next_appointment(post_request['requested_dateTime'], post_request['requested_duration']),
