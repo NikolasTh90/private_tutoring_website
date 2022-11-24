@@ -160,23 +160,49 @@ def requestSubmitted(request):
 
 def myappointments(request):
     appointments = Appointment.objects.filter(user = MyUser.objects.get(email = 'epl343@ucy.ac.cy'))
-    list_app = []
-    for a in range(len(appointments)):
-        print(type(appointments[a].start_dateTime))
-        list_app.append(appointments[a].start_dateTime)
-        print(appointments[a].start_dateTime)
-    min = list_app[0]
-    for appoint in range(len(appointments)):
-        if list_app[appoint]<min :
-            min=list_app[appoint]
-    print(min)
-    max = list_app[0]
-    for appoint in range(len(appointments)):
-        if list_app[appoint]>max :
-            max=list_app[appoint]
-    print(max)
+    minstart = appointments[0].start_dateTime.time()
+    maxend = appointments[0].end_dateTime.time()
+    for app in appointments:
+        if app.start_dateTime.time() < minstart:
+            minstart = app.start_dateTime.time()
+        if app.end_dateTime.time() > maxend:
+            maxend = app.end_dateTime.time()
+    delta = datetime.timedelta(minutes=60)
+    maxend = (datetime.datetime.combine(datetime.date(1,1,1),maxend) + delta).time()
+    print(minstart, maxend)
+    # list_app = []
+    # for a in range(len(appointments)):
+    #     list_app.append(appointments[a].start_dateTime)
+    #     print(appointments[a].start_dateTime)
+    # min = list_app[0].time()
+    # for appoint in range(len(appointments)):
+    #     if list_app[appoint].time()<min :
+    #         min=list_app[appoint].time()
+    # print(min)
+    # max = list_app[0].time()
+    # for appoint in range(len(appointments)):
+    #     if list_app[appoint].time()>max :
+    #         max=list_app[appoint].time()
+    # print(max)
+    dict = {0 : 'Monday', 1 : 'Tuesday', 2 : 'Wednesday', 3 : 'Thursday', 4 : 'Friday', 5 : 'Saturday', 6 : 'Sunday'}
+    appointments_sorted_by_weekday = list()
+    for i in range(5):
+        weekday_apps = [dict[i]]
+        counter = 1
+        for app in appointments:
+            if app.start_dateTime.weekday()==i:
+                weekday_apps.append([app, counter])
+                counter += 1
+        appointments_sorted_by_weekday.append(weekday_apps)
+    print(appointments_sorted_by_weekday)
+    slots = []
+    while minstart<maxend:
+        slots.append(minstart)
+        delta = datetime.timedelta(minutes=30)
+        minstart = (datetime.datetime.combine(datetime.date(1,1,1),minstart) + delta).time()
+    print(slots)
     template = loader.get_template('appointments_schedule/index.html')
-    return HttpResponse(template.render({'app' : appointments}, request))
+    return HttpResponse(template.render({'appointments_sorted' : appointments_sorted_by_weekday,'slot': slots}, request))
 
 def about(request):
     template = loader.get_template('about.html')
