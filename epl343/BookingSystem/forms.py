@@ -250,8 +250,23 @@ class ChangeUserForm(forms.ModelForm):
 		return user
 
 
-class RequestResetPassword(forms.Form):
-	email = forms.EmailField(required=True)
+class RequestResetPassword(forms.ModelForm):
+	User = forms.ModelChoiceField(queryset=MyUser.objects.all(), required=False)
+	email = forms.CharField(required=True)
+	Token = forms.CharField(required=False)
+
+	class Meta:
+		model = ResetTokens
+		fields = ('User', 'Token')
+	
+	def save(self, commit=True):
+		record = super(RequestResetPassword, self).save(commit=False)
+		record.generate_token()
+		from . import smtp_service
+		smtp_service.send_reset_password_token(record.Token, self.cleaned_data['email']) 
+		if commit:
+			record.save()
+		return record
 	
 class ChangeBookingForm(forms.ModelForm):
 	date = forms.DateField(required=True)
@@ -274,7 +289,29 @@ class ChangeBookingForm(forms.ModelForm):
 		return app
 
 class ResetPassword(forms.Form):
-	email = forms.EmailField(required=True)
-	token = forms.CharField(required=True)
-	newPassword = forms.CharField(required=False)
-	confirmPassword = forms.CharField(required=False)
+	email = forms.ModelChoiceField(queryset=MyUser.objects.all(), required=True)
+	password = forms.CharField(required=True)
+	password1 = forms.CharField(required=True)
+	
+	def fill_email(self, token):
+		tokenRecord = ResetTokens.objects.get(Token=token)
+		if tokenRecord is None:
+			self.password = 'hello'
+			self.password1 = 'hello1'
+		else:
+			self.email = tokenRecord.User.email
+			if (tokenRecord.sent < (datetime.datetime.now() + datetime.timedelta(minutes=15)).replace(tzinfo=timezone.utc) ):
+				self.password = 'hello'
+				self.password1 = 'hello1'
+			
+	
+	def is_valid(self):
+		valid = super(ResetPassword, self).is_valid()
+		if str(self.cleaned_data['password'])!=str(self.cleaned_data['password1']):
+			return False
+		user = MyUser.objects.get(email=self.cleaned_data['email'])
+		user.set_password(self.cleaned_data['password'])
+		user.save()
+		ResetTokens.objects.filter(User=user).delete()
+		return True and valid
+

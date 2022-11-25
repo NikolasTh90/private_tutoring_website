@@ -371,72 +371,44 @@ def logout1(request):
     return HttpResponseRedirect(reverse('bs:index'))
 
 def request_reset_password(request):
+    
     if request.method == "POST":
-        form = RequestResetPassword(request.POST)
-        # email = form.cleaned_data['username'] 
-        # fields = form.fields    
-        # request.POST.get('username')
+        print(MyUser.objects.filter(email=request.POST.get('email')), 'hhhhhhhhhhhhhhhhhhhhhhhhh')
+        newrequest = ({
+            'User' : MyUser.objects.filter(email=request.POST.get('email')).first(),
+            'email' : request.POST.get('email'),
+        })
+        form = RequestResetPassword(data = newrequest)
         if form.is_valid():
-            email = form.cleaned_data['email']   
-            userTable = MyUser.objects.filter(email=email)
-            if (userTable):  
-                user = MyUser.objects.get(email=email)                    
-                tokenTable = ResetTokens.objects.filter(User=user)
-                if (not tokenTable):
-                    ResetTokens.objects.create(User = user, Token = '')
-
-                tokenTable = ResetTokens.objects.get(User=user)
-                token = tokenTable.generate_token()
-                smtp_service.send_reset_password_token(token, email) 
-            else:
-                print("There is not a User with the given email")      
-            return HttpResponseRedirect(reverse('bs:reset_password'))
-
-        else :
-            print(form.errors)
+            form.save()
+            template = loader.get_template('request_reset_password.html')
+            return HttpResponse(template.render({'mess' : 'If the user exists, you will find an email with a reset password link in your email', 'sent' : True}, request))
     else:
         template = loader.get_template('request_reset_password.html')
-        return HttpResponse(template.render({},request))    
+        return HttpResponse(template.render({'sent' : False},request))    
 
-def reset_password(request):
-    if request.method == "POST":
-        form = ResetPassword(request.POST)
-        # email = form.cleaned_data['username'] 
-        # fields = form.fields    
-        # request.POST.get('username')
-        if form.is_valid():
-            email = form.cleaned_data['email'] 
-            token = form.cleaned_data['token']
-            password = form.cleaned_data['newPassword']
-            password1 = form.cleaned_data['confirmPassword']  
-            # TODO if password = password1 -> message error
-            userTable = MyUser.objects.filter(email=email)
-            if (userTable):  
-                user = MyUser.objects.get(email=email)                    
-                tokenTable = ResetTokens.objects.filter(User=user)
-                if (tokenTable):
-                    tokenTable = ResetTokens.objects.get(User=user)
-                    if (tokenTable.sent < (datetime.datetime.now() + datetime.timedelta(minutes=15)).replace(tzinfo=timezone.utc) ):
-                        if (token == tokenTable.Token):
-                            #TODO Enter new password to MyUser
-                            print("Entering new password")
-                            return HttpResponseRedirect(reverse('bs:login'))
-                        else:
-                            print("wrong token")  
-                    else: 
-                        print("token life time expired") 
-                else:
-                    print("This user never requested a password reset")                
-            else:
-                print("There is not a User with the given email")      
-            
-        else :
-            print(form.errors)
+def reset_password(request, token):
+    if ResetTokens.objects.filter(Token=token).first() is not None:
+        if request.method == "POST":
+            newrequest = ({
+                'email' : ResetTokens.objects.filter(Token=token).first().User,
+                'password' : request.POST.get('password'),
+                'password1' : request.POST.get('password1')
+            })
+            form = ResetPassword(newrequest)
+            if form.is_valid():
+                template = loader.get_template('reset_password.html')
+                return HttpResponse(template.render({'valid' : True, 'post' : True, 'Finished' : 'Password Successfully changed'},request))
+            else :
+                print(form.errors)
+                
+        else:
             template = loader.get_template('reset_password.html')
-            return HttpResponse(template.render({},request))
+            return HttpResponse(template.render({'valid' : True, 'post' : False},request))      
     else:
         template = loader.get_template('reset_password.html')
-        return HttpResponse(template.render({},request))      
+        return HttpResponse(template.render({'mess' : 'Link is invalid', 'valid' : False, 'post' : False},request))     
+        
 
 
 def login1(request):
@@ -488,7 +460,6 @@ def signup(request):
                 if str(error)=='email':
                     messages.error(request, 'A user with this email already exists.')
                 if error=='password':
-                    print(error)
                     messages.error(request, 'Wrong Username or password.')
                 if error=='password1':
                     messages.error(request, 'Password and confirmation must be the same.')
