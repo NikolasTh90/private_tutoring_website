@@ -34,8 +34,12 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="card-box">
-                                       
+                                       {% if materials|length == 0 %}
+                                       <h4>You do not have any learning material files.</h4>
+                                       <p>You can ask your teacher to share files with you.</p>
 
+
+                                        {% else %}
                                         <div class="row">
                                         {% for file in materials %}
                                             <div class="col-lg-3 col-xl-2">
@@ -56,6 +60,7 @@
                                         
                                         {% endfor %}
                                         </div>
+                                        {% endif %}
                                         {% comment %} <div class="text-center mt-3">
                                             <button type="button" class="btn btn-outline-danger w-md waves-effect waves-light"><i class="mdi mdi-refresh"></i> Load More Files</button>
                                         </div> {% endcomment %}

@@ -514,7 +514,6 @@ def learning_material(request):
             'materials': materials,
             'supported_icons': supported_icons
         }
-    print(context['materials'], context['materials'][0])
 
     return HttpResponse(template.render(context, request))
 
