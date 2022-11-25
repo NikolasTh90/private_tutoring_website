@@ -201,7 +201,7 @@ class BookingForm(forms.ModelForm):
 	time = forms.TimeField(required=True)
 	appointment_duration = forms.IntegerField(required=True)
 	location = forms.CharField(required=True)
-	description = forms.Textarea()
+	description = forms.CharField(max_length=1000, required=True)
 	start_dateTime = forms.DateTimeField(widget=forms.HiddenInput())
 	duration = forms.DurationField(widget=forms.HiddenInput())
 	user = forms.ModelChoiceField(queryset=MyUser.objects.all(),widget=forms.HiddenInput())
