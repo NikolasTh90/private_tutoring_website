@@ -280,12 +280,19 @@ def BookFromRecommend(request, date, time, duration):
     try:
         print('gdhfsdjkhfkdsjhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
         if request.session['recommended']==True:
-            print('gdhfsdjkhfkdsjhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
-            requested_dateTime, requested_duration = strToDateTime(date, time, duration)
-            if Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration):
+            if request.user.is_authenticated:
                 print('gdhfsdjkhfkdsjhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
-                Appointment.objects.create(user = request.user, description = request.session['description'], duration = requested_duration, start_dateTime = requested_dateTime) 
-                return HttpResponseRedirect(reverse('bs:requestSubmitted'))
+                requested_dateTime, requested_duration = strToDateTime(date, time, duration)
+                if Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration):
+                    print('gdhfsdjkhfkdsjhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
+                    Appointment.objects.create(user = request.user, description = request.session['description'], duration = requested_duration, start_dateTime = requested_dateTime) 
+                    request.session['recommended'] = False
+                    return HttpResponseRedirect(reverse('bs:requestSubmitted'))
+            else:
+                return HttpResponseRedirect('/login-signup/?next=/makeBooking/recommend/' + date + '/' + time + '/' + duration + '/')
+
+        else:
+            return HttpResponseRedirect(reverse('bs:makeBooking'))    
     except:
         return HttpResponseRedirect(reverse('bs:makeBooking'))
 
@@ -428,8 +435,8 @@ def login1(request):
             user = authenticate(request, username=email, password=password)
             if user is not None:
                 login(request, user)
-                if request.GET.get('next') == '/makeBooking/':
-                    return HttpResponseRedirect(request.GET.get('next'))    
+                if str(request.GET.get('next')).__contains__('/makeBooking/'):
+                    return HttpResponseRedirect(request.GET.get('next'))
                 return HttpResponseRedirect(reverse('bs:dashboard'))
         else:
             messages.error(request, 'Invalid username or password.')
