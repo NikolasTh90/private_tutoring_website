@@ -274,6 +274,7 @@ class ChangeBookingForm(forms.ModelForm):
 	date = forms.DateField(required=True)
 	time = forms.TimeField(required=True)
 	appointment_duration = forms.IntegerField(required=True)
+	description = forms.CharField(required=True)
 	location = forms.CharField(required=True)
 	start_dateTime = forms.DateTimeField(widget=forms.HiddenInput())
 	duration = forms.DurationField(widget=forms.HiddenInput())

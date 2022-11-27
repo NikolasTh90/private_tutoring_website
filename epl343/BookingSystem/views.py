@@ -76,55 +76,46 @@ def index(request):
 
 def deleteBooking(request,startdate):
     if request.user.is_authenticated:
+        
         start_date = datetime.datetime(year=int(startdate[:4]),month=int(startdate[5:7]),day=int(startdate[8:10]), hour=int(startdate[11:13]), minute=int(startdate[13:15]), second=0)
         print(start_date)
+
         app = Appointment.objects.filter(start_dateTime=start_date).first()
+        where_to_redirect = str(app.start_dateTime.isocalendar().week)
         if app.user == request.user:
             app.delete()
-    return HttpResponseRedirect(reverse('bs:myappointments'))
+    return HttpResponseRedirect('/dashboard/myappointments/' + where_to_redirect)
         
 
 def changeBooking(request,startdate):
-    if (request.method == "POST") and request.user.is_authenticated:
-        start_date = datetime.datetime(year=int(startdate[:4]),month=int(startdate[5:7]),day=int(startdate[8:10]), hour=int(startdate[11:13]), minute=int(startdate[13:15]), second=0)
-        print(start_date)
-        appointments = Appointment.objects.filter(user = MyUser.objects.get(email = 'epl343@ucy.ac.cy'), start_dateTime=start_date)
-        print(appointments)
-        
-        request_copy = request.POST.copy()
-        date = request.POST.get('date')
-        time = request.POST.get('time')
-        duration = request.POST.get('appointment_duration')
-        print(date)
-        print(time)
-        print(duration)
-        requested_dateTime = datetime.datetime(year=int(date[:4]),month=int(date[5:7]),day=int(date[8:]), hour=int(time[:2]), minute=int(time[3:5]), second=0, tzinfo=timezone.utc)
-        requested_duration = timedelta(hours=int(duration)//60, minutes=int(duration)%60)
-        print(requested_dateTime)
-        print(requested_duration)
-        request_copy.update({'start_dateTime' : requested_dateTime })
-        request_copy.update({'duration' :   requested_duration })
-        request_copy.update({'user' :  request.user })
-        from .BookingSystem import Available
-        availability = Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration)
-        is_available = availability[0]
-        if is_available:
-            Appointment.objects.filter(start_dateTime=start_date).delete()
-            form = ChangeBookingForm(data = request_copy)
-            if form.is_valid():
-                print("pass valid")
-                form.save()
-
+    if request.user.is_authenticated:
+        if (request.method == "POST"):
+            start_date = datetime.datetime(year=int(startdate[:4]),month=int(startdate[5:7]),day=int(startdate[8:10]), hour=int(startdate[11:13]), minute=int(startdate[13:15]), second=0)
+            date = request.POST.get('date')
+            time = request.POST.get('time')
+            duration = request.POST.get('appointment_duration')
+            requested_dateTime = datetime.datetime(year=int(date[:4]),month=int(date[5:7]),day=int(date[8:]), hour=int(time[:2]), minute=int(time[3:5]), second=0, tzinfo=timezone.utc)
+            requested_duration = timedelta(hours=int(duration)//60, minutes=int(duration)%60)
+            if Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration, current_appointment=Appointment.objects.filter(start_dateTime=start_date).first()):
+                current_appointment = Appointment.objects.get(start_dateTime=start_date)
+                current_appointment.start_dateTime = requested_dateTime
+                current_appointment.duration = requested_duration
+                current_appointment.description = request.POST.get('description')
+                current_appointment.location = request.POST.get('location')
+                current_appointment.save()
+                Appointment.objects.filter(start_dateTime=start_date).delete()
+                return HttpResponseRedirect(reverse('bs:myappointments'))
             else:
-                print(form.errors)
-            return HttpResponseRedirect(reverse('bs:myappointments'))
+                return HttpResponseRedirect(reverse(' bs:myappointments '))
         else:
-            print("Your new booking request is not accepted because there is no availibility")
-            print("You previous booking is still there!! Think Again!!") 
-            return HttpResponseRedirect(reverse('bs:myappointments'))
-    else:
-        template = loader.get_template('appointments_schedule/changebooking.html')
-        return HttpResponse(template.render({'form' : ChangeBookingForm}, request))
+            template = loader.get_template('appointments_schedule/changebooking.html')
+            start_date = datetime.datetime(year=int(startdate[:4]),month=int(startdate[5:7]),day=int(startdate[8:10]), hour=int(startdate[11:13]), minute=int(startdate[13:15]), second=0)
+            current_appointment = Appointment.objects.filter(start_dateTime=start_date).first()
+            duration = str(current_appointment.duration)
+            duration = int(duration[:1])*60 + int(duration[2:4])
+            location = current_appointment.location
+            description = current_appointment.description
+            return HttpResponse(template.render({'form' : BookingForm, 'previous_date' : startdate[:10], 'previous_time' : (startdate[11:13] + ':' + startdate[13:15]), 'previous_location' : location, 'previous_description' : description, 'previous_duration' : duration}, request))
         
 
 def strToDateTime(date, time, duration):
@@ -167,7 +158,7 @@ def makeBooking(request):
             #form.pay = pay
             form.description = description
             request.session['waitforlogin'] = False
-            availability = Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration)
+            availability = Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration, current_appointment=None)
             is_available = availability[0] 
             if is_available:
                 if form.is_valid():
@@ -191,8 +182,7 @@ def makeBooking(request):
                 requested_dateTime, requested_duration = strToDateTime(date, time, duration)
                 request_copy = updateRequestWith(request_copy, requested_dateTime, requested_duration, None, None, None, None, None)
                 form = BookingForm(data = request_copy)
-                if Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration):
-                    print(Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration))
+                if Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration, current_appointment=None):
                     if request.user.is_authenticated:
                         request_copy.update({'user' : request.user  })
                         form = BookingForm(data = request_copy)
@@ -225,7 +215,6 @@ def makeBooking(request):
             else :
                 template = loader.get_template('bookingform/makebooking.html')
                 return HttpResponse(template.render({'recommend' : False, 'site' : 'Booking'}, request))
-
     except:
         if (request.method == "POST") :
                 request_copy = request.POST.copy()
@@ -235,8 +224,7 @@ def makeBooking(request):
                 requested_dateTime, requested_duration = strToDateTime(date, time, duration)
                 request_copy = updateRequestWith(request_copy, requested_dateTime, requested_duration, None, None, None, None, None)
                 form = BookingForm(data = request_copy)
-                if Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration):
-                    print(Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration))
+                if Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration, current_appointment=None):
                     if request.user.is_authenticated:
                         request_copy.update({'user' : request.user  })
                         form = BookingForm(data = request_copy)
@@ -285,7 +273,7 @@ def BookFromRecommend(request, date, time, duration):
             if request.user.is_authenticated:
                 print('gdhfsdjkhfkdsjhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
                 requested_dateTime, requested_duration = strToDateTime(date, time, duration)
-                if Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration):
+                if Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration, current_appointment=None):
                     print('gdhfsdjkhfkdsjhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
                     Appointment.objects.create(user = request.user, description = request.session['description'], duration = requested_duration, start_dateTime = requested_dateTime) 
                     request.session['recommended'] = False
@@ -299,40 +287,57 @@ def BookFromRecommend(request, date, time, duration):
         return HttpResponseRedirect(reverse('bs:makeBooking'))
 
 
-def myappointments(request):
-    appointments = Appointment.objects.filter(user = MyUser.objects.get(email = 'epl343@ucy.ac.cy'))
-    print(appointments)
-    minstart = appointments[0].start_dateTime.time()
-    maxend = appointments[0].end_dateTime.time()
-    for app in appointments:
-        if app.start_dateTime.time() < minstart:
-            minstart = app.start_dateTime.time()
-        if app.end_dateTime.time() > maxend:
-            maxend = app.end_dateTime.time()
-    delta = datetime.timedelta(minutes=60)
-    maxend = (datetime.datetime.combine(datetime.date(1,1,1),maxend) + delta).time()
-    print(minstart, maxend)
-
-    dict = {0 : 'Monday', 1 : 'Tuesday', 2 : 'Wednesday', 3 : 'Thursday', 4 : 'Friday', 5 : 'Saturday', 6 : 'Sunday'}
-    appointments_sorted_by_weekday = list()
-    for i in range(5):
-        weekday_apps = [dict[i]]
-        counter = 1
+def myappointments(request, week_number):
+    temp_appointments = Appointment.objects.filter(user = request.user)
+    appointments = list()
+    weeks_with_apps = list()
+    for app in temp_appointments:
+        if app.start_dateTime.isocalendar().week not in weeks_with_apps:
+            weeks_with_apps.append(app.start_dateTime.isocalendar().week)
+        if app.start_dateTime.isocalendar().week == week_number:
+            appointments.append(app)
+    weeks_with_apps.sort()
+    try:
+        minstart = appointments[0].start_dateTime.time()
+        maxend = appointments[0].end_dateTime.time()
         for app in appointments:
-            print(app)
-            if app.start_dateTime.weekday()==i:
-                weekday_apps.append([app, counter])
-                counter += 1
-        appointments_sorted_by_weekday.append(weekday_apps)
-    print(appointments_sorted_by_weekday)
-    slots = []
-    while minstart<maxend:
-        slots.append(minstart)
-        delta = datetime.timedelta(minutes=30)
-        minstart = (datetime.datetime.combine(datetime.date(1,1,1),minstart) + delta).time()
-    print(slots)
-    template = loader.get_template('appointments_schedule/index.html')
-    return HttpResponse(template.render({'appointments_sorted' : appointments_sorted_by_weekday,'slot': slots}, request))
+            if app.start_dateTime.time() < minstart:
+                minstart = app.start_dateTime.time()
+            if app.end_dateTime.time() > maxend:
+                maxend = app.end_dateTime.time()
+        delta = datetime.timedelta(minutes=60)
+        maxend = (datetime.datetime.combine(datetime.date(1,1,1),maxend) + delta).time()
+        print(minstart, maxend)
+
+        dict = {0 : 'Monday', 1 : 'Tuesday', 2 : 'Wednesday', 3 : 'Thursday', 4 : 'Friday', 5 : 'Saturday', 6 : 'Sunday'}
+        appointments_sorted_by_weekday = list()
+        for i in range(5):
+            weekday_apps = [dict[i]]
+            counter = 1
+            for app in appointments:
+                print(app)
+                if app.start_dateTime.weekday()==i:
+                    weekday_apps.append([app, counter])
+                    counter += 1
+            appointments_sorted_by_weekday.append(weekday_apps)
+        print(appointments_sorted_by_weekday)
+        slots = []
+        while minstart<maxend:
+            slots.append(minstart)
+            delta = datetime.timedelta(minutes=30)
+            minstart = (datetime.datetime.combine(datetime.date(1,1,1),minstart) + delta).time()
+        print(slots)
+        template = loader.get_template('appointments_schedule/index.html')
+        return HttpResponse(template.render({'appointments_sorted' : appointments_sorted_by_weekday,'slot': slots, 'week_num' : week_number, 'weeks' : weeks_with_apps}, request))
+    except:
+        template = loader.get_template('appointments_schedule/index.html')
+        dict = {0 : 'Monday', 1 : 'Tuesday', 2 : 'Wednesday', 3 : 'Thursday', 4 : 'Friday', 5 : 'Saturday', 6 : 'Sunday'}
+        appointments_sorted_by_weekday = list()
+        for i in range(5):
+            weekday_apps = [dict[i]]
+            appointments_sorted_by_weekday.append(weekday_apps)
+        print(week_number)
+        return HttpResponse(template.render({'appointments_sorted' : appointments_sorted_by_weekday, 'week_num' : week_number, 'weeks' : weeks_with_apps}, request))
 
 def about(request):
     template = loader.get_template('about.html')

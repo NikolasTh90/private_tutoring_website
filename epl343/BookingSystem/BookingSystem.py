@@ -23,7 +23,7 @@ def main(post_request):
                             recommend_previous_appointment(post_request['requested_dateTime'], post_request['requested_duration'])] 
         return recommendations  
 
-def Available(requested_dateTime, requested_duration):
+def Available(requested_dateTime, requested_duration, current_appointment):
 		if not is_valid_appointment_request(requested_dateTime):
 			return False
 
@@ -101,7 +101,7 @@ def recommend_next_appointment(requested_appointment_start_dateTime, requested_a
     recommend_next_appointment_datetime = requested_appointment_start_dateTime
     recommend_next_appointment_datetime += datetime.timedelta(minutes=5)
     while True:
-        if Available(recommend_next_appointment_datetime, requested_appointment_duration):
+        if Available(recommend_next_appointment_datetime, requested_appointment_duration, current_appointment=None):
             return recommend_next_appointment_datetime
         recommend_next_appointment_datetime += datetime.timedelta(minutes=5)
     
@@ -111,7 +111,7 @@ def recommend_previous_appointment(requested_appointment_start_dateTime, request
     now = datetime.datetime.now()
     current_datetime = datetime.datetime(year=now.year, month=now.month, day=now.day, hour=now.hour, minute=now.minute, second=now.second, tzinfo=timezone.utc) + allowed_days_before_appointment
     while recommended_previous_appointment_dateTime >= current_datetime:
-        if Available(recommended_previous_appointment_dateTime, requested_appointment_duration):
+        if Available(recommended_previous_appointment_dateTime, requested_appointment_duration, current_appointment=None):
             return recommended_previous_appointment_dateTime
         recommended_previous_appointment_dateTime -= datetime.timedelta(minutes=5)
     
