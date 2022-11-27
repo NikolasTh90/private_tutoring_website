@@ -75,15 +75,17 @@ def index(request):
     return HttpResponse(template.render({'site': 'Home', 'testimonials': testimonials, 'authenticated' : auth, 'name' : name}, request))
 
 def deleteBooking(request,startdate):
-    start_date = datetime.datetime(year=int(startdate[:4]),month=int(startdate[5:7]),day=int(startdate[8:10]), hour=int(startdate[11:13]), minute=int(startdate[13:15]), second=0)
-    print(start_date)
-    Appointment.objects.filter(start_dateTime=start_date).delete()
+    if request.user.is_authenticated:
+        start_date = datetime.datetime(year=int(startdate[:4]),month=int(startdate[5:7]),day=int(startdate[8:10]), hour=int(startdate[11:13]), minute=int(startdate[13:15]), second=0)
+        print(start_date)
+        app = Appointment.objects.filter(start_dateTime=start_date).first()
+        if app.user == request.user:
+            app.delete()
     return HttpResponseRedirect(reverse('bs:myappointments'))
         
 
 def changeBooking(request,startdate):
-    if (request.method == "POST") :
-
+    if (request.method == "POST") and request.user.is_authenticated:
         start_date = datetime.datetime(year=int(startdate[:4]),month=int(startdate[5:7]),day=int(startdate[8:10]), hour=int(startdate[11:13]), minute=int(startdate[13:15]), second=0)
         print(start_date)
         appointments = Appointment.objects.filter(user = MyUser.objects.get(email = 'epl343@ucy.ac.cy'), start_dateTime=start_date)
@@ -383,7 +385,6 @@ def logout1(request):
     return HttpResponseRedirect(reverse('bs:index'))
 
 def request_reset_password(request):
-    
     if request.method == "POST":
         print(MyUser.objects.filter(email=request.POST.get('email')), 'hhhhhhhhhhhhhhhhhhhhhhhhh')
         newrequest = ({
@@ -391,10 +392,15 @@ def request_reset_password(request):
             'email' : request.POST.get('email'),
         })
         form = RequestResetPassword(data = newrequest)
+        if ResetTokens.objects.get(User=MyUser.objects.get(email=request.POST.get('email'))) is not None:
+            ResetTokens.objects.filter(User=MyUser.objects.get(email=request.POST.get('email'))).delete()
         if form.is_valid():
             form.save()
             template = loader.get_template('request_reset_password.html')
             return HttpResponse(template.render({'mess' : 'If the user exists, you will find an email with a reset password link in your email', 'sent' : True}, request))
+        else:
+            print(MyUser.objects.filter(email=request.POST.get('email')), 'hhhhhhhhhhhhhhhhhhhhhhhhh')
+            print(form.errors)
     else:
         template = loader.get_template('request_reset_password.html')
         return HttpResponse(template.render({'sent' : False},request))    
