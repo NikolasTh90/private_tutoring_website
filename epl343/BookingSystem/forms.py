@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from .BookingSystem import *
 from .models import *
+from . import smtp_service
 ###################################################
 import pdb
 #Contact imports
@@ -213,6 +214,7 @@ class BookingForm(forms.ModelForm):
 
 	def save(self, commit=True):
 		app = super(BookingForm, self).save(commit=False)
+		smtp_service.send_booking('pending', app)
 		if commit:
 			app.save()
 		return app
