@@ -370,7 +370,7 @@ def feedback(request):
 
 def testimonials(request):
     # template = loader.get_template('teaching_experience.html')
-    testimonials = Testimonial.objects.all().values()
+    testimonials = Testimonial.objects.select_related('user')
     return render(request, "testimonials.html", {'site': 'Testimonials', 'testimonials': testimonials} )
 
 def gallery(request):
