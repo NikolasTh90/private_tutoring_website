@@ -7,6 +7,7 @@ import os
 from django.db import models
 from django.core.exceptions import ValidationError
 from secrets import token_hex
+from . import smtp_service
 import datetime
 #############################################################
 #Galery code
@@ -224,6 +225,12 @@ class LearningMaterialReference(models.Model):
     def __str__(self):
         return self.User.__str__() + ':'+ self.LearningMaterial.__str__()  
 
+    def save(self, *args, **kwargs):
+        smtp_service.send_material_shared_notifications(self)
+        super().save(*args, **kwargs)    
+    
+
+
 
 # Booking System models #################################################################
 class Appointment(models.Model):
@@ -238,9 +245,17 @@ class Appointment(models.Model):
     start_dateTime = models.DateTimeField(primary_key=True)
     end_dateTime = models.DateTimeField(blank=True)
 
+    def __str__(self):
+        return self.user.first_name + ' ' + self.user.last_name + ' @ ' + self.start_dateTime.strftime('%d-%b-%Y') + " (" + self.user.email + ")"
     # not sure if this is correct
     def save(self, *args, **kwargs):
         self.end_dateTime = self.start_dateTime + self.duration
+        if ( not self.pending and self.accepted):
+            smtp_service.send_booking('confirmed', self)
+        if ( not self.pending and not self.accepted):
+            smtp_service.send_booking('rejected', self)
+        if ( self.pending ):
+            smtp_service.send_booking('pending', self)  
         super().save(*args, **kwargs)
 
 

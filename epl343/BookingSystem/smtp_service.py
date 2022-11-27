@@ -20,10 +20,13 @@ def send_inquiry(form):
 def send_booking(status, appointment):
     strong_greeting = "Thank you for your appointment booking"
     status = "\nYour appointment is now " + status
-    if( status.contains("pending")):
-        status +=" confirmation from the Admin \n the Admin has been notified and will confirm or reject the appointment as soon as possible"
-    
-    description = "Update regarding your appointment on " + str(appointment.start_dateTime.date())
+    if( "pending" in status):
+        status +=" confirmation from the Admin! \n the Admin has been notified and will confirm or reject the appointment as soon as possible"
+    if( "rejected" in status):
+        status +=" by the Admin! \n Please try to book an appointment again for a different date or time, since the Admin might be busy the time you requested"
+    if ( "confirmed" in status):
+        status +=" by the Admin! \n Looking forward for our appointment!"
+    description = "Update regarding your appointment on " + str(appointment.start_dateTime.date()) + " at " + str(appointment.end_dateTime.time())
     context = {
         'strong_greeting': strong_greeting,
         'paragraph1': description,
@@ -32,9 +35,16 @@ def send_booking(status, appointment):
     send(context, "Update regarding your appointment on " + str(appointment.start_dateTime.date()), str(appointment.user.email))
 
 
-# def send_material_shared_notifications(materialReference):
-#     strong_greeting = "Learning Materiak file has been shared with you"
-#     description = "File " + 
+def send_material_shared_notifications(materialReference):
+    strong_greeting = "Learning Material file has been shared with you"
+    description = "File " + materialReference.LearningMaterial.name + " has been shared and you can view it in your dashboard!"
+    view_materials_link = "You can see it here: https://www.drsteliostheodorou.com/dashboard/learningmaterial"
+    context = {
+        'strong_greeting': strong_greeting,
+        'paragraph1': description,
+        'paragraph2': view_materials_link
+    }
+    send(context, "New learning material file shared with you", str(materialReference.User.email))
 
 def send_reset_password_token(token, email):
     strong_greeting = "Password Reset request"
