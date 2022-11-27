@@ -23,6 +23,8 @@ class UserAdmin(BaseUserAdmin):
     form = UserChangeForm
     add_form = NewUserForm
 
+    readonly_fields=('last_login', )
+
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
