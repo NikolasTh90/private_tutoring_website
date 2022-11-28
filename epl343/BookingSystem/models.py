@@ -153,7 +153,7 @@ class MyUser(AbstractBaseUser):
     author_profile_link = models.TextField(blank=True,null=True)
     school = models.TextField(blank=True,null=True)
     yearofStudy = models.TextField(blank=True,null=True)
-    profilePic = models.ImageField(upload_to ='uploads/',default='uploads/DefaultProfilePic.png')
+    profilePic = models.ImageField(upload_to ='images/ProfilePics/',default='images/ProfilePics/DefaultProfilePic.png')
 
 
     # Username & Password are required by default.
