@@ -51,18 +51,19 @@ def is_valid_appointment_request(requested_appointment_dateTime):
 
 
 def appointment_is_available(requested_appointment_start_dateTime, requested_appointment_duration, current_appointment):
-    if is_compatible_with_schedule(requested_appointment_start_dateTime, requested_appointment_duration) and not is_in_offs(requested_appointment_start_dateTime, requested_appointment_duration) and not is_colliding_with_appointment(requested_appointment_start_dateTime, requested_appointment_duration, current_appointment) and has_break_between_appointments(requested_appointment_start_dateTime):
+    if is_compatible_with_schedule(requested_appointment_start_dateTime, requested_appointment_duration) and not is_in_offs(requested_appointment_start_dateTime, requested_appointment_duration) and not is_colliding_with_appointment(requested_appointment_start_dateTime, requested_appointment_duration, current_appointment) and has_break_between_appointments(requested_appointment_start_dateTime, current_appointment):
         return True
     return False
 
-def has_break_between_appointments(requested_appointment_start_dateTime):
+def has_break_between_appointments(requested_appointment_start_dateTime, current_appointment):
     appointments = Appointment.objects.all()
     has_appointments_on_request_dateTime = False
     for app in appointments:
-        if app.start_dateTime.date() == requested_appointment_start_dateTime.date():
-            has_appointments_on_request_dateTime = True
-            if not (app.end_dateTime).time() <= (requested_appointment_start_dateTime - break_time).time():
-                return False
+        if app != current_appointment:
+            if app.start_dateTime.date() == requested_appointment_start_dateTime.date():
+                has_appointments_on_request_dateTime = True
+                if not (app.end_dateTime).time() <= (requested_appointment_start_dateTime - break_time).time():
+                    return False
     if not has_appointments_on_request_dateTime:
         return True
     return True
@@ -92,7 +93,7 @@ def is_in_offs(requested_appointment_start_dateTime, requested_appointment_durat
 def is_colliding_with_appointment(requested_appointment_start_dateTime, requested_appointment_duration, current_appointment):
     other_appointments = Appointment.objects.all().filter( start_dateTime__date = requested_appointment_start_dateTime.date() ).filter(Q(pending = True) | Q(accepted = True) )
     for other in other_appointments:
-        if other is None or other == current_appointment:
+        if current_appointment is None or other != current_appointment:
             if requested_appointment_start_dateTime + requested_appointment_duration >= other.start_dateTime.replace(tzinfo=timezone.utc) and requested_appointment_start_dateTime <= other.end_dateTime.replace(tzinfo=timezone.utc):
                 return True
 

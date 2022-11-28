@@ -214,7 +214,6 @@ class BookingForm(forms.ModelForm):
 
 	def save(self, commit=True):
 		app = super(BookingForm, self).save(commit=False)
-		smtp_service.send_booking('pending', app)
 		if commit:
 			app.save()
 		return app

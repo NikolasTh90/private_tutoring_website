@@ -31,10 +31,15 @@
   </header>
   <!-- <button> 👈 </button>
   <button> 👉 </button> -->
+  {{ slot.0|date:'H:i' }}
 
   <div class="cd-schedule cd-schedule--loading margin-top-lg margin-bottom-lg js-cd-schedule">
     <div class="cd-schedule__timeline">
       <ul>
+        {% for sl in slot %}
+        <li><span>{{ sl|date:'H:i' }}</span></li>
+        {% endfor %}
+<!--         
         <li><span>09:00</span></li>
         <li><span>09:30</span></li>
         <li><span>10:00</span></li>
@@ -53,7 +58,7 @@
         <li><span>16:30</span></li>
         <li><span>17:00</span></li>
         <li><span>17:30</span></li>
-        <li><span>18:00</span></li>
+        <li><span>18:00</span></li> -->
       </ul>
     </div> <!-- .cd-schedule__timeline -->
   
@@ -69,7 +74,7 @@
               {% if forloop.counter0 != 0 %}
                   <li class="cd-schedule__event" style="height: auto;">
                     <a data-start="{{ app.0.start_dateTime|date:'H:i' }}" data-end="{{ app.0.end_dateTime|date:'H:i' }}" style="font-size: small;"
-                      data-content="event-abs-circuit" data-event="event-{{app.1}}" href="#0">
+                      data-content="event-abs-circuit" data-event="event-{{app.1}}">
                       <em class="cd-schedule__name"> Appointment {{ app.1 }} </em>
                       <em class="cd-schedule__name" id="description">{{app.0.description}} </em>
                       <button onclick="window.location.href='../../../deleteBooking/{{app.0.start_dateTime|slugify}}';">Cancel</button>

@@ -107,9 +107,9 @@ def changeBooking(request,startdate):
                 current_appointment.location = request.POST.get('location')
                 current_appointment.save()
                 Appointment.objects.filter(start_dateTime=start_date).delete()
-                return HttpResponseRedirect(reverse('bs:myappointments'))
+                return HttpResponseRedirect(reverse('bs:requestSubmitted'))
             else:
-                return HttpResponseRedirect(reverse(' bs:myappointments '))
+                return HttpResponseRedirect(reverse('bs:dashboard'))
         else:
             template = loader.get_template('appointments_schedule/changebooking.html')
             start_date = datetime.datetime(year=int(startdate[:4]),month=int(startdate[5:7]),day=int(startdate[8:10]), hour=int(startdate[11:13]), minute=int(startdate[13:15]), second=0)
@@ -126,7 +126,7 @@ def strToDateTime(date, time, duration):
     requested_duration = timedelta(hours=int(duration)//60, minutes=int(duration)%60)
     return requested_dateTime, requested_duration
 
-def updateRequestWith(request_copy, requested_dateTime, requested_duration, user, date, time, duration, location):
+def updateRequestWith(request_copy, requested_dateTime, requested_duration, user, date, time, duration, location, description):
     request_copy.update({'start_dateTime' : requested_dateTime })
     request_copy.update({'duration' :   requested_duration })
     if user is not None:
@@ -135,6 +135,7 @@ def updateRequestWith(request_copy, requested_dateTime, requested_duration, user
         request_copy.update({'time' :   time })
         request_copy.update({'appointment_duration' :   duration })
         request_copy.update({'location' :   location })
+        request_copy.update({'description' :   description })
     return request_copy
 
 def makeBooking(request):
@@ -152,7 +153,7 @@ def makeBooking(request):
             user = request.user
             requested_dateTime, requested_duration = strToDateTime(request.session['date'], request.session['time'], request.session['duration'])
             request_copy = request.POST.copy()
-            request_copy = updateRequestWith(request_copy, requested_dateTime, requested_duration, user, date, time, duration, location)
+            request_copy = updateRequestWith(request_copy, requested_dateTime, requested_duration, user, date, time, duration, location, description)
             form = BookingForm(data = request_copy)
             form.start_dateTime = requested_dateTime
             form.duration = requested_duration
@@ -180,7 +181,7 @@ def makeBooking(request):
                 time = request.POST.get('time')
                 duration = request.POST.get('appointment_duration')
                 requested_dateTime, requested_duration = strToDateTime(date, time, duration)
-                request_copy = updateRequestWith(request_copy, requested_dateTime, requested_duration, None, None, None, None, None)
+                request_copy = updateRequestWith(request_copy, requested_dateTime, requested_duration, None, None, None, None, None, None)
                 form = BookingForm(data = request_copy)
                 if Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration):
                     if request.user.is_authenticated:
@@ -222,7 +223,7 @@ def makeBooking(request):
                 time = request.POST.get('time')
                 duration = request.POST.get('appointment_duration')
                 requested_dateTime, requested_duration = strToDateTime(date, time, duration)
-                request_copy = updateRequestWith(request_copy, requested_dateTime, requested_duration, None, None, None, None, None)
+                request_copy = updateRequestWith(request_copy, requested_dateTime, requested_duration, None, None, None, None, None, None)
                 form = BookingForm(data = request_copy)
                 if Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration):
                     if request.user.is_authenticated:
@@ -331,10 +332,12 @@ def myappointments(request, week_number):
             appointments_sorted_by_weekday.append(weekday_apps)
         print(appointments_sorted_by_weekday)
         slots = []
-        while minstart<maxend:
+        counter = 0
+        while minstart<maxend or counter < 20:
             slots.append(minstart)
             delta = datetime.timedelta(minutes=30)
             minstart = (datetime.datetime.combine(datetime.date(1,1,1),minstart) + delta).time()
+            counter += 1
         print(slots)
         template = loader.get_template('appointments_schedule/index.html')
         return HttpResponse(template.render({'appointments_sorted' : appointments_sorted_by_weekday,'slot': slots, 'week_num' : week_number, 'weeks' : weeks_with_apps, 'week_start' : start, 'week_end' : end}, request))
