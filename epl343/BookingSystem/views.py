@@ -58,10 +58,13 @@ def addTestimonial(request):
         else:
             model = Testimonial(user=request.user, description=request.POST['description'])
             model.save()
-
+    appointments = Appointment.objects.filter(user = request.user)
+    first_week_with_appointments = 0
+    if len(appointments) >= 1:
+        first_week_with_appointments = appointments[0].start_dateTime.isocalendar().week
     # IF request is GET, ...
 
-    return render(request, "customer/add_testimonial.html", {'Site': 'AddTestimonial', 'NoOfUserAppointments': noOfUserAppointments, 'CallBackMethod': request.method, 'ExistingTestimonial': existingTestimonial} )
+    return render(request, "customer/add_testimonial.html", {'Site': 'AddTestimonial', 'NoOfUserAppointments': noOfUserAppointments, 'CallBackMethod': request.method, 'ExistingTestimonial': existingTestimonial, 'first_week_with_appointments' : first_week_with_appointments} )
     
 def index(request):
     template = loader.get_template('index.html')
@@ -170,7 +173,6 @@ def makeBooking(request):
                 recommendations = np.array(makeRecommendations(requested_dateTime=requested_dateTime, requested_duration=requested_duration))
                 recommendations = recommendations[np.where(recommendations!=None)]
                 request.session['recommended'] = True
-                request.session['description'] = request.session['description']
                 recommendations = makeRecommendations(requested_dateTime=requested_dateTime, requested_duration=requested_duration)
                 return HttpResponse(template.render({'recommendations' : recommendations, 'recommend' : True, 'site' : 'Booking'}, request))
         else:
@@ -288,6 +290,8 @@ def BookFromRecommend(request, date, time, duration):
 
 
 def myappointments(request, week_number):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('bs:login'))
     temp_appointments = Appointment.objects.filter(user = request.user)
     appointments = list()
     weeks_with_apps = list()
@@ -297,6 +301,13 @@ def myappointments(request, week_number):
         if app.start_dateTime.isocalendar().week == week_number:
             appointments.append(app)
     weeks_with_apps.sort()
+    if len(appointments) >= 1:
+        dt = datetime.datetime.strptime(appointments[0].start_dateTime.date().strftime("%d/%m/%Y"), '%d/%m/%Y')
+        start = dt - timedelta(days=dt.weekday())
+        end = start + timedelta(days=6)
+        print(start)
+        print(end)
+        print('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
     try:
         minstart = appointments[0].start_dateTime.time()
         maxend = appointments[0].end_dateTime.time()
@@ -328,7 +339,7 @@ def myappointments(request, week_number):
             minstart = (datetime.datetime.combine(datetime.date(1,1,1),minstart) + delta).time()
         print(slots)
         template = loader.get_template('appointments_schedule/index.html')
-        return HttpResponse(template.render({'appointments_sorted' : appointments_sorted_by_weekday,'slot': slots, 'week_num' : week_number, 'weeks' : weeks_with_apps}, request))
+        return HttpResponse(template.render({'appointments_sorted' : appointments_sorted_by_weekday,'slot': slots, 'week_num' : week_number, 'weeks' : weeks_with_apps, 'week_start' : start, 'week_end' : end}, request))
     except:
         template = loader.get_template('appointments_schedule/index.html')
         dict = {0 : 'Monday', 1 : 'Tuesday', 2 : 'Wednesday', 3 : 'Thursday', 4 : 'Friday', 5 : 'Saturday', 6 : 'Sunday'}
@@ -512,10 +523,16 @@ def dashboard(request):
         client = MyUser.objects.filter(email=request.user.email).first()
         customer_update_form = CustomerUpdateForm(instance=client)
         template = loader.get_template('customer/profile_cust.html')
+
+        appointments = Appointment.objects.filter(user = client)
+        first_week_with_appointments = 0
+        if len(appointments) >= 1:
+            first_week_with_appointments = appointments[0].start_dateTime.isocalendar().week
         context = {
                 'customer_update_form': customer_update_form,
                 'cust': client,
-                'age': 15
+                'age': 15,
+                'first_week_with_appointments' : first_week_with_appointments
             }
         return HttpResponse(template.render(context, request))
 
@@ -530,12 +547,17 @@ def learning_material(request):
         materials.append(LearningMaterial.objects.get(id=reference['LearningMaterial']))
     supported_icons = ["aac","avi","bmp","dll","doc","eps","flv","gif","html","iso","jpg","midi","mov","mp3","mpg","pdf","png","ppt","psd","tif","txt","wmv","xls","zip"]
     # need to fix the context, communicate with panis or stilis
+    appointments = Appointment.objects.filter(user = client)
+    first_week_with_appointments = 0
+    if len(appointments) >= 1:
+        first_week_with_appointments = appointments[0].start_dateTime.isocalendar().week
     context = {
             'customer_update_form': customer_update_form,
             'cust': client,
             'age': 15,
             'materials': materials,
-            'supported_icons': supported_icons
+            'supported_icons': supported_icons,
+            'first_week_with_appointments' : first_week_with_appointments
         }
 
     return HttpResponse(template.render(context, request))

@@ -1,4 +1,7 @@
+
+{% extends "customer/base.html" %}
 {% load static %}
+{% block content %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -6,23 +9,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script>document.getElementsByTagName("html")[0].className += " js";</script>
   <link rel="stylesheet" href="{% static 'static_appointments_schedule/css/style.css' %}">
+
+  {% if week_num not in weeks %}
+    <script>        
+        alert('There are no appointments in the selected week.');
+        history.go(-1);
+    </script>
+  {% endif %}
   <title>Schedule | Week {{ week_num }}</title>
 </head>
 <body>
   <header class="cd-main-header text-center flex flex-column flex-center">
-    <p class="margin-top-md margin-bottom-xl">👈 <a class="cd-article-link" href="https://codyhouse.co/gem/schedule-template">Article &amp; Download</a></p>
-
-    <h1 class="text-xl">Schedule</h1>
+    <h1 class="text-xl">My Schedule</h1>
+    <h3>{{ week_start|date }} - {{ week_end|date }}</h3>
     Week Number: 
-    <select type="text" id="NextWeekNumber">
+    <select type="text" id="NextWeekNumber" style="width : 50px">
       {% for num in weeks %}
       <option value="{{ num }}" {% if num == week_num %} selected {% endif %}>{{num}}</option>
       {% endfor %}
     </select>
     <button onclick="window.location = '../' + document.getElementById('NextWeekNumber').value;">Go</button>
   </header>
-  <button> 👈 </button>
-  <button> 👉 </button>
+  <!-- <button> 👈 </button>
+  <button> 👉 </button> -->
 
   <div class="cd-schedule cd-schedule--loading margin-top-lg margin-bottom-lg js-cd-schedule">
     <div class="cd-schedule__timeline">
@@ -103,3 +112,5 @@
   <script src="{% static 'static_appointments_schedule/js/main.js' %}"></script>
 </body>
 </html>
+
+{% endblock content %}
