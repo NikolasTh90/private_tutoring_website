@@ -161,9 +161,7 @@ def makeBooking(request):
             #form.pay = pay
             form.description = description
             request.session['waitforlogin'] = False
-            availability = Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration, current_appointment=None)
-            is_available = availability[0] 
-            if is_available:
+            if Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration):
                 if form.is_valid():
                     form.save()
                     return HttpResponseRedirect(reverse('bs:requestSubmitted'))
@@ -184,7 +182,7 @@ def makeBooking(request):
                 requested_dateTime, requested_duration = strToDateTime(date, time, duration)
                 request_copy = updateRequestWith(request_copy, requested_dateTime, requested_duration, None, None, None, None, None)
                 form = BookingForm(data = request_copy)
-                if Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration, current_appointment=None):
+                if Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration):
                     if request.user.is_authenticated:
                         request_copy.update({'user' : request.user  })
                         form = BookingForm(data = request_copy)
@@ -226,7 +224,7 @@ def makeBooking(request):
                 requested_dateTime, requested_duration = strToDateTime(date, time, duration)
                 request_copy = updateRequestWith(request_copy, requested_dateTime, requested_duration, None, None, None, None, None)
                 form = BookingForm(data = request_copy)
-                if Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration, current_appointment=None):
+                if Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration):
                     if request.user.is_authenticated:
                         request_copy.update({'user' : request.user  })
                         form = BookingForm(data = request_copy)
@@ -275,7 +273,7 @@ def BookFromRecommend(request, date, time, duration):
             if request.user.is_authenticated:
                 print('gdhfsdjkhfkdsjhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
                 requested_dateTime, requested_duration = strToDateTime(date, time, duration)
-                if Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration, current_appointment=None):
+                if Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration):
                     print('gdhfsdjkhfkdsjhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
                     Appointment.objects.create(user = request.user, description = request.session['description'], duration = requested_duration, start_dateTime = requested_dateTime) 
                     request.session['recommended'] = False

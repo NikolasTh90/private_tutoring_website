@@ -23,7 +23,7 @@ def main(post_request):
                             recommend_previous_appointment(post_request['requested_dateTime'], post_request['requested_duration'])] 
         return recommendations  
 
-def Available(requested_dateTime, requested_duration, current_appointment):
+def Available(requested_dateTime, requested_duration, current_appointment=None):
 		if not is_valid_appointment_request(requested_dateTime):
 			return False
 
