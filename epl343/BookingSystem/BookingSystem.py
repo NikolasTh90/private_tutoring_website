@@ -27,7 +27,7 @@ def Available(requested_dateTime, requested_duration, current_appointment):
 		if not is_valid_appointment_request(requested_dateTime):
 			return False
 
-		if appointment_is_available(requested_dateTime, requested_duration):
+		if appointment_is_available(requested_dateTime, requested_duration, current_appointment):
 			return True
 			#create appointment model
 			#user = MyUser.objects.only(email).filter(email=post_request['user_email'])
@@ -50,8 +50,8 @@ def is_valid_appointment_request(requested_appointment_dateTime):
 
 
 
-def appointment_is_available(requested_appointment_start_dateTime, requested_appointment_duration):
-    if is_compatible_with_schedule(requested_appointment_start_dateTime, requested_appointment_duration) and not is_in_offs(requested_appointment_start_dateTime, requested_appointment_duration) and not is_colliding_with_appointment(requested_appointment_start_dateTime, requested_appointment_duration) and has_break_between_appointments(requested_appointment_start_dateTime):
+def appointment_is_available(requested_appointment_start_dateTime, requested_appointment_duration, current_appointment):
+    if is_compatible_with_schedule(requested_appointment_start_dateTime, requested_appointment_duration) and not is_in_offs(requested_appointment_start_dateTime, requested_appointment_duration) and not is_colliding_with_appointment(requested_appointment_start_dateTime, requested_appointment_duration, current_appointment) and has_break_between_appointments(requested_appointment_start_dateTime):
         return True
     return False
 
@@ -89,11 +89,12 @@ def is_in_offs(requested_appointment_start_dateTime, requested_appointment_durat
             return True
     return False        
 
-def is_colliding_with_appointment(requested_appointment_start_dateTime, requested_appointment_duration):
+def is_colliding_with_appointment(requested_appointment_start_dateTime, requested_appointment_duration, current_appointment):
     other_appointments = Appointment.objects.all().filter( start_dateTime__date = requested_appointment_start_dateTime.date() ).filter(Q(pending = True) | Q(accepted = True) )
     for other in other_appointments:
-        if requested_appointment_start_dateTime + requested_appointment_duration >= other.start_dateTime.replace(tzinfo=timezone.utc) and requested_appointment_start_dateTime <= other.end_dateTime.replace(tzinfo=timezone.utc):
-            return True
+        if other is None or other == current_appointment:
+            if requested_appointment_start_dateTime + requested_appointment_duration >= other.start_dateTime.replace(tzinfo=timezone.utc) and requested_appointment_start_dateTime <= other.end_dateTime.replace(tzinfo=timezone.utc):
+                return True
 
     return False 
 
