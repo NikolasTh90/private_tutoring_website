@@ -340,7 +340,7 @@ def myappointments(request, week_number):
             counter += 1
         print(slots)
         template = loader.get_template('appointments_schedule/index.html')
-        return HttpResponse(template.render({'appointments_sorted' : appointments_sorted_by_weekday,'slot': slots, 'week_num' : week_number, 'weeks' : weeks_with_apps, 'week_start' : start, 'week_end' : end, 'first_week_with_appointments' : first_week_with_appointments}, request))
+        return HttpResponse(template.render({'appointments_sorted' : appointments_sorted_by_weekday,'slot': slots, 'week_num' : week_number, 'weeks' : weeks_with_apps, 'week_start' : start, 'week_end' : end, 'first_week_with_appointments' : first_week_with_appointments, 'cust' : request.user}, request))
     except:
         template = loader.get_template('appointments_schedule/index.html')
         dict = {0 : 'Monday', 1 : 'Tuesday', 2 : 'Wednesday', 3 : 'Thursday', 4 : 'Friday', 5 : 'Saturday', 6 : 'Sunday'}
@@ -349,7 +349,7 @@ def myappointments(request, week_number):
             weekday_apps = [dict[i]]
             appointments_sorted_by_weekday.append(weekday_apps)
         print(week_number)
-        return HttpResponse(template.render({'appointments_sorted' : appointments_sorted_by_weekday, 'week_num' : week_number, 'weeks' : weeks_with_apps, 'first_week_with_appointments' : first_week_with_appointments}, request))
+        return HttpResponse(template.render({'appointments_sorted' : appointments_sorted_by_weekday, 'week_num' : week_number, 'weeks' : weeks_with_apps, 'first_week_with_appointments' : first_week_with_appointments, 'cust' : request.user}, request))
 
 def about(request):
     template = loader.get_template('about.html')
@@ -366,18 +366,6 @@ def contacts(request):
 			messages.error(request, ('Please correct the error below.'))
 	template = loader.get_template('contacts.html')
 	return HttpResponse(template.render({'site': 'Contacts'}, request))
-
-def booking(request):
-    template = loader.get_template('booking.html')
-    post_request={'requested_dateTime': datetime.datetime(2022,11,30,16),
-                'requested_duration': datetime.timedelta(minutes = 60),
-                'user_email': 'nikolasth90@gmail.com',
-                'description': 'i need help!',
-                'location': 'Online'
-
-                }
-    main(post_request)
-    return HttpResponse(template.render({'site': 'Booking'}, request))    
 
 def teaching(request):
     # template = loader.get_template('teaching_experience.html')
@@ -527,6 +515,7 @@ def dashboard(request):
 
         appointments = Appointment.objects.filter(user = client)
         first_week_with_appointments = 0
+        print(appointments[0].start_dateTime.isocalendar())
         if len(appointments) >= 1:
             first_week_with_appointments = appointments[0].start_dateTime.isocalendar().week
         context = {
