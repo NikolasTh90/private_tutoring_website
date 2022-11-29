@@ -70,7 +70,6 @@
   
           <ul>
             {% for app in appointments %}
-              
               {% if forloop.counter0 != 0 %}
                   <li class="cd-schedule__event" style="height: auto;">
                     <a data-start="{{ app.0.start_dateTime|date:'H:i' }}" data-end="{{ app.0.end_dateTime|date:'H:i' }}" style="font-size: small;"
