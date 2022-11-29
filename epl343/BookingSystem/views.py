@@ -521,7 +521,6 @@ def dashboard(request):
         context = {
                 'customer_update_form': customer_update_form,
                 'cust': client,
-                'age': 15,
                 'first_week_with_appointments' : first_week_with_appointments
             }
         return HttpResponse(template.render(context, request))
@@ -536,15 +535,12 @@ def learning_material(request):
     for reference in materials_reference:
         materials.append(LearningMaterial.objects.get(id=reference['LearningMaterial']))
     supported_icons = ["aac","avi","bmp","dll","doc","eps","flv","gif","html","iso","jpg","midi","mov","mp3","mpg","pdf","png","ppt","psd","tif","txt","wmv","xls","zip"]
-    # need to fix the context, communicate with panis or stilis
     appointments = Appointment.objects.filter(user = client)
     first_week_with_appointments = 0
     if len(appointments) >= 1:
         first_week_with_appointments = appointments[0].start_dateTime.isocalendar().week
     context = {
-            'customer_update_form': customer_update_form,
             'cust': client,
-            'age': 15,
             'materials': materials,
             'supported_icons': supported_icons,
             'first_week_with_appointments' : first_week_with_appointments
@@ -553,62 +549,62 @@ def learning_material(request):
     return HttpResponse(template.render(context, request))
 
 
-def addLearningMaterial(request):
-    if request.user.is_authenticated and request.user.is_staff:
-        if request.method == "GET":#epistrefis forma
-            return render(request, "addlearningmaterial.html", {'materialform': LearningMaterialForm()})
-        if request.method == "POST":
-            learning_material=LearningMaterialForm(request.POST)#kanis tin forma construct
-            if(learning_material.is_valid()):#an einai valid
-                learning_material.save()#apothikevse tin
-                message="succeed"
-            else:#alios epestrepse error
-                message="error"
-            return render(request, "addlearningmaterial.html", {'materialform': LearningMaterialForm(),'message':message})
-def getAllLearningMaterial(request):
-    if request.user.is_authenticated and request.user.is_staff:
-        allmaterial=LearningMaterial.objects.all()
-        return render(request, "getalllearningmaterial.html", {'allmaterials': allmaterial})
-def addUserToLearningMaterial(request,id):
-    if request.user.is_authenticated and request.user.is_staff:
-        if request.method == "GET":#epistrefis forma
-            usersall=MyUser.objects.all()#epestrepse olus tus xristes
-            return render(request, "addusertomaterial.html", {'usersall': usersall})
-        if request.method == "POST":#epistrefis forma
-            usersall=MyUser.objects.all()
-            material=LearningMaterial.objects.filter(pk=id)
-            LearningMaterialReference.objects.all().filter(LearningMaterial__id=id).delete()
-            for x in usersall:
-                if(str(x.id) in request.POST):
-                    LearningMaterialReference(User=x,LearningMaterial=material[0]).save()
-            return render(request, "addusertomaterial.html", {'usersall': usersall,'FilesLearningMaterialForm':FilesLearningMaterialForm()})
-def addFileToMaterial(request):
-    if request.user.is_authenticated and request.user.is_staff:
-        if request.method == "GET":#epistrefis forma
-            return render(request, "addfiletomaterial.html", {'FilesLearningMaterialForm':FilesLearningMaterialForm()})
-        if request.method == "POST":#epistrefis forma
-            form=FilesLearningMaterialForm(request.POST,request.FILES)
-            msg=None
-            if form.is_valid():
-                msg="succeed"
-                form.save()
-            else:
-                msg="failed"
-            return render(request, "addfiletomaterial.html", {'FilesLearningMaterialForm':FilesLearningMaterialForm(),'message':msg})
-def userViewMaterial(request):
-    if request.user.is_authenticated:
-        learningmat=LearningMaterialReference.objects.filter(User__id=request.user.id)
-        return render(request, "viewlearningmaterial.html", {'learningmat':learningmat})
-def viewmaterial(request,id):
-    learningmat=FilesLearningMaterial.objects.filter(LearningMaterialFK__id=id)#vrisko to antikimeno
-    if(len(learningmat)!=0):
-        learningMaterialMainObject=learningmat[0].LearningMaterialFK#dixnw ston dixti tou learningmaterial antikimenou
-        references=LearningMaterialReference.objects.all().filter(LearningMaterial=learningMaterialMainObject).filter(User=request.user)#vrisko an iparxi erotima gia afton ton xristi
-        if(len(references)==0):#an to material den iparxi ston xristi den tha tou emfaniso kati
-            learningmat=None
-    else:#den iparxun arxia
-        message="no files"
-    return render(request, "viewmaterialfiles.html", {'learningmat':learningmat})
+# def addLearningMaterial(request):
+#     if request.user.is_authenticated and request.user.is_staff:
+#         if request.method == "GET":#epistrefis forma
+#             return render(request, "addlearningmaterial.html", {'materialform': LearningMaterialForm()})
+#         if request.method == "POST":
+#             learning_material=LearningMaterialForm(request.POST)#kanis tin forma construct
+#             if(learning_material.is_valid()):#an einai valid
+#                 learning_material.save()#apothikevse tin
+#                 message="succeed"
+#             else:#alios epestrepse error
+#                 message="error"
+#             return render(request, "addlearningmaterial.html", {'materialform': LearningMaterialForm(),'message':message})
+# def getAllLearningMaterial(request):
+#     if request.user.is_authenticated and request.user.is_staff:
+#         allmaterial=LearningMaterial.objects.all()
+#         return render(request, "getalllearningmaterial.html", {'allmaterials': allmaterial})
+# def addUserToLearningMaterial(request,id):
+#     if request.user.is_authenticated and request.user.is_staff:
+#         if request.method == "GET":#epistrefis forma
+#             usersall=MyUser.objects.all()#epestrepse olus tus xristes
+#             return render(request, "addusertomaterial.html", {'usersall': usersall})
+#         if request.method == "POST":#epistrefis forma
+#             usersall=MyUser.objects.all()
+#             material=LearningMaterial.objects.filter(pk=id)
+#             LearningMaterialReference.objects.all().filter(LearningMaterial__id=id).delete()
+#             for x in usersall:
+#                 if(str(x.id) in request.POST):
+#                     LearningMaterialReference(User=x,LearningMaterial=material[0]).save()
+#             return render(request, "addusertomaterial.html", {'usersall': usersall,'FilesLearningMaterialForm':FilesLearningMaterialForm()})
+# def addFileToMaterial(request):
+#     if request.user.is_authenticated and request.user.is_staff:
+#         if request.method == "GET":#epistrefis forma
+#             return render(request, "addfiletomaterial.html", {'FilesLearningMaterialForm':FilesLearningMaterialForm()})
+#         if request.method == "POST":#epistrefis forma
+#             form=FilesLearningMaterialForm(request.POST,request.FILES)
+#             msg=None
+#             if form.is_valid():
+#                 msg="succeed"
+#                 form.save()
+#             else:
+#                 msg="failed"
+#             return render(request, "addfiletomaterial.html", {'FilesLearningMaterialForm':FilesLearningMaterialForm(),'message':msg})
+# def userViewMaterial(request):
+#     if request.user.is_authenticated:
+#         learningmat=LearningMaterialReference.objects.filter(User__id=request.user.id)
+#         return render(request, "viewlearningmaterial.html", {'learningmat':learningmat})
+# def viewmaterial(request,id):
+#     learningmat=FilesLearningMaterial.objects.filter(LearningMaterialFK__id=id)#vrisko to antikimeno
+#     if(len(learningmat)!=0):
+#         learningMaterialMainObject=learningmat[0].LearningMaterialFK#dixnw ston dixti tou learningmaterial antikimenou
+#         references=LearningMaterialReference.objects.all().filter(LearningMaterial=learningMaterialMainObject).filter(User=request.user)#vrisko an iparxi erotima gia afton ton xristi
+#         if(len(references)==0):#an to material den iparxi ston xristi den tha tou emfaniso kati
+#             learningmat=None
+#     else:#den iparxun arxia
+#         message="no files"
+#     return render(request, "viewmaterialfiles.html", {'learningmat':learningmat})
 
 
 
