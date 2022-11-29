@@ -43,18 +43,20 @@
                                         <div class="row">
                                         {% for file in materials %}
                                             <div class="col-lg-3 col-xl-2">
-                                                <span class="hovertext" data-hover="{{ file.description }}">
+                                                
 
                                                 <div class="file-man-box">
                                                     <div class="file-img-box"><img src={% if file.type in supported_icons %} "https://coderthemes.com/highdmin/layouts/assets/images/file_icons/{{ file.type }}.svg" {% else %} "https://www.shareicon.net/data/256x256/2015/08/11/83725_file_256x256.png" {% endif %}alt="icon"></div>
                                                     
                                                     <a href="{{file.upload.url}}" class="file-download"><i class="fa fa-download"></i></a>
+                                                    <span class="hovertext" data-hover="{{ file.description }}">
                                                     <div class="file-man-title">
                                                         <h5 class="mb-0 text-overflow">{{ file.name }}</h5>
                                                         <p class="mb-0"><small>{{ file.upload.size | filesizeformat }}</small></p>
                                                     </div>
+                                                </span>
                                                 </div>
-                                            </span>
+                                            
                                             </div>
                                        
                                         
