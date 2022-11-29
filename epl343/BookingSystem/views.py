@@ -306,7 +306,7 @@ def myappointments(request, week_number):
         end = start + timedelta(days=6)
         print(start)
         print(end)
-        print('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
+        first_week_with_appointments = appointments[0].start_dateTime.isocalendar().week
     try:
         minstart = appointments[0].start_dateTime.time()
         maxend = appointments[0].end_dateTime.time()
@@ -340,7 +340,7 @@ def myappointments(request, week_number):
             counter += 1
         print(slots)
         template = loader.get_template('appointments_schedule/index.html')
-        return HttpResponse(template.render({'appointments_sorted' : appointments_sorted_by_weekday,'slot': slots, 'week_num' : week_number, 'weeks' : weeks_with_apps, 'week_start' : start, 'week_end' : end}, request))
+        return HttpResponse(template.render({'appointments_sorted' : appointments_sorted_by_weekday,'slot': slots, 'week_num' : week_number, 'weeks' : weeks_with_apps, 'week_start' : start, 'week_end' : end, 'first_week_with_appointments' : first_week_with_appointments}, request))
     except:
         template = loader.get_template('appointments_schedule/index.html')
         dict = {0 : 'Monday', 1 : 'Tuesday', 2 : 'Wednesday', 3 : 'Thursday', 4 : 'Friday', 5 : 'Saturday', 6 : 'Sunday'}
@@ -349,7 +349,7 @@ def myappointments(request, week_number):
             weekday_apps = [dict[i]]
             appointments_sorted_by_weekday.append(weekday_apps)
         print(week_number)
-        return HttpResponse(template.render({'appointments_sorted' : appointments_sorted_by_weekday, 'week_num' : week_number, 'weeks' : weeks_with_apps}, request))
+        return HttpResponse(template.render({'appointments_sorted' : appointments_sorted_by_weekday, 'week_num' : week_number, 'weeks' : weeks_with_apps, 'first_week_with_appointments' : first_week_with_appointments}, request))
 
 def about(request):
     template = loader.get_template('about.html')
