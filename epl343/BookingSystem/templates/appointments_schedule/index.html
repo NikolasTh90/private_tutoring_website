@@ -74,7 +74,13 @@
                   <li class="cd-schedule__event" style="height: auto;">
                     <a data-start="{{ app.0.start_dateTime|date:'H:i' }}" data-end="{{ app.0.end_dateTime|date:'H:i' }}" style="font-size: small;"
                       data-content="event-abs-circuit" data-event="event-{{app.1}}">
-                      <em class="cd-schedule__name"> Appointment</em>
+                      <em class="cd-schedule__name"> {% if app.0.pending == True %}
+						Pending 
+						{% endif %}
+						{% if app.0.pending == False and app.0.accepted == True %}
+						Confirmed
+						{% endif %}
+						</em>
                       <!-- <em class="cd-schedule__name">{{app.0.description}} </em> -->
                       <div class="schedule-button" style="text-align: center;">
                         <!-- <a data-toggle="modal" data-target="#removeModal"></a> -->

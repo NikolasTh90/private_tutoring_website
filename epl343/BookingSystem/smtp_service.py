@@ -26,7 +26,7 @@ def send_booking(status, appointment):
         status +=" by the Admin! \n Please try to book an appointment again for a different date or time, since the Admin might be busy the time you requested"
     if ( "confirmed" in status):
         status +=" by the Admin! \n Looking forward for our appointment!"
-    description = "Update regarding your appointment on " + str(appointment.start_dateTime.date()) + " at " + str(appointment.end_dateTime.time())
+    description = "Update regarding your appointment on " + str(appointment.start_dateTime.date()) + " at " + str(appointment.start_dateTime.time())
     context = {
         'strong_greeting': strong_greeting,
         'paragraph1': description,

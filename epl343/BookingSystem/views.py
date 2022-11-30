@@ -96,12 +96,16 @@ def changeBooking(request,startdate):
             requested_duration = timedelta(hours=int(duration)//60, minutes=int(duration)%60)
             if Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration, current_appointment=Appointment.objects.filter(start_dateTime=start_date).first()):
                 current_appointment = Appointment.objects.get(start_dateTime=start_date)
-                current_appointment.start_dateTime = requested_dateTime
+                same_date_flag = True
+                if current_appointment.start_dateTime != requested_dateTime:
+                    same_date_flag = False
+                    current_appointment.start_dateTime = requested_dateTime
                 current_appointment.duration = requested_duration
                 current_appointment.description = request.POST.get('description')
                 current_appointment.location = request.POST.get('location')
                 current_appointment.save()
-                Appointment.objects.get(start_dateTime=start_date).delete()
+                if not same_date_flag:
+                    Appointment.objects.get(start_dateTime=start_date).delete()
                 return HttpResponseRedirect(reverse('bs:requestSubmitted'))
             else:
                 requested_dateTime, requested_duration = strToDateTime(date, time, duration)
