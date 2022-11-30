@@ -284,3 +284,8 @@ class ResetTokens(models.Model):
         self.save()
         return self.Token
         
+class ActivateTokens(models.Model):
+    User = models.OneToOneField(MyUser,unique=True, on_delete=models.CASCADE)
+    Token = models.IntegerField(unique=True)
+    sent = models.DateTimeField(auto_now_add=True)
+ 
