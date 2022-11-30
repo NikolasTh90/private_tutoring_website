@@ -101,7 +101,7 @@ def changeBooking(request,startdate):
                 current_appointment.description = request.POST.get('description')
                 current_appointment.location = request.POST.get('location')
                 current_appointment.save()
-                Appointment.objects.filter(start_dateTime=start_date).delete()
+                Appointment.objects.get(start_dateTime=start_date).delete()
                 return HttpResponseRedirect(reverse('bs:requestSubmitted'))
             else:
                 requested_dateTime, requested_duration = strToDateTime(date, time, duration)
@@ -320,6 +320,8 @@ def myappointments(request, week_number):
         print(start)
         print(end)
         first_week_with_appointments = appointments[0].start_dateTime.isocalendar().week
+    else:
+        first_week_with_appointments = list()
     try:
         minstart = appointments[0].start_dateTime.time()
         maxend = appointments[0].end_dateTime.time()
@@ -349,7 +351,12 @@ def myappointments(request, week_number):
         slots = []
         counter = 0
         midnight = datetime.datetime(year=1, month=1, day=1, hour=23, minute=59)
-        minstart = datetime.datetime.combine(date=datetime.date(1,1,1),time=minstart)
+        # for dynamic start time use:
+        #  minstart = datetime.datetime.combine(date=datetime.date(1,1,1),time=minstart)
+        
+        # for static start time use:
+        minstart = datetime.datetime.combine(date=datetime.date(1,1,1),time=datetime.time(8,0,0))
+
 
         if (minstart.minute>30):
             minstart = minstart.replace(minute=30)
