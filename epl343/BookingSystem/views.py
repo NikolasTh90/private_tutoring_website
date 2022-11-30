@@ -560,6 +560,24 @@ def learning_material(request):
     return HttpResponse(template.render(context, request))
 
 
+def activate(request, token):
+
+    activateTokenRecord = ActivateTokens.objects.filter(Token=token).first()
+    
+    if activateTokenRecord is not None:
+        print(activateTokenRecord.Token)
+        print(activateTokenRecord.User)
+        userRecord = MyUser.objects.get(id=activateTokenRecord.User.id)
+        userRecord.is_active = True
+        userRecord.save()
+        request.session["activationStatus"] = "activated"
+        return HttpResponseRedirect(reverse('bs:login'))
+
+    request.session["activationStatus"] = "error"
+    return HttpResponseRedirect(reverse('bs:login'))
+
+
+
 # def addLearningMaterial(request):
 #     if request.user.is_authenticated and request.user.is_staff:
 #         if request.method == "GET":#epistrefis forma
