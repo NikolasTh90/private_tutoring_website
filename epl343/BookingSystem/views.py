@@ -109,7 +109,18 @@ def changeBooking(request,startdate):
                     Appointment.objects.filter(start_dateTime=start_date).delete()
                 return HttpResponseRedirect(reverse('bs:requestSubmitted'))
             else:
-                return HttpResponseRedirect(reverse('bs:dashboard'))
+                requested_dateTime, requested_duration = strToDateTime(date, time, duration)
+                recommendations = np.array(makeRecommendations(requested_dateTime=requested_dateTime, requested_duration=requested_duration))
+                recommendations = recommendations[np.where(recommendations!=None)]
+                request.session['recommend'] = True
+                request.session['location']=request.POST.get('location')
+                request.session['description']=request.POST.get('description')
+                final_recommendations = list()
+                for recommend in recommendations:
+                    temp = [recommend, str(recommend.date()), str(recommend.time()), duration]
+                    final_recommendations.append(temp)
+                template = loader.get_template('appointments_schedule/changebooking.html')    
+                return HttpResponse(template.render({'recommendations' : final_recommendations, 'recommend' : True, 'site' : 'Booking'}, request))
         else:
             template = loader.get_template('appointments_schedule/changebooking.html')
             start_date = datetime.datetime(year=int(startdate[:4]),month=int(startdate[5:7]),day=int(startdate[8:10]), hour=int(startdate[11:13]), minute=int(startdate[13:15]), second=0)
@@ -172,8 +183,13 @@ def makeBooking(request):
                 recommendations = np.array(makeRecommendations(requested_dateTime=requested_dateTime, requested_duration=requested_duration))
                 recommendations = recommendations[np.where(recommendations!=None)]
                 request.session['recommended'] = True
-                recommendations = makeRecommendations(requested_dateTime=requested_dateTime, requested_duration=requested_duration)
-                return HttpResponse(template.render({'recommendations' : recommendations, 'recommend' : True, 'site' : 'Booking'}, request))
+                request.session['location'] = request.POST.get('location')
+                request.session['description'] = request.POST.get('description')
+                final_recommendations = list()
+                for recommend in recommendations:
+                    temp = [recommend, str(recommend.date()), str(recommend.time()), duration]
+                    final_recommendations.append(temp)
+                return HttpResponse(template.render({'recommendations' : final_recommendations, 'recommend' : True, 'site' : 'Booking'}, request))
         else:
             if (request.method == "POST") :
                 request_copy = request.POST.copy()
@@ -207,6 +223,7 @@ def makeBooking(request):
                     recommendations = recommendations[np.where(recommendations!=None)]
                     request.session['recommended'] = True
                     request.session['description'] = request.POST.get('description')
+                    request.session['location'] = request.POST.get('location')
                     a = recommendations[0]
                     final_recommendations = list()
                     for recommend in recommendations:
