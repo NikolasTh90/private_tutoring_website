@@ -62,6 +62,7 @@ def has_break_between_appointments(requested_appointment_start_dateTime, current
         if app != current_appointment:
             if app.start_dateTime.date() == requested_appointment_start_dateTime.date():
                 has_appointments_on_request_dateTime = True
+                print((app.end_dateTime).time(), (requested_appointment_start_dateTime - break_time).time())
                 if not (app.end_dateTime).time() <= (requested_appointment_start_dateTime - break_time).time():
                     return False
     if not has_appointments_on_request_dateTime:

@@ -233,11 +233,14 @@ class ChangeUserForm(forms.ModelForm):
 	preferred_loc = forms.ChoiceField(choices = locations.choices)
 	pay = forms.ChoiceField(choices = payments.choices)
 	school = forms.CharField(max_length=255)
+	profilePic = forms.FileField(required=False)
 	model = get_user_model()
 
 	class Meta:
 		model = get_user_model()
-		fields = ('first_name', 'last_name', 'year', 'preferred_loc', 'pay', 'school')
+		fields = ('first_name', 'last_name', 'year', 'preferred_loc', 'pay', 'school', 'profilePic')
+
+	
 
 	def save(self, commit=True):
 		user = MyUser.objects.get(email=self.cleaned_data['email'])
