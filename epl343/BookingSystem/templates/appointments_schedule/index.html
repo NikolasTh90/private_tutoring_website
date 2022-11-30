@@ -77,10 +77,10 @@
                       <em class="cd-schedule__name"> Appointment</em>
                       <!-- <em class="cd-schedule__name">{{app.0.description}} </em> -->
                       <div class="schedule-button" style="text-align: center;">
-                        <button class="button-cancel" role="button" onclick="window.location.href='../../../deleteBooking/{{app.0.start_dateTime|slugify}}';" style="margin-left: -10x; background-image: linear-gradient(1deg, #000, #FB0303 99%);">Cancel</button>
+                        <!-- <a data-toggle="modal" data-target="#removeModal"></a> -->
+                        <button class="button-cancel" role="button" data-toggle="modal" data-target='#removeModal' style="margin-left: -10x; background-image: linear-gradient(1deg, #000, #FB0303 99%);">Cancel</button>
                         <button class="button-change" role="button" onclick="window.location.href='../../../changeBooking/{{app.0.start_dateTime|slugify}}';" style="margin-left: 10px; background-image: linear-gradient(1deg, #000, #F3BB14 99%);">Change</button>
                       </div>
-                      
                     </a>  
                   </li>
             {% endif %}
@@ -123,6 +123,36 @@
   
     <div class="cd-schedule__cover-layer"></div>
   </div> <!-- .cd-schedule -->
+  
+  {% for appointments in appointments_sorted %}
+    {% for app in appointments %}
+      {% if forloop.counter0 != 0 %}
+
+              <!-- Cancel Modal-->
+              <div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
+             <div class="modal-dialog" role="document">
+                 <div class="modal-content">
+                     <div class="modal-header">
+                         <h5 class="modal-title" id="exampleModalLabel">Cancel Appointment</h5>
+                         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                             <span aria-hidden="true">×</span>
+                         </button>
+                     </div>
+                     <div class="modal-body">You are about to delete an appointment. Are you sure?
+                     </div>
+                     <div class="modal-footer">
+                         <button class="btn btn-secondary" type="button" data-dismiss="modal">No</button>
+                         <a class="btn btn-primary" href='../../../deleteBooking/{{app.0.start_dateTime|slugify}}'>Yes</a>
+                     </div>
+                 </div>
+             </div>
+         </div>
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+
+  
 </body>
 <script src="{% static 'static_appointments_schedule/js/util.js' %}"></script> <!-- util functions included in the CodyHouse framework -->
 <script>(function() {
