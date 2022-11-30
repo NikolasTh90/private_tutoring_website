@@ -69,7 +69,7 @@ def addTestimonial(request):
     
 def index(request):
     template = loader.get_template('index.html')
-    testimonials = Testimonial.objects.all().values()
+    testimonials = Testimonial.objects.all()
 
     return HttpResponse(template.render({'site': 'Home', 'testimonials': testimonials}, request))
 
@@ -374,7 +374,7 @@ def contacts(request):
 
 def teaching(request):
     # template = loader.get_template('teaching_experience.html')
-    experiences = Teaching_experience.objects.all().order_by('-start_date').values()
+    experiences = Teaching_experience.objects.all().order_by('-start_date')
     return render(request, "teaching_experience.html", {'site': 'TeachingExperience', 'experiences': experiences} )
 
 def feedback(request):
