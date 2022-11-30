@@ -57,6 +57,17 @@ def send_reset_password_token(token, email):
     }
     send(context, "Reset Password at Dr Stelios Theodorou", str(email))
 
+def send_activation_token(token, email):
+    strong_greeting = "Account activation required"
+    description = "Visit this link to activate your account: www.drsteliostheodorou.com/activate/"+token
+    token = str(token)
+    context = {
+        'strong_greeting': strong_greeting,
+        'paragraph1': description,
+        'paragraph2': ""
+    }
+    send(context, "Account activation at Dr Stelios Theodorou", str(email))
+
 
 def send(context, subject, rec_email):
     html_content = render_to_string("email_template.html", context)

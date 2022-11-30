@@ -132,7 +132,7 @@ class MyUser(AbstractBaseUser):
         max_length=255,
         unique=True
     )
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     staff = models.BooleanField(default=False)  # a admin user; non super-user
     admin = models.BooleanField(default=False)  # a superuser
     date_joined = models.DateTimeField(
@@ -286,5 +286,10 @@ class ResetTokens(models.Model):
         
 class ActivateTokens(models.Model):
     User = models.OneToOneField(MyUser,unique=True, on_delete=models.CASCADE)
-    Token = models.IntegerField(unique=True)
+    Token = models.CharField(max_length=16)
     sent = models.DateTimeField(auto_now_add=True)
+
+    def generate_token(self):
+        self.Token = token_hex(16)
+        self.save()
+        return self.Token
