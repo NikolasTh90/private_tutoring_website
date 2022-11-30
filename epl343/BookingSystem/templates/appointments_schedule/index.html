@@ -65,7 +65,7 @@
       <ul>
         {% for appointments in appointments_sorted %}
         <li class="cd-schedule__group">
-          <div class="cd-schedule__top-info"><span>{{appointments.0}}</span></div>
+          <div class="cd-schedule__top-info" style="background-color: #66a1ed;"><span>{{appointments.0}}</span></div>
   
           <ul>
             {% for app in appointments %}
@@ -74,9 +74,9 @@
                     <a data-start="{{ app.0.start_dateTime|date:'H:i' }}" data-end="{{ app.0.end_dateTime|date:'H:i' }}" style="font-size: small;"
                       data-content="event-abs-circuit" data-event="event-{{app.1}}">
                       <em class="cd-schedule__name"> Appointment</em>
-                      <em class="cd-schedule__name" id="description">{{app.0.description}} </em>
+                      <!-- <em class="cd-schedule__name">{{app.0.description}} </em> -->
                       <button onclick="window.location.href='../../../deleteBooking/{{app.0.start_dateTime|slugify}}';">Cancel</button>
-                      <button onclick="window.location.href='../../../changeBooking/{{app.0.start_dateTime|slugify}}';">Change</button>
+                      <button onclick="window.location.href='../../../changeBooking/{{app.0.start_dateTime|slugify}}';" style="margin-left: 5px;">Change</button>
                     </a>  
                   </li>
             {% endif %}
@@ -99,16 +99,16 @@
 
         <div class="cd-schedule-modal__header-bg"></div>
       </header>
-  
       <div class="cd-schedule-modal__body">
         <div class="cd-schedule-modal__event-info" style="opacity: 1;">
           <div class="cd-schedule-modal__content">
-            <!-- <span class="cd-schedule-modal__date" style="color: black;"></span>
-
-            <h3 class="cd-schedule-modal__description" style="color: black;"></h3>
-
-            <h3 class="cd-schedule-modal__name" style="color: black;"></h3> -->
-
+            {% for appointments in appointments_sorted %}
+              {% for app in appointments %}
+                {% if forloop.counter0 != 0 %}
+                  <em class="cd-schedule__name" style="color: black;">{{app.0.description}} </em>
+                {% endif %}
+              {% endfor %}
+            {% endfor %}
           </div>
         </div> 
         <div class="cd-schedule-modal__body-bg"></div>

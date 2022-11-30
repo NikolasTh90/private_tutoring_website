@@ -332,6 +332,12 @@ def myappointments(request, week_number):
         counter = 0
         midnight = datetime.datetime(year=1, month=1, day=1, hour=23, minute=59)
         minstart = datetime.datetime.combine(date=datetime.date(1,1,1),time=minstart)
+
+        if (minstart.minute>30):
+            minstart = minstart.replace(minute=30)
+        else:
+            minstart = minstart.replace(minute=0)
+            
         while (minstart.time()<maxend or counter < 30) and minstart.date()==midnight.date():
             slots.append(minstart.time())
             delta = datetime.timedelta(minutes=30)
