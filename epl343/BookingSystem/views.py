@@ -320,6 +320,8 @@ def myappointments(request, week_number):
         print(start)
         print(end)
         first_week_with_appointments = appointments[0].start_dateTime.isocalendar().week
+    else:
+        first_week_with_appointments = list()
     try:
         minstart = appointments[0].start_dateTime.time()
         maxend = appointments[0].end_dateTime.time()
