@@ -349,7 +349,12 @@ def myappointments(request, week_number):
         slots = []
         counter = 0
         midnight = datetime.datetime(year=1, month=1, day=1, hour=23, minute=59)
-        minstart = datetime.datetime.combine(date=datetime.date(1,1,1),time=minstart)
+        # for dynamic start time use:
+        #  minstart = datetime.datetime.combine(date=datetime.date(1,1,1),time=minstart)
+        
+        # for static start time use:
+        minstart = datetime.datetime.combine(date=datetime.date(1,1,1),time=datetime.time(8,0,0))
+
 
         if (minstart.minute>30):
             minstart = minstart.replace(minute=30)
