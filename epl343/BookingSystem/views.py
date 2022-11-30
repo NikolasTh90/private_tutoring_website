@@ -106,7 +106,7 @@ def changeBooking(request,startdate):
                 current_appointment.location = request.POST.get('location')
                 current_appointment.save()
                 if not same_date_flag:
-                    Appointment.objects.get(start_dateTime=start_date).delete()
+                    Appointment.objects.filter(start_dateTime=start_date).delete()
                 return HttpResponseRedirect(reverse('bs:requestSubmitted'))
             else:
                 return HttpResponseRedirect(reverse('bs:dashboard'))
@@ -338,7 +338,13 @@ def myappointments(request, week_number):
         slots = []
         counter = 0
         midnight = datetime.datetime(year=1, month=1, day=1, hour=23, minute=59)
-        minstart = datetime.datetime.combine(date=datetime.date(1,1,1),time=minstart)
+        # for dynamic start time use:
+        #  minstart = datetime.datetime.combine(date=datetime.date(1,1,1),time=minstart)
+        
+        # for static start time use:
+        minstart = datetime.datetime.combine(date=datetime.date(1,1,1),time=datetime.time(8,0,0))
+
+
         while (minstart.time()<maxend or counter < 30) and minstart.date()==midnight.date():
             slots.append(minstart.time())
             delta = datetime.timedelta(minutes=30)
