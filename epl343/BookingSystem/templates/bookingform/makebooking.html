@@ -27,7 +27,7 @@
             {% if recommend is True %}
                 {% csrf_token %}
                 <div class="title">
-                    <h2 style="color: white;">Selected date and time are not available. You may want one of these</h2>
+                    <h3 style="color: white;">Selected date and time are not available. You may want one of these</h3>
                 </div>
                 {% for recommendation in recommendations %}
                 <input type="button" class="recommend" onclick="window.location.href='/makeBooking/recommend/{{recommendation.1}}/{{recommendation.2}}/{{recommendation.3}}';" value="{{recommendation.0}}"></input>
