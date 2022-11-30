@@ -88,7 +88,7 @@ def deleteBooking(request,startdate):
 def changeBooking(request,startdate):
     if request.user.is_authenticated:
         if (request.method == "POST"):
-            start_date = datetime.datetime(year=int(startdate[:4]),month=int(startdate[5:7]),day=int(startdate[8:10]), hour=int(startdate[11:13]), minute=int(startdate[13:15]), second=0)
+            start_date = datetime.datetime(year=int(startdate[:4]),month=int(startdate[5:7]),day=int(startdate[8:10]), hour=int(startdate[11:13]), minute=int(startdate[13:15]), second=0, tzinfo=timezone.utc)
             date = request.POST.get('date')
             time = request.POST.get('time')
             duration = request.POST.get('appointment_duration')
