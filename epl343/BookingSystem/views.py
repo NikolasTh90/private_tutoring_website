@@ -450,18 +450,39 @@ def login1(request):
         if form.is_valid():
             email = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            user = authenticate(request, username=email, password=password)
-            if user is not None:
-                login(request, user)
+            user = MyUser.objects.get(email=email)
+            if user is not None:                
+                user = authenticate(request, username=email, password=password)
+                login(request, user)    
                 if str(request.GET.get('next')).__contains__('/makeBooking/'):
                     return HttpResponseRedirect(request.GET.get('next'))
-                return HttpResponseRedirect(reverse('bs:dashboard'))
+                return HttpResponseRedirect(reverse('bs:dashboard'))    
         else:
-            messages.error(request, 'Invalid username or password.')
-            template = loader.get_template('login.html')
-            return HttpResponse(template.render({"signinform": AuthenticationForm(), 'login' : True}, request))
-
+            try:
+                email = form.cleaned_data['username']
+                user = MyUser.objects.get(email=email)
+                # If user exists in the database but is not active, print according message
+                if user is not None:
+                    if not user.is_active:
+                        messages.error(request, 'Please verify your email to login. We have sent you an email with instructions.')
+                        activationToken = ActivateTokens.objects.get(User=user.id).Token
+                        smtp_service.send_activation_token(activationToken, user.email)
+                        template = loader.get_template('login.html')
+                        return HttpResponse(template.render({"signinform": AuthenticationForm(), 'login' : True}, request))
+            # If user does not exist in the database, again print according message
+            except ObjectDoesNotExist: 
+                messages.error(request, 'Invalid username or password.')
+                template = loader.get_template('login.html')
+                return HttpResponse(template.render({"signinform": AuthenticationForm(), 'login' : True}, request))
+    # If not a post request 
     else:
+        # Check for account activation status
+        if request.session.get('activationStatus') == 'activated':
+            messages.success(request, 'Your account has been activated successfully.')
+        
+        if request.session.get('activationStatus') == 'error':
+            messages.success(request, 'Invalid activation link.')
+        request.session["activationStatus"] = ""
         template = loader.get_template('login.html')
         return HttpResponse(template.render(
             {"login" : True, 'site': 'Login'}, request))
@@ -480,10 +501,10 @@ def signup(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
-            authenticate(request, username=user.email, password=user.password)
-            login(request, user)
-            messages.success(request, 'Account created Successfully')
-            messages.success(request, 'An activation link has sent to your email')
+            activationRecord = ActivateTokens(User=user)
+            activationToken = activationRecord.generate_token()
+            messages.success(request, 'Account created Successfully. Please verify your account. An email has been sent to your email address.')
+            smtp_service.send_activation_token(activationToken, user.email)
             return HttpResponseRedirect(reverse('bs:login'))
         else:  # wrong form
             template = loader.get_template('login.html')
@@ -497,6 +518,7 @@ def signup(request):
             return HttpResponseRedirect(reverse('bs:login'))
     else:  # User accesing for 1st time
         return HttpResponseRedirect(reverse('bs:login'))
+
 
 @login_required(login_url='bs:login')
 def dashboard(request):
