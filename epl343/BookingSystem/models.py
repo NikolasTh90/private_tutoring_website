@@ -286,7 +286,6 @@ class ResetTokens(models.Model):
         
 class ActivateTokens(models.Model):
     User = models.OneToOneField(MyUser,unique=True, on_delete=models.CASCADE)
-    Token = models.IntegerField(unique=True)
     Token = models.CharField(max_length=16)
     sent = models.DateTimeField(auto_now_add=True)
 

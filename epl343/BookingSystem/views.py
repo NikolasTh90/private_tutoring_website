@@ -517,14 +517,17 @@ def signup(request):
 
 def activate(request, token):
 
-    activateTokenRecord =  ActivateTokens.objects.get(Token=token)
+    activateTokenRecord = ActivateTokens.objects.filter(Token=token).first()
 
-    if activateTokenRecord is not None:
-        print(activateTokenRecord.Token)
-        print(activateTokenRecord.User)
-        userRecord = MyUser.objects.get(id=activateTokenRecord.User.id)
-        userRecord.is_active = True
-        userRecord.save()
+    try:
+        if activateTokenRecord is not None:
+            print(activateTokenRecord.Token)
+            print(activateTokenRecord.User)
+            userRecord = MyUser.objects.get(id=activateTokenRecord.User.id)
+            userRecord.is_active = True
+            userRecord.save()
+    except ObjectDoesNotExist:
+        return HttpResponseRedirect(reverse('bs:login'))
 
     return HttpResponseRedirect(reverse('bs:login'))
 
