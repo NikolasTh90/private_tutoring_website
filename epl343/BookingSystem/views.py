@@ -382,7 +382,7 @@ def contacts(request):
 
 def teaching(request):
     # template = loader.get_template('teaching_experience.html')
-    experiences = Teaching_experience.objects.all().order_by('-start_date')
+    experiences = Teaching_experience.objects.filter(show=True).order_by('-start_date')
     return render(request, "teaching_experience.html", {'site': 'TeachingExperience', 'experiences': experiences} )
 
 def feedback(request):
