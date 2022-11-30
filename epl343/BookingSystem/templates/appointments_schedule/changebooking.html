@@ -20,8 +20,8 @@
         <div class="main-block">
             <div class="left-part">
               <i class="fas fa-graduation-cap"></i>
-              <h1 style="color: white;">Make an appointment request</h1>
-              <p>W3docs provides free learning materials for programming languages like HTML, CSS, Java Script, PHP etc.</p>
+              <h1 style="color: white;">Book a private lesson appointment</h1>
+              <p>Dr. Stelios Theodorou is always willing to help you with any medical questions you may have!</p>
             </div>
             <form method="post">
             {% if recommend is True %}
@@ -71,6 +71,9 @@
         
                     <label style="color : white">Description (Describe efficently all your questions and the subject you need help with)</label>
                     <textarea type="text" name="description" style="height: 50px;" minlength="30" placeholder="Write something">{{ previous_description }}</textarea>
+                    <div class="d-sm-inline-block">
+                        <p style="color: white;">By submiting the booking, means you have read and aggreed to the <a style="color: lightskyblue;" href= "{% url 'bs:tc' %}">Terms & Conditions</a></p>
+                    </div>
                     <button type="submit" style="margin: 0px;">Submit</button>
                 {% endif %}
                 </form>

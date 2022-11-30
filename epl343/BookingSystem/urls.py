@@ -36,7 +36,9 @@ urlpatterns = [
     path('changeBooking/<str:startdate>', views.changeBooking, name = 'changeBooking'),
     path('deleteBooking/<str:startdate>/', views.deleteBooking, name = 'deleteBooking'),
     path('request_reset_password/', views.request_reset_password, name='request_reset_password'),
-    path('reset_password/<str:token>/', views.reset_password, name='reset_password')
+    path('reset_password/<str:token>/', views.reset_password, name='reset_password'),
+    path('activate/<str:token>', views.activate, name='email_activation')
+
 
 
 
