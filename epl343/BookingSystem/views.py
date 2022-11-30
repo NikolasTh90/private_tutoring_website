@@ -530,7 +530,6 @@ def dashboard(request):
 
         appointments = Appointment.objects.filter(user = client)
         first_week_with_appointments = 0
-        print(appointments[0].start_dateTime.isocalendar())
         if len(appointments) >= 1:
             first_week_with_appointments = appointments[0].start_dateTime.isocalendar().week
         context = {
