@@ -483,6 +483,7 @@ def signup(request):
             authenticate(request, username=user.email, password=user.password)
             login(request, user)
             messages.success(request, 'Account created Successfully')
+            messages.success(request, 'An activation link has sent to your email')
             return HttpResponseRedirect(reverse('bs:login'))
         else:  # wrong form
             template = loader.get_template('login.html')
