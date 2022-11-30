@@ -69,13 +69,8 @@ def addTestimonial(request):
 def index(request):
     template = loader.get_template('index.html')
     testimonials = Testimonial.objects.all().values()
-    auth = False
-    name = None
-    if request.user.is_authenticated:
-        auth = True
-        name = request.user.first_name
 
-    return HttpResponse(template.render({'site': 'Home', 'testimonials': testimonials, 'authenticated' : auth, 'name' : name}, request))
+    return HttpResponse(template.render({'site': 'Home', 'testimonials': testimonials}, request))
 
 def deleteBooking(request,startdate):
     if request.user.is_authenticated:

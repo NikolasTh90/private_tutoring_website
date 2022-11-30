@@ -143,8 +143,8 @@
                       {% if site == "Login"%}
                       <li class="rd-nav-item active" style="margin-left: 0px;"><a class="rd-nav-link" href="{% url 'bs:login' %}" style="font-weight: 500;">Sign In | Sign Up</a></li>
                       {% else %}
-                        {% if authenticated is True %}
-                          <li class="rd-nav-item" style="margin-left: 0px;"><a class="rd-nav-link" href="{% url 'bs:dashboard' %}" style="font-weight: 500;">{{ name }}'s Dashboard</a></li>
+                        {% if request.user.is_authenticated %}
+                          <li class="rd-nav-item" style="margin-left: 0px;"><a class="rd-nav-link" href="{% url 'bs:dashboard' %}" style="font-weight: 500;">{{ request.user.first_name }}'s Dashboard</a></li>
                         {% else %}
                         <li class="rd-nav-item" style="margin-left: 0px;"><a class="rd-nav-link" href="{% url 'bs:login' %}" style="font-weight: 500;">Sign In | Sign Up</a></li>
                         {% endif %}
