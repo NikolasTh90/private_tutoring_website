@@ -112,7 +112,7 @@ def changeBooking(request,startdate):
                 requested_dateTime, requested_duration = strToDateTime(date, time, duration)
                 recommendations = np.array(makeRecommendations(requested_dateTime=requested_dateTime, requested_duration=requested_duration))
                 recommendations = recommendations[np.where(recommendations!=None)]
-                request.session['recommend'] = True
+                request.session['recommended'] = True
                 request.session['location']=request.POST.get('location')
                 request.session['description']=request.POST.get('description')
                 final_recommendations = list()
@@ -293,7 +293,7 @@ def BookFromRecommend(request, date, time, duration):
                 requested_dateTime, requested_duration = strToDateTime(date, time, duration)
                 if Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration):
                     print('gdhfsdjkhfkdsjhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
-                    Appointment.objects.create(user = request.user, description = request.session['description'], duration = requested_duration, start_dateTime = requested_dateTime) 
+                    Appointment.objects.create(user = request.user, description = request.session['description'], duration = requested_duration, start_dateTime = requested_dateTime, location=request.session['location']) 
                     request.session['recommended'] = False
                     return HttpResponseRedirect(reverse('bs:requestSubmitted'))
             else:
