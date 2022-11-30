@@ -8,6 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script>document.getElementsByTagName("html")[0].className += " js";</script>
   <link rel="stylesheet" href="{% static 'static_appointments_schedule/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/scheduleButtons.css' %}">
 
   {% if week_num not in weeks %}
     <script>        
@@ -75,8 +76,11 @@
                       data-content="event-abs-circuit" data-event="event-{{app.1}}">
                       <em class="cd-schedule__name"> Appointment</em>
                       <!-- <em class="cd-schedule__name">{{app.0.description}} </em> -->
-                      <button onclick="window.location.href='../../../deleteBooking/{{app.0.start_dateTime|slugify}}';">Cancel</button>
-                      <button onclick="window.location.href='../../../changeBooking/{{app.0.start_dateTime|slugify}}';" style="margin-left: 5px;">Change</button>
+                      <div class="schedule-button" style="text-align: center;">
+                        <button class="button-cancel" role="button" onclick="window.location.href='../../../deleteBooking/{{app.0.start_dateTime|slugify}}';" style="margin-left: -10x; background-image: linear-gradient(1deg, #000, #FB0303 99%);">Cancel</button>
+                        <button class="button-change" role="button" onclick="window.location.href='../../../changeBooking/{{app.0.start_dateTime|slugify}}';" style="margin-left: 10px; background-image: linear-gradient(1deg, #000, #F3BB14 99%);">Change</button>
+                      </div>
+                      
                     </a>  
                   </li>
             {% endif %}
@@ -131,6 +135,7 @@
 		
 		this.topInfoElement = this.element.getElementsByClassName('cd-schedule__top-info')[0];
 		this.singleEvents = this.element.getElementsByClassName('cd-schedule__event');
+    this.scheduleButton = this.element.getElementsByClassName('schedule-button');
 		
 		this.modal = this.element.getElementsByClassName('cd-schedule-modal')[0];
 		this.modalHeader = this.element.getElementsByClassName('cd-schedule-modal__header')[0];
@@ -198,7 +203,12 @@
 			var eventTop = slotHeight*(start - self.timelineStart)/self.timelineUnitDuration,
 				eventHeight = slotHeight*duration/self.timelineUnitDuration;
 
-			this.singleEvents[i].setAttribute('style', 'top: '+(eventTop-1)+'px; height: '+(eventHeight +1)+'px');
+			this.singleEvents[i].setAttribute('style', 'top: '+(eventTop-1)+'px; height: '+(eventHeight+15)+'px');
+      
+      if (eventHeight + 15 >= 90 && eventHeight + 15 <=100)
+        this.scheduleButton[i].setAttribute('style', 'margin-top: ' + (eventHeight/15) + 'px')
+      else if (eventHeight + 15 > 100)
+        this.scheduleButton[i].setAttribute('style', 'margin-top: ' + (eventHeight/10 +10) + 'px')
 		}
 
 		Util.removeClass(this.element, 'cd-schedule--loading');
