@@ -404,21 +404,21 @@ def logout1(request):
 
 def request_reset_password(request):
     if request.method == "POST":
-        print(MyUser.objects.filter(email=request.POST.get('email')), 'hhhhhhhhhhhhhhhhhhhhhhhhh')
         newrequest = ({
             'User' : MyUser.objects.filter(email=request.POST.get('email')).first(),
             'email' : request.POST.get('email'),
         })
         form = RequestResetPassword(data = newrequest)
-        if ResetTokens.objects.get(User=MyUser.objects.get(email=request.POST.get('email'))) is not None:
+        if len(ResetTokens.objects.filter(User=MyUser.objects.get(email=request.POST.get('email')))) != 0:
             ResetTokens.objects.filter(User=MyUser.objects.get(email=request.POST.get('email'))).delete()
         if form.is_valid():
             form.save()
             template = loader.get_template('request_reset_password.html')
             return HttpResponse(template.render({'mess' : 'If the user exists, you will find an email with a reset password link in your email', 'sent' : True}, request))
         else:
-            print(MyUser.objects.filter(email=request.POST.get('email')), 'hhhhhhhhhhhhhhhhhhhhhhhhh')
             print(form.errors)
+            template = loader.get_template('request_reset_password.html')
+            return HttpResponse(template.render({'sent' : False},request)) 
     else:
         template = loader.get_template('request_reset_password.html')
         return HttpResponse(template.render({'sent' : False},request))    

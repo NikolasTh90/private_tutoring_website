@@ -50,10 +50,11 @@ def send_reset_password_token(token, email):
     strong_greeting = "Password Reset request"
     description = "Copy the token to it's field at www.drsteliostheodorou.com/reset_password"
     token = str(token)
+    description += '/'+token
     context = {
         'strong_greeting': strong_greeting,
         'paragraph1': description,
-        'paragraph2': token
+        'paragraph2': ''
     }
     send(context, "Reset Password at Dr Stelios Theodorou", str(email))
 
