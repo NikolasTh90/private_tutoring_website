@@ -320,6 +320,8 @@ def myappointments(request, week_number):
         print(start)
         print(end)
         first_week_with_appointments = appointments[0].start_dateTime.isocalendar().week
+    else:
+        first_week_with_appointments = list()
     try:
         minstart = appointments[0].start_dateTime.time()
         maxend = appointments[0].end_dateTime.time()
@@ -349,7 +351,12 @@ def myappointments(request, week_number):
         slots = []
         counter = 0
         midnight = datetime.datetime(year=1, month=1, day=1, hour=23, minute=59)
-        minstart = datetime.datetime.combine(date=datetime.date(1,1,1),time=minstart)
+        # for dynamic start time use:
+        #  minstart = datetime.datetime.combine(date=datetime.date(1,1,1),time=minstart)
+        
+        # for static start time use:
+        minstart = datetime.datetime.combine(date=datetime.date(1,1,1),time=datetime.time(8,0,0))
+
 
         if (minstart.minute>30):
             minstart = minstart.replace(minute=30)
@@ -475,7 +482,6 @@ def login1(request):
                     return HttpResponseRedirect(request.GET.get('next'))
                 return HttpResponseRedirect(reverse('bs:dashboard'))    
         else:
-            print("testdd")
             try:
                 email = form.cleaned_data['username']
                 user = MyUser.objects.get(email=email)
@@ -494,6 +500,15 @@ def login1(request):
                 return HttpResponse(template.render({"signinform": AuthenticationForm(), 'login' : True}, request))
     # If not a post request 
     else:
+        # Check for account activation status
+        if request.session.get('activationStatus') == 'activated':
+            messages.success(request, 'Your account has been activated successfully.')
+        
+        if request.session.get('activationStatus') == 'error':
+            messages.success(request, 'Invalid activation link.')
+
+        request.session["activationStatus"] = ""
+
         template = loader.get_template('login.html')
         return HttpResponse(template.render(
             {"login" : True, 'site': 'Login'}, request))
@@ -536,17 +551,17 @@ def signup(request):
 def activate(request, token):
 
     activateTokenRecord = ActivateTokens.objects.filter(Token=token).first()
-
-    try:
-        if activateTokenRecord is not None:
-            print(activateTokenRecord.Token)
-            print(activateTokenRecord.User)
-            userRecord = MyUser.objects.get(id=activateTokenRecord.User.id)
-            userRecord.is_active = True
-            userRecord.save()
-    except ObjectDoesNotExist:
+    
+    if activateTokenRecord is not None:
+        print(activateTokenRecord.Token)
+        print(activateTokenRecord.User)
+        userRecord = MyUser.objects.get(id=activateTokenRecord.User.id)
+        userRecord.is_active = True
+        userRecord.save()
+        request.session["activationStatus"] = "activated"
         return HttpResponseRedirect(reverse('bs:login'))
 
+    request.session["activationStatus"] = "error"
     return HttpResponseRedirect(reverse('bs:login'))
 
 
