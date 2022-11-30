@@ -329,14 +329,19 @@ def myappointments(request, week_number):
                 if app.start_dateTime.weekday()==i:
                     weekday_apps.append([app, counter])
                     counter += 1
+                    if counter == 5:
+                        counter = 1
             appointments_sorted_by_weekday.append(weekday_apps)
         print(appointments_sorted_by_weekday)
         slots = []
         counter = 0
-        while minstart<maxend or counter < 20:
-            slots.append(minstart)
+        midnight = datetime.datetime(year=1, month=1, day=1, hour=23, minute=59)
+        minstart = datetime.datetime.combine(date=datetime.date(1,1,1),time=minstart)
+        while (minstart.time()<maxend or counter < 30) and minstart.date()==midnight.date():
+            slots.append(minstart.time())
             delta = datetime.timedelta(minutes=30)
-            minstart = (datetime.datetime.combine(datetime.date(1,1,1),minstart) + delta).time()
+            print(minstart, delta, minstart + delta)
+            minstart = minstart + delta
             counter += 1
         print(slots)
         template = loader.get_template('appointments_schedule/index.html')
