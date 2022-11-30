@@ -17,7 +17,8 @@ import numpy as np
 from . import smtp_service
 from django.core.exceptions import ObjectDoesNotExist
 import datetime
-
+from django.core.files.storage import FileSystemStorage
+from django.conf import settings
 
 User = get_user_model()
 
@@ -88,7 +89,7 @@ def deleteBooking(request,startdate):
 def changeBooking(request,startdate):
     if request.user.is_authenticated:
         if (request.method == "POST"):
-            start_date = datetime.datetime(year=int(startdate[:4]),month=int(startdate[5:7]),day=int(startdate[8:10]), hour=int(startdate[11:13]), minute=int(startdate[13:15]), second=0, tzinfo=timezone.utc)
+            start_date = datetime.datetime(year=int(startdate[:4]),month=int(startdate[5:7]),day=int(startdate[8:10]), hour=int(startdate[11:13]), minute=int(startdate[13:15]), second=0)
             date = request.POST.get('date')
             time = request.POST.get('time')
             duration = request.POST.get('appointment_duration')
@@ -101,21 +102,10 @@ def changeBooking(request,startdate):
                 current_appointment.description = request.POST.get('description')
                 current_appointment.location = request.POST.get('location')
                 current_appointment.save()
-                Appointment.objects.get(start_dateTime=start_date).delete()
+                Appointment.objects.filter(start_dateTime=start_date).delete()
                 return HttpResponseRedirect(reverse('bs:requestSubmitted'))
             else:
-                requested_dateTime, requested_duration = strToDateTime(date, time, duration)
-                recommendations = np.array(makeRecommendations(requested_dateTime=requested_dateTime, requested_duration=requested_duration))
-                recommendations = recommendations[np.where(recommendations!=None)]
-                request.session['recommend'] = True
-                request.session['location']=request.POST.get('location')
-                request.session['description']=request.POST.get('description')
-                final_recommendations = list()
-                for recommend in recommendations:
-                    temp = [recommend, str(recommend.date()), str(recommend.time()), duration]
-                    final_recommendations.append(temp)
-                template = loader.get_template('appointments_schedule/changebooking.html')    
-                return HttpResponse(template.render({'recommendations' : final_recommendations, 'recommend' : True, 'site' : 'Booking'}, request))
+                return HttpResponseRedirect(reverse('bs:dashboard'))
         else:
             template = loader.get_template('appointments_schedule/changebooking.html')
             start_date = datetime.datetime(year=int(startdate[:4]),month=int(startdate[5:7]),day=int(startdate[8:10]), hour=int(startdate[11:13]), minute=int(startdate[13:15]), second=0)
@@ -178,13 +168,8 @@ def makeBooking(request):
                 recommendations = np.array(makeRecommendations(requested_dateTime=requested_dateTime, requested_duration=requested_duration))
                 recommendations = recommendations[np.where(recommendations!=None)]
                 request.session['recommended'] = True
-                request.session['location'] = request.POST.get('location')
-                request.session['description'] = request.POST.get('description')
-                final_recommendations = list()
-                for recommend in recommendations:
-                    temp = [recommend, str(recommend.date()), str(recommend.time()), duration]
-                    final_recommendations.append(temp)
-                return HttpResponse(template.render({'recommendations' : final_recommendations, 'recommend' : True, 'site' : 'Booking'}, request))
+                recommendations = makeRecommendations(requested_dateTime=requested_dateTime, requested_duration=requested_duration)
+                return HttpResponse(template.render({'recommendations' : recommendations, 'recommend' : True, 'site' : 'Booking'}, request))
         else:
             if (request.method == "POST") :
                 request_copy = request.POST.copy()
@@ -217,7 +202,6 @@ def makeBooking(request):
                     recommendations = np.array(makeRecommendations(requested_dateTime=requested_dateTime, requested_duration=requested_duration))
                     recommendations = recommendations[np.where(recommendations!=None)]
                     request.session['recommended'] = True
-                    request.session['location'] = request.POST.get('location')
                     request.session['description'] = request.POST.get('description')
                     a = recommendations[0]
                     final_recommendations = list()
@@ -261,7 +245,6 @@ def makeBooking(request):
                     recommendations = recommendations[np.where(recommendations!=None)]
                     request.session['recommended'] = True
                     request.session['description'] = request.POST.get('description')
-                    request.session['location'] = request.POST.get('location')
                     a = recommendations[0]
                     final_recommendations = list()
                     for recommend in recommendations:
@@ -289,7 +272,7 @@ def BookFromRecommend(request, date, time, duration):
                 requested_dateTime, requested_duration = strToDateTime(date, time, duration)
                 if Available(requested_dateTime=requested_dateTime, requested_duration=requested_duration):
                     print('gdhfsdjkhfkdsjhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh')
-                    Appointment.objects.create(user = request.user, description = request.session['description'], duration = requested_duration, start_dateTime = requested_dateTime, location=request.session['location']) 
+                    Appointment.objects.create(user = request.user, description = request.session['description'], duration = requested_duration, start_dateTime = requested_dateTime) 
                     request.session['recommended'] = False
                     return HttpResponseRedirect(reverse('bs:requestSubmitted'))
             else:
@@ -304,7 +287,7 @@ def BookFromRecommend(request, date, time, duration):
 def myappointments(request, week_number):
     if not request.user.is_authenticated:
         return HttpResponseRedirect(reverse('bs:login'))
-    temp_appointments = Appointment.objects.filter(user = request.user ).filter(Q(pending = True) | Q(accepted = True) )
+    temp_appointments = Appointment.objects.filter(user = request.user)
     appointments = list()
     weeks_with_apps = list()
     for app in temp_appointments:
@@ -320,8 +303,6 @@ def myappointments(request, week_number):
         print(start)
         print(end)
         first_week_with_appointments = appointments[0].start_dateTime.isocalendar().week
-    else:
-        first_week_with_appointments = list()
     try:
         minstart = appointments[0].start_dateTime.time()
         maxend = appointments[0].end_dateTime.time()
@@ -351,18 +332,7 @@ def myappointments(request, week_number):
         slots = []
         counter = 0
         midnight = datetime.datetime(year=1, month=1, day=1, hour=23, minute=59)
-        # for dynamic start time use:
-        #  minstart = datetime.datetime.combine(date=datetime.date(1,1,1),time=minstart)
-        
-        # for static start time use:
-        minstart = datetime.datetime.combine(date=datetime.date(1,1,1),time=datetime.time(8,0,0))
-
-
-        if (minstart.minute>30):
-            minstart = minstart.replace(minute=30)
-        else:
-            minstart = minstart.replace(minute=0)
-            
+        minstart = datetime.datetime.combine(date=datetime.date(1,1,1),time=minstart)
         while (minstart.time()<maxend or counter < 30) and minstart.date()==midnight.date():
             slots.append(minstart.time())
             delta = datetime.timedelta(minutes=30)
@@ -474,41 +444,18 @@ def login1(request):
         if form.is_valid():
             email = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            user = MyUser.objects.get(email=email)
-            if user is not None:                
-                user = authenticate(request, username=email, password=password)
-                login(request, user)    
+            user = authenticate(request, username=email, password=password)
+            if user is not None:
+                login(request, user)
                 if str(request.GET.get('next')).__contains__('/makeBooking/'):
                     return HttpResponseRedirect(request.GET.get('next'))
-                return HttpResponseRedirect(reverse('bs:dashboard'))    
+                return HttpResponseRedirect(reverse('bs:dashboard'))
         else:
-            try:
-                email = form.cleaned_data['username']
-                user = MyUser.objects.get(email=email)
-                # If user exists in the database but is not active, print according message
-                if user is not None:
-                    if not user.is_active:
-                        messages.error(request, 'Please verify your email to login. We have sent you an email with instructions.')
-                        activationToken = ActivateTokens.objects.get(User=user.id).Token
-                        smtp_service.send_activation_token(activationToken, user.email)
-                        template = loader.get_template('login.html')
-                        return HttpResponse(template.render({"signinform": AuthenticationForm(), 'login' : True}, request))
-            # If user does not exist in the database, again print according message
-            except ObjectDoesNotExist: 
-                messages.error(request, 'Invalid username or password.')
-                template = loader.get_template('login.html')
-                return HttpResponse(template.render({"signinform": AuthenticationForm(), 'login' : True}, request))
-    # If not a post request 
+            messages.error(request, 'Invalid username or password.')
+            template = loader.get_template('login.html')
+            return HttpResponse(template.render({"signinform": AuthenticationForm(), 'login' : True}, request))
+
     else:
-        # Check for account activation status
-        if request.session.get('activationStatus') == 'activated':
-            messages.success(request, 'Your account has been activated successfully.')
-        
-        if request.session.get('activationStatus') == 'error':
-            messages.success(request, 'Invalid activation link.')
-
-        request.session["activationStatus"] = ""
-
         template = loader.get_template('login.html')
         return HttpResponse(template.render(
             {"login" : True, 'site': 'Login'}, request))
@@ -527,13 +474,9 @@ def signup(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
-
-            activationRecord = ActivateTokens(User=user)
-            activationToken = activationRecord.generate_token()
-
-            messages.success(request, 'Account created Successfully. Please verify your account. An email has been sent to your email address.')
-            smtp_service.send_activation_token(activationToken, user.email)
-
+            authenticate(request, username=user.email, password=user.password)
+            login(request, user)
+            messages.success(request, 'Account created Successfully')
             return HttpResponseRedirect(reverse('bs:login'))
         else:  # wrong form
             template = loader.get_template('login.html')
@@ -548,23 +491,6 @@ def signup(request):
     else:  # User accesing for 1st time
         return HttpResponseRedirect(reverse('bs:login'))
 
-def activate(request, token):
-
-    activateTokenRecord = ActivateTokens.objects.filter(Token=token).first()
-    
-    if activateTokenRecord is not None:
-        print(activateTokenRecord.Token)
-        print(activateTokenRecord.User)
-        userRecord = MyUser.objects.get(id=activateTokenRecord.User.id)
-        userRecord.is_active = True
-        userRecord.save()
-        request.session["activationStatus"] = "activated"
-        return HttpResponseRedirect(reverse('bs:login'))
-
-    request.session["activationStatus"] = "error"
-    return HttpResponseRedirect(reverse('bs:login'))
-
-
 @login_required(login_url='bs:login')
 def dashboard(request):
     if (request.method == "POST") :
@@ -573,13 +499,24 @@ def dashboard(request):
         print(request.POST.get('last_name'))
         print(request.POST.get('year'))
         print(request.POST.get('email'))
-
+        if request.POST.get('profilepic') != '':
+            myfile = request.FILES['profilepic']
         if form.is_valid():
-            
+            if request.POST.get('profilepic') != '':
+                fs = FileSystemStorage(location= settings.MEDIA_ROOT + '/images/ProfilePics/')
+                myfile.name = myfile.name
+                filename = fs.save(myfile.name, myfile)
+                uploaded_file_url = 'images/ProfilePics/' + myfile.name
+                user = MyUser.objects.get(email=request.user.email)
+                if 'DefaultProfilePic.png' not in user.profilePic.file.name:
+                    os.remove(user.profilePic.file.name)
+                user.profilePic.name = uploaded_file_url
+                user.save()
             form.save()
         else:
             print(form.errors)
             print("Your change form is not correct")
+        
     
         return HttpResponseRedirect(reverse('bs:dashboard'))
     else :
@@ -589,7 +526,7 @@ def dashboard(request):
 
         appointments = Appointment.objects.filter(user = client)
         first_week_with_appointments = 0
-        #print(appointments[0].start_dateTime.isocalendar())
+        print(appointments[0].start_dateTime.isocalendar())
         if len(appointments) >= 1:
             first_week_with_appointments = appointments[0].start_dateTime.isocalendar().week
         context = {
