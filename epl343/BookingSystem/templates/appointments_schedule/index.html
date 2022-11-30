@@ -8,6 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script>document.getElementsByTagName("html")[0].className += " js";</script>
   <link rel="stylesheet" href="{% static 'static_appointments_schedule/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/scheduleButtons.css' %}">
 
   {% if week_num not in weeks %}
     <script>        
@@ -65,7 +66,7 @@
       <ul>
         {% for appointments in appointments_sorted %}
         <li class="cd-schedule__group">
-          <div class="cd-schedule__top-info"><span>{{appointments.0}}</span></div>
+          <div class="cd-schedule__top-info" style="background-color: #66a1ed;"><span>{{appointments.0}}</span></div>
   
           <ul>
             {% for app in appointments %}
@@ -74,9 +75,12 @@
                     <a data-start="{{ app.0.start_dateTime|date:'H:i' }}" data-end="{{ app.0.end_dateTime|date:'H:i' }}" style="font-size: small;"
                       data-content="event-abs-circuit" data-event="event-{{app.1}}">
                       <em class="cd-schedule__name"> Appointment</em>
-                      <em class="cd-schedule__name" id="description">{{app.0.description}} </em>
-                      <button onclick="window.location.href='../../../deleteBooking/{{app.0.start_dateTime|slugify}}';">Cancel</button>
-                      <button onclick="window.location.href='../../../changeBooking/{{app.0.start_dateTime|slugify}}';">Change</button>
+                      <!-- <em class="cd-schedule__name">{{app.0.description}} </em> -->
+                      <div class="schedule-button" style="text-align: center;">
+                        <!-- <a data-toggle="modal" data-target="#removeModal"></a> -->
+                        <button class="button-cancel" role="button" data-toggle="modal" data-target='#removeModal' style="margin-left: -10x; background-image: linear-gradient(1deg, #000, #FB0303 99%);">Cancel</button>
+                        <button class="button-change" role="button" onclick="window.location.href='../../../changeBooking/{{app.0.start_dateTime|slugify}}';" style="margin-left: 10px; background-image: linear-gradient(1deg, #000, #F3BB14 99%);">Change</button>
+                      </div>
                     </a>  
                   </li>
             {% endif %}
@@ -99,16 +103,16 @@
 
         <div class="cd-schedule-modal__header-bg"></div>
       </header>
-  
       <div class="cd-schedule-modal__body">
         <div class="cd-schedule-modal__event-info" style="opacity: 1;">
           <div class="cd-schedule-modal__content">
-            <!-- <span class="cd-schedule-modal__date" style="color: black;"></span>
-
-            <h3 class="cd-schedule-modal__description" style="color: black;"></h3>
-
-            <h3 class="cd-schedule-modal__name" style="color: black;"></h3> -->
-
+            {% for appointments in appointments_sorted %}
+              {% for app in appointments %}
+                {% if forloop.counter0 != 0 %}
+                  <em class="cd-schedule__name" style="color: black;">{{app.0.description}} </em>
+                {% endif %}
+              {% endfor %}
+            {% endfor %}
           </div>
         </div> 
         <div class="cd-schedule-modal__body-bg"></div>
@@ -119,6 +123,36 @@
   
     <div class="cd-schedule__cover-layer"></div>
   </div> <!-- .cd-schedule -->
+  
+  {% for appointments in appointments_sorted %}
+    {% for app in appointments %}
+      {% if forloop.counter0 != 0 %}
+
+              <!-- Cancel Modal-->
+              <div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
+             <div class="modal-dialog" role="document">
+                 <div class="modal-content">
+                     <div class="modal-header">
+                         <h5 class="modal-title" id="exampleModalLabel">Cancel Appointment</h5>
+                         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                             <span aria-hidden="true">×</span>
+                         </button>
+                     </div>
+                     <div class="modal-body">You are about to delete an appointment. Are you sure?
+                     </div>
+                     <div class="modal-footer">
+                         <button class="btn btn-secondary" type="button" data-dismiss="modal">No</button>
+                         <a class="btn btn-primary" href='../../../deleteBooking/{{app.0.start_dateTime|slugify}}'>Yes</a>
+                     </div>
+                 </div>
+             </div>
+         </div>
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+
+  
 </body>
 <script src="{% static 'static_appointments_schedule/js/util.js' %}"></script> <!-- util functions included in the CodyHouse framework -->
 <script>(function() {
@@ -131,6 +165,7 @@
 		
 		this.topInfoElement = this.element.getElementsByClassName('cd-schedule__top-info')[0];
 		this.singleEvents = this.element.getElementsByClassName('cd-schedule__event');
+    this.scheduleButton = this.element.getElementsByClassName('schedule-button');
 		
 		this.modal = this.element.getElementsByClassName('cd-schedule-modal')[0];
 		this.modalHeader = this.element.getElementsByClassName('cd-schedule-modal__header')[0];
@@ -198,7 +233,12 @@
 			var eventTop = slotHeight*(start - self.timelineStart)/self.timelineUnitDuration,
 				eventHeight = slotHeight*duration/self.timelineUnitDuration;
 
-			this.singleEvents[i].setAttribute('style', 'top: '+(eventTop-1)+'px; height: '+(eventHeight +1)+'px');
+			this.singleEvents[i].setAttribute('style', 'top: '+(eventTop-1)+'px; height: '+(eventHeight+15)+'px');
+      
+      if (eventHeight + 15 >= 90 && eventHeight + 15 <=100)
+        this.scheduleButton[i].setAttribute('style', 'margin-top: ' + (eventHeight/15) + 'px')
+      else if (eventHeight + 15 > 100)
+        this.scheduleButton[i].setAttribute('style', 'margin-top: ' + (eventHeight/10 +10) + 'px')
 		}
 
 		Util.removeClass(this.element, 'cd-schedule--loading');

@@ -42,32 +42,28 @@ def makeRecommendations(requested_dateTime, requested_duration):
                     recommend_next_appointment(requested_dateTime, requested_duration)] 
 
 def is_valid_appointment_request(requested_appointment_dateTime):
-    now = datetime.datetime.now()
-    current_datetime = datetime.datetime(year=now.year, month=now.month, day=now.day, hour=now.hour, minute=now.minute, second=now.second, tzinfo=timezone.utc) + allowed_days_before_appointment
-    if requested_appointment_dateTime < current_datetime:
-        return False
-    return True    
+    current_datetime = datetime.datetime.now(tz=timezone.utc) + allowed_days_before_appointment
+    return requested_appointment_dateTime >= current_datetime
 
 
 
 def appointment_is_available(requested_appointment_start_dateTime, requested_appointment_duration, current_appointment):
-    if is_compatible_with_schedule(requested_appointment_start_dateTime, requested_appointment_duration) and not is_in_offs(requested_appointment_start_dateTime, requested_appointment_duration) and not is_colliding_with_appointment(requested_appointment_start_dateTime, requested_appointment_duration, current_appointment) and has_break_between_appointments(requested_appointment_start_dateTime, current_appointment):
+    if is_compatible_with_schedule(requested_appointment_start_dateTime, requested_appointment_duration) and not is_in_offs(requested_appointment_start_dateTime, requested_appointment_duration) and not is_colliding_with_appointment(requested_appointment_start_dateTime, requested_appointment_duration, current_appointment) :
         return True
     return False
 
-def has_break_between_appointments(requested_appointment_start_dateTime, current_appointment):
-    appointments = Appointment.objects.all()
-    has_appointments_on_request_dateTime = False
-    for app in appointments:
-        if app != current_appointment:
-            if app.start_dateTime.date() == requested_appointment_start_dateTime.date():
-                has_appointments_on_request_dateTime = True
-                print((app.end_dateTime).time(), (requested_appointment_start_dateTime - break_time).time())
-                if not (app.end_dateTime).time() <= (requested_appointment_start_dateTime - break_time).time():
-                    return False
-    if not has_appointments_on_request_dateTime:
-        return True
-    return True
+# def has_break_between_appointments(requested_appointment_start_dateTime, current_appointment):
+#     appointments = Appointment.objects.all()
+#     has_appointments_on_request_dateTime = False
+#     for app in appointments:
+#         if app != current_appointment:
+#             if app.start_dateTime.date() == requested_appointment_start_dateTime.date():
+#                 has_appointments_on_request_dateTime = True
+#                 if not (app.end_dateTime).time() <= (requested_appointment_start_dateTime - break_time).time():
+#                     return False
+#     if not has_appointments_on_request_dateTime:
+#         return True
+#     return True
 
 
 def returnMax(requested_dateTime, duration, end_of_day):
@@ -91,32 +87,32 @@ def is_in_offs(requested_appointment_start_dateTime, requested_appointment_durat
             return True
     return False        
 
-def is_colliding_with_appointment(requested_appointment_start_dateTime, requested_appointment_duration, current_appointment):
+def is_colliding_with_appointment(requested_appointment_start_dateTime, requested_appointment_duration, current_appointment=None):
     other_appointments = Appointment.objects.all().filter( start_dateTime__date = requested_appointment_start_dateTime.date() ).filter(Q(pending = True) | Q(accepted = True) )
     for other in other_appointments:
         if current_appointment is None or other != current_appointment:
-            if requested_appointment_start_dateTime + requested_appointment_duration >= other.start_dateTime.replace(tzinfo=timezone.utc) and requested_appointment_start_dateTime <= other.end_dateTime.replace(tzinfo=timezone.utc):
+            if (requested_appointment_start_dateTime + requested_appointment_duration + break_time>= other.start_dateTime.replace(tzinfo=timezone.utc) and requested_appointment_start_dateTime  <= other.end_dateTime.replace(tzinfo=timezone.utc)) or (requested_appointment_start_dateTime - break_time < other.end_dateTime.replace(tzinfo=timezone.utc) and requested_appointment_start_dateTime > other.start_dateTime.replace(tzinfo=timezone.utc)):
                 return True
 
     return False 
 
 def recommend_next_appointment(requested_appointment_start_dateTime, requested_appointment_duration):
     recommend_next_appointment_datetime = requested_appointment_start_dateTime
-    recommend_next_appointment_datetime += datetime.timedelta(minutes=5)
+    recommend_next_appointment_datetime += datetime.timedelta(minutes = 5)
     while True:
         if Available(recommend_next_appointment_datetime, requested_appointment_duration, current_appointment=None):
             return recommend_next_appointment_datetime
-        recommend_next_appointment_datetime += datetime.timedelta(minutes=5)
+        recommend_next_appointment_datetime += datetime.timedelta(minutes = 5)
     
 
 def recommend_previous_appointment(requested_appointment_start_dateTime, requested_appointment_duration):
-    recommended_previous_appointment_dateTime = requested_appointment_start_dateTime - datetime.timedelta(minutes=5)
+    recommended_previous_appointment_dateTime = requested_appointment_start_dateTime - datetime.timedelta(minutes = 5)
     now = datetime.datetime.now()
     current_datetime = datetime.datetime(year=now.year, month=now.month, day=now.day, hour=now.hour, minute=now.minute, second=now.second, tzinfo=timezone.utc) + allowed_days_before_appointment
     while recommended_previous_appointment_dateTime >= current_datetime:
         if Available(recommended_previous_appointment_dateTime, requested_appointment_duration, current_appointment=None):
             return recommended_previous_appointment_dateTime
-        recommended_previous_appointment_dateTime -= datetime.timedelta(minutes=5)
+        recommended_previous_appointment_dateTime -= datetime.timedelta(minutes = 5)
     
     return None       
 

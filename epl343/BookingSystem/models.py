@@ -8,6 +8,7 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from secrets import token_hex
 from . import smtp_service
+from enum import Enum
 import datetime
 #############################################################
 #Galery code
@@ -18,26 +19,40 @@ class PhotoSection(models.Model):#subjects
 class Photo(models.Model):
     image = models.ImageField(upload_to='images/')
     belongs = models.ForeignKey(PhotoSection, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.image.file).split('/')[-1]
 ###############################################################
 # Testimonial models #################################################################
 
 
 
 # Teaching Experience models #################################################################
-class Teaching_experience(models.Model):
+
+
+class Association(models.Model):
     def validate_image(fieldfile_obj):
         filesize = fieldfile_obj.file.size
         megabyte_limit = 20.0
         if filesize > megabyte_limit*1024*1024:
             raise ValidationError("Max file size is %sMB" % str(megabyte_limit))
+    
+    name = models.CharField(max_length=255)
+    logo = models.ImageField(blank=True, upload_to="images/associations/")
 
+    def __str__(self):
+        return self.name
+
+class Teaching_experience(models.Model):   
     title = models.CharField(max_length=255)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
-    associated_with = models.CharField(max_length=255, null=True, blank=True)
-    association_pic = models.ImageField(null=True, blank=True, upload_to="images/") # this can lead to duplicate uploads
+    association = models.ForeignKey(Association, on_delete=models.PROTECT, blank=True, null=True)
     description = models.TextField(null=True, blank=True)
     show = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.title + " " + str(self.start_date)
 
 
 
@@ -132,7 +147,7 @@ class MyUser(AbstractBaseUser):
         max_length=255,
         unique=True
     )
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     staff = models.BooleanField(default=False)  # a admin user; non super-user
     admin = models.BooleanField(default=False)  # a superuser
     date_joined = models.DateTimeField(
@@ -258,20 +273,40 @@ class Appointment(models.Model):
             smtp_service.send_booking('pending', self)  
         super().save(*args, **kwargs)
 
+class verbal_days(Enum):
+    Monday = 0
+    Tuesday = 1
+    Wednesday = 2
+    Thursday = 3
+    Friday = 4
+    Saturday = 5
+    Sunday = 6
 
 class Schedule(models.Model):  # working hours
     Day = models.IntegerField()  # 0-6
     Opening = models.TimeField()  
     Closing = models.TimeField() 
 
+    def __str__(self):
+       return str(verbal_days(self.Day).name) +" at " + str(self.Opening) + " - " + str(self.Closing)
+        
+
 class Offs (models.Model): # day offs interval
     start_dateTime = models.DateTimeField(primary_key=True)
     end_dateTime = models.DateTimeField()
+
+    def __str__(self):
+        return self.start_dateTime.strftime("%d/%m/%Y") + " - "+ self.end_dateTime.strftime("%d/%m/%Y")
+
+
 class Testimonial(models.Model):
     user= models.ForeignKey(MyUser, on_delete=models.CASCADE)    
     description = models.TextField()
     show = models.BooleanField(default=False)
     featured = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.user.email + " ("+ self.user.first_name + " "+ self.user.last_name + ")'s Testimonial"
 
 # Reset Password Models ##############################
 class ResetTokens(models.Model):
@@ -286,5 +321,10 @@ class ResetTokens(models.Model):
         
 class ActivateTokens(models.Model):
     User = models.OneToOneField(MyUser,unique=True, on_delete=models.CASCADE)
-    Token = models.IntegerField(unique=True)
+    Token = models.CharField(max_length=16)
     sent = models.DateTimeField(auto_now_add=True)
+
+    def generate_token(self):
+        self.Token = token_hex(16)
+        self.save()
+        return self.Token

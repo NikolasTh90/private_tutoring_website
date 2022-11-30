@@ -29,6 +29,9 @@
 								<label for="login-password">Password</label>
 								<input id="password" name="password" type="password" required>
 							</div>
+							<div class="d-sm-inline-block">
+								<a style="color: blue" href=" {% url  'bs:request_reset_password' %}">Forgot Password</a>
+							</div>
 						</fieldset>
 						<button type="submit" class="btn-login">Login</button>
 					</form>

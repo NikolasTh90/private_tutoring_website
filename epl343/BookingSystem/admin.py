@@ -60,7 +60,7 @@ admin.site.register(Schedule)
 admin.site.register(Offs)
 admin.site.register(LearningMaterialReference)
 admin.site.register(LearningMaterial)
-# admin.site.register(FilesLearningMaterial)
+admin.site.register(Association)
 
 
 
