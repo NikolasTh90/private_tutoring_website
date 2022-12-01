@@ -261,7 +261,13 @@ class Appointment(models.Model):
     end_dateTime = models.DateTimeField(blank=True)
 
     def __str__(self):
-        return self.user.first_name + ' ' + self.user.last_name + ' @ ' + self.start_dateTime.strftime('%d-%b-%Y') + " (" + self.user.email + ")"
+        status = 'Pending'
+        if self.accepted and not self.pending:
+            status = 'Accepted'
+        else:
+            if not self.accepted and not self.pending:
+                status = 'Rejected'
+        return self.user.first_name + ' ' + self.user.last_name + ' @ ' + self.start_dateTime.strftime('%d-%b-%Y %H:%M') + " (" + self.user.email + ") " + status
     # not sure if this is correct
     def save(self, *args, **kwargs):
         self.end_dateTime = self.start_dateTime + self.duration
