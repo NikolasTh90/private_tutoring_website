@@ -266,6 +266,7 @@ def makeBooking(request):
                     recommendations = recommendations[np.where(recommendations!=None)]
                     request.session['recommended'] = True
                     request.session['description'] = request.POST.get('description')
+                    request.session['location'] = request.POST.get('location')
                     a = recommendations[0]
                     final_recommendations = list()
                     for recommend in recommendations:
