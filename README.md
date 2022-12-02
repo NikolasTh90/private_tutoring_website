@@ -1,9 +1,26 @@
 # Private Tutoring Website
 ## General info
-This is a private tutoring website for medical students, where the teacher can exhhibit his biography and where the students can book for a private lesson and the teacher can accept or decline their reservation.
+This is a private tutoring website for medical students, where the teacher can exhibit his biography and where the students can book for a private lesson and the teacher can accept or decline their reservation.
 There are additional functions such as a file manager, where the teacher can send to the students teaching materials like notes, videos, or any other type of file that can be useful.
 Also, the website's biographic content is modular!
 The website is live at www.drsteliostheodorou.com
+
+## How to run it locally
+#### Requirements
+1. python 3.10.0 or newer
+2. django 4.0 or newer
+3. django-widget-tweaks
+4. python pillow 9.0 or newer
+5. python numpy
+6. python tkinder
+
+#### Run
+On the file manage.py under epl343.winter22.team3/epl343 run the following command
+```
+python3 manage.py runserver <port>
+```
+If you do not specify port the default port is 8000.
+Access the website in your browser at 127.0.0.1:<port>/
 
 
 ## Functions available per actor
@@ -24,6 +41,7 @@ The following can be accesed from admin panel (<domain-name>/admin)
 5. Access learning material files
 6. Activate account
 7. Forgot password
+8. Communicate with teacher live via Facebook's Messenger
 
 #### SMTP Service functions
 1. Activate account email
@@ -32,18 +50,34 @@ The following can be accesed from admin panel (<domain-name>/admin)
 4. Notification on file shared email
 
 
-## Database structure
+## Database Structure
 Can be found in models.py
 #### Gallery
 * PhotoSection: Category of photos
 * Photo
 
-#### Teaching experiences
+#### Teaching Experiences
 * Association: Universities/Association where the teacher gave lectures
 * Teaching_Experience: Subject of lectures given
 
 #### Users
 * MyUser: The users including teachers, students
+
+#### Learning Material Files
+* LearningMaterial: Files of any type to be shared with students
+* LearningMaterialReference: A couple of User and LearningMaterial, to assign which users have access to a file
+  
+#### Booking System
+* Appointment
+* Schedule: Working hours
+* Offs: Day offs
+
+#### Testimonials
+* Testimonial
+  
+#### Tokens
+* ResetTokens: reset password tokens
+* ActivateTokens: email verification tokens
 
 
 
