@@ -21,6 +21,7 @@ python3 manage.py runserver <ip>:<port>
 ```
 If you do not specify ip or port, the default values are 127.0.0.1:8000
 Access the website in your browser at `127.0.0.1:8000/` or your specified ip.
+The email and password to login as admin at `<domain-name>/admin` is epl343@ucy.ac.cy 123456789
 
 
 ## Functions available per actor
