@@ -20,12 +20,12 @@ On the file manage.py under epl343.winter22.team3/epl343 run the following comma
 python3 manage.py runserver <port>
 ```
 If you do not specify port the default port is 8000.
-Access the website in your browser at 127.0.0.1:<port>/
+Access the website in your browser at `127.0.0.1:<port>/`
 
 
 ## Functions available per actor
 #### Teacher/Admin Functions:
-The following can be accesed from admin panel (<domain-name>/admin)
+The following can be accesed from admin panel `<domain-name>/admin`
 1. Edit biographic content of the website (Biography, Gallery, Student's Testimonials)
 2. Accept/Reject/Modify appointments
 3. Add learning material files
