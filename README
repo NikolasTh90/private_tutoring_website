@@ -1,3 +1,28 @@
-This is a private tutoring website for medical students, where the students can book for a private lesson and the teacher can accept or decline their reservation.
-There are additional functions such as teaching materials management and the website's content is modular.
+<h1>General Info:</h1>
+This is a private tutoring website for medical students, where the teacher can exhhibit his biography and where the students can book for a private lesson and the teacher can accept or decline their reservation.
+There are additional functions such as a file manager, where the teacher can send to the students teaching materials like notes, videos, or any other type of file that can be useful.
+Also, the website's biographic content is modular!
+
+Teacher/Admin Functions:
+1. Edit biographic content of the website (Biography, Gallery, Student's Testimonials)
+2. Accept/Reject/Modify appointments
+3. Add learning material files
+4. Give access permission of learning material files to students
+5. Manage working hours schedule/Manage day offs
+
+
+Student/User functions:
+1. Make an inquiry (no registered account required)
+2. Book/Change/Cancel appointment
+3. Edit profile
+4. Write a testimonial about teacher
+5. Access learning material files
+
+Extra Functions:
+1. Email verification required after registration
+2. Forgot password functionality
+
+
+
+
 The website can be viewed at www.drsteliostheodorou.com
