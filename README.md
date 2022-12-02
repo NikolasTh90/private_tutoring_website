@@ -41,7 +41,7 @@ The following can be accesed from admin panel `<domain-name>/admin`
 5. Access learning material files
 6. Activate account
 7. Forgot password
-8. Communicate with teacher live via Facebook's Messenger
+8. Communicate with teacher live via Facebook's Messenger (Only available on live website)
 
 #### SMTP Service functions
 1. Activate account email
