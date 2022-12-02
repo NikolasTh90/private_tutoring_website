@@ -17,10 +17,10 @@ The website is live at www.drsteliostheodorou.com
 #### Run
 On the file manage.py under epl343.winter22.team3/epl343 run the following command
 ```
-python3 manage.py runserver <port>
+python3 manage.py runserver <ip>:<port>
 ```
-If you do not specify port the default port is 8000.
-Access the website in your browser at `127.0.0.1:<port>/`
+If you do not specify ip or port, the default values are 127.0.0.1:8000
+Access the website in your browser at `127.0.0.1:8000/` or your specified ip.
 
 
 ## Functions available per actor
