@@ -73,7 +73,7 @@
               {% if forloop.counter0 != 0 %}
                   <li class="cd-schedule__event" style="height: auto;">
                     <a data-start="{{ app.0.start_dateTime|date:'H:i' }}" data-end="{{ app.0.end_dateTime|date:'H:i' }}" style="font-size: small;"
-                      data-content="event-abs-circuit" data-event="event-{{app.1}}">
+                      data-content="{{app.0.description}}" data-event="event-{{app.1}}">
                       <em class="cd-schedule__name"> {% if app.0.pending == True %}
 						Pending 
 						{% endif %}
@@ -83,8 +83,7 @@
 						</em>
                       <!-- <em class="cd-schedule__name">{{app.0.description}} </em> -->
                       <div class="schedule-button" style="text-align: center;">
-                        <!-- <a data-toggle="modal" data-target="#removeModal"></a> -->
-                        <button class="button-cancel" role="button" data-toggle="modal" data-target='#removeModal' style="margin-left: -10x; background-image: linear-gradient(1deg, #000, #FB0303 99%);">Cancel</button>
+                        <button class="button-cancel" role="button" data-toggle="modal" data-target='#removeModal_{{app.1}}' style="margin-left: -10x; background-image: linear-gradient(1deg, #000, #FB0303 99%);">Cancel</button>
                         <button class="button-change" role="button" onclick="window.location.href='../../../changeBooking/{{app.0.start_dateTime|slugify}}';" style="margin-left: 10px; background-image: linear-gradient(1deg, #000, #F3BB14 99%);">Change</button>
                       </div>
                     </a>  
@@ -99,43 +98,33 @@
       </ul>
     </div>
 
-  
     <div class="cd-schedule-modal">
       <header class="cd-schedule-modal__header">
         <div class="cd-schedule-modal__content">
           <span class="cd-schedule-modal__date"></span>
           <h3 class="cd-schedule-modal__name"></h3>
         </div>
-
         <div class="cd-schedule-modal__header-bg"></div>
       </header>
-      <div class="cd-schedule-modal__body">
-        <div class="cd-schedule-modal__event-info" style="opacity: 1;">
-          <div class="cd-schedule-modal__content">
-            {% for appointments in appointments_sorted %}
-              {% for app in appointments %}
-                {% if forloop.counter0 != 0 %}
-                  <em class="cd-schedule__name" style="color: black;">{{app.0.description}} </em>
-                {% endif %}
-              {% endfor %}
-            {% endfor %}
-          </div>
-        </div> 
-        <div class="cd-schedule-modal__body-bg"></div>
-      </div>
-  
+	  <div class="cd-schedule-modal__body">
+			<div class="cd-schedule-modal__event-info" style="opacity: 1;">
+				<div class="cd-schedule-modal__content">
+					<em class="cd-schedule__name" style="color: black;" id="app_content"></em>
+				</div>
+			</div> 
+	  <div class="cd-schedule-modal__body-bg"></div>
+	</div>
       <a href="#0" class="cd-schedule-modal__close text-replace">Close</a>
     </div>
-  
-    <div class="cd-schedule__cover-layer"></div>
-  </div> <!-- .cd-schedule -->
+      <div class="cd-schedule__cover-layer"></div>
+  </div>
   
   {% for appointments in appointments_sorted %}
     {% for app in appointments %}
       {% if forloop.counter0 != 0 %}
 
               <!-- Cancel Modal-->
-              <div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+              <div class="modal fade" id="removeModal_{{app.1}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
               aria-hidden="true">
              <div class="modal-dialog" role="document">
                  <div class="modal-content">
@@ -171,7 +160,7 @@
 		
 		this.topInfoElement = this.element.getElementsByClassName('cd-schedule__top-info')[0];
 		this.singleEvents = this.element.getElementsByClassName('cd-schedule__event');
-    this.scheduleButton = this.element.getElementsByClassName('schedule-button');
+		this.scheduleButton = this.element.getElementsByClassName('schedule-button');
 		
 		this.modal = this.element.getElementsByClassName('cd-schedule-modal')[0];
 		this.modalHeader = this.element.getElementsByClassName('cd-schedule-modal__header')[0];
@@ -459,19 +448,20 @@
 
 	ScheduleTemplate.prototype.loadEventContent = function(content) {
 		// load the content of an event when user selects it
-		var self = this;
+	//	var self = this;
 
-		httpRequest = new XMLHttpRequest();
-		httpRequest.onreadystatechange = function() {
-			if (httpRequest.readyState === XMLHttpRequest.DONE) {
-	      if (httpRequest.status === 200) {
-	      	self.modal.getElementsByClassName('cd-schedule-modal__event-info')[0].innerHTML = self.getEventContent(httpRequest.responseText); 
-	      	Util.addClass(self.modal, 'cd-schedule-modal--content-loaded');
-	      }
-	    }
-		};
-		httpRequest.open('GET', content+'.html');
-    httpRequest.send();
+	// 	httpRequest = new XMLHttpRequest();
+	// 	httpRequest.onreadystatechange = function() {
+	// 		if (httpRequest.readyState === XMLHttpRequest.DONE) {
+	//       if (httpRequest.status === 200) {
+	//       	self.modal.getElementsByClassName('cd-schedule-modal__event-info')[0].innerHTML = self.getEventContent(httpRequest.responseText); 
+	//       	Util.addClass(self.modal, 'cd-schedule-modal--content-loaded');
+	//       }
+	//     }
+	// 	};
+	// 	httpRequest.open('GET', content+'.html');
+    // httpRequest.send();
+		document.getElementById('app_content').innerHTML=content;
 	};
 
 	ScheduleTemplate.prototype.getEventContent = function(string) {
