@@ -98,7 +98,7 @@
                   <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap" style="margin: 0px;"><span></span></button>
                   <!--RD Navbar Brand-->
                   <div class="rd-navbar-brand">
-                    <h3 style="color:white; font-weight: 500; font-size: 25px; margin: 0px;"> MUDR. Stelios Theodorou </h3>
+                    <h3  id="navbar-title" style="color:white; font-weight: 500; font-size: 25px; margin: 0px;"> MUDR. Stelios Theodorou </h3>
                   </div>
                   <hr>
                 </div>
@@ -209,6 +209,8 @@
     <div class="snackbars" id="form-output-global"></div>
     <script src="{% static 'js/core.min.js' %}"></script>
     <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/badge.js' %}"></script>
+
     
     {% if site == 'Gallery' %}
     <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>

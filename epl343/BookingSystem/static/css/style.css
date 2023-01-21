@@ -8635,6 +8635,10 @@ html.rd-navbar-fixed-linked .page {
 
 .review-carousel .item-preview img {
 	border-radius: 50%;
+	height: 12rem;
+	width: 12rem;
+	margin-top: 0px;
+	margin-left: 2px;
 }
 
 .review-carousel .item-description {

@@ -40,7 +40,7 @@
         {% if testimonial.show %}
         <div class="card {% cycle 'violet text-white' 'grayish text-white' 'bluish text-white' 'white' %}">
         <div class="card__header">
-          <img src="../media/{{ testimonial.user.profilePic }}"  alt="">
+          <img src="../media/{{ testimonial.user.profilePic }}"  alt="" style="height:150px; width:150px" >
           <div class="header-card__name-container">
             <h4 class="name {% cycle 'text-white' 'text-white' 'text-white' '' %}">{{ testimonial.user.first_name }} {{ testimonial.user.last_name }}</h4>
             <h4 class="ocupation {% cycle 'text-white' 'text-white' 'text-white' '' %}">{{ testimonial.user.school }} {{ testimonial.user.yearofStudy }}</h4>

@@ -62,7 +62,8 @@ html,body{
 }
 .card__header img{
     border-radius: 100%;
-    height: 9rem;
+    height: 150px;
+    width: 150px;
 }
 .ocupation{
     opacity: 0.5;
