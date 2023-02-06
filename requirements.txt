@@ -2,3 +2,4 @@ Django==4.1.6
 django-widget-tweaks
 pillow
 numpy==1.24.1
+gunicorn
