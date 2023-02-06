@@ -1,0 +1,5 @@
+Django==4.1.6
+django-widget-tweaks
+pillow
+numpy
+tkinder

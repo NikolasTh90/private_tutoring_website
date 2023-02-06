@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  epl343:
+    build: .
+    ports:
+      - "80:80"
+    restart:
+      "always"
