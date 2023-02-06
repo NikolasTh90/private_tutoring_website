@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   epl343:
-    build: .
+    image: epl343
     ports:
       - "80:80"
     restart:
